@@ -1,2 +1,3 @@
-# neon-cannes
+# Neon Cannes `/niːən kæn/`
+
 Work in Progress...
