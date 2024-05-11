@@ -1,11 +1,11 @@
-import './App.css'
+import Title from "./Title.tsx";
 
 function App() {
   return (
     <>
-      <h1>Neon Cannes</h1>
+      <Title />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
