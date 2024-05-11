@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
 :root {
   background-color: #151515;
   color: #FFFDF6;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Orbitron", sans-serif;
 }
 
 * {
