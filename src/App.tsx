@@ -1,9 +1,11 @@
-import CurrentFilms from "./CurrentFilms.tsx";
+import CurrentFilms from "./components/CurrentFilms.tsx";
+import FutureFilms from "./components/FutureFilms.tsx";
 
 function App() {
   return (
     <>
       <CurrentFilms />
+      <FutureFilms />
     </>
   );
 }
