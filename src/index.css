@@ -1,21 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Orbitron');
-@import url('https://fonts.googleapis.com/css?family=Anek Kannada');
+@import url('https://fonts.googleapis.com/css2?family=Anek+Kannada:wght@100..800&display=swap');
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  background-color: #151515;
-  color: #FFFDF6;
-  font-family: "Anek Kannada", sans-serif;
-}
-
-h1 {
-  font-family: "Orbitron", sans-serif;
-}
-
-* {
-  margin: 0;
-  padding: 0;
+@layer base {
+  body {
+    @apply bg-[#151515] text-[#FFFDF6] font-kannada;
+  }
 }
