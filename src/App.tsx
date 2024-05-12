@@ -1,9 +1,9 @@
-import Title from "./Title.tsx";
+import CurrentFilms from "./CurrentFilms.tsx";
 
 function App() {
   return (
     <>
-      <Title />
+      <CurrentFilms />
     </>
   );
 }

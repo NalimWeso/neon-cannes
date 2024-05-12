@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        base: "18px"
+      },
       fontFamily: {
         kannada: ["Anek Kannada", "sans-serif"]
       }
