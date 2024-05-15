@@ -8,7 +8,7 @@ import { Theme } from '@radix-ui/themes';
 ReactDOM.createRoot(document.getElementById('root')!).render(
 
   <React.StrictMode>
-    <Theme className='bg-background'>
+    <Theme className='bg-background border-2 border-titlebar'>
       <App />
     </Theme>
   </React.StrictMode>

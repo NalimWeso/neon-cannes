@@ -8,7 +8,7 @@ export default {
     extend: {
       colors: {
         "background": "#151515",
-        "white": "#FFFDF6"
+        "titlebar": "#C24E07"
       },
       fontSize: {
         base: "18px"
