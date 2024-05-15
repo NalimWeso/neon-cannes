@@ -2,8 +2,11 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.draggable {
+body{
     -webkit-user-select: none;
     user-select: none;
+}
+
+.draggable {
     -webkit-app-region: drag;
 }

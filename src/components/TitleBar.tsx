@@ -17,6 +17,7 @@ export default function TitleBar() {
                         onClick={() => ipc.send("minimize")}>
                         <MinusIcon />
                     </Button>
+
                     <Button size="1" radius="none" variant="solid" className=' bg-titlebar hover:bg-red-800 transition duration-50 h-9 w-12 -mt-1 -mr-0.5'
                         onClick={() => ipc.send("close")}>
                         <Cross1Icon />
