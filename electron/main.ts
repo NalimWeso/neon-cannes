@@ -41,11 +41,11 @@ function createWindow() {
   }
 }
 
-ipcMain.on("manualMinimize", () => {
+ipcMain.on("minimize", () => {
   win?.minimize();
 });
 
-ipcMain.on("manualClose", () => {
+ipcMain.on("close", () => {
   app.quit();
 });
 
