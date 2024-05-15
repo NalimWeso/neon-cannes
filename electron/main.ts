@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
@@ -24,7 +24,8 @@ function createWindow() {
     // icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
-      // nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false
     },
   })
 
@@ -39,6 +40,14 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 }
+
+ipcMain.on("manualMinimize", () => {
+  win?.minimize();
+});
+
+ipcMain.on("manualClose", () => {
+  app.quit();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -1,8 +1,10 @@
 import { Cross1Icon, MinusIcon } from '@radix-ui/react-icons'
 import { Text, Button } from '@radix-ui/themes';
-// import { useState } from 'react';
+import { ipcRenderer } from "electron";
 
 export default function TitleBar() {
+    const ipc = ipcRenderer;
+
     return (
         <>
             <div className="h-8 w-full bg-titlebar flex justify-between items-center">
@@ -12,17 +14,17 @@ export default function TitleBar() {
 
                 <div className='flex'>
                     <Button size="1" radius="none" variant="solid" className=' bg-titlebar hover:bg-amber-600 transition duration-50 h-9 w-12 -mt-1'
-                    // onClick={() => }
+                        onClick={() => ipc.send("manualMinimize")}
                     >
                         <MinusIcon />
                     </Button>
                     <Button size="1" radius="none" variant="solid" className=' bg-titlebar hover:bg-red-800 transition duration-50 h-9 w-12 -mt-1 -mr-0.5'
-                    // onClick={() => }
+                        onClick={() => ipc.send("manualClose")}
                     >
                         <Cross1Icon />
                     </Button>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
