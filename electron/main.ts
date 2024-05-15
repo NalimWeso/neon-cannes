@@ -16,16 +16,19 @@ let win: BrowserWindow | null
 
 function createWindow() {
   win = new BrowserWindow({
+    title: "Neon Cannes",
     width: 1200,
     height: 800,
-    resizable: false,
-    autoHideMenuBar: true,
+    movable: true,
+    frame: false,
     // icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
+      // nodeIntegration: true
     },
   })
 
+  win.menuBarVisible = false;
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
   })
