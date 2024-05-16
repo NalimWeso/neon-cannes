@@ -10,17 +10,21 @@ export default function CurrentFilms() {
         id: string,
         title: string,
         year: number,
-        date: Date,
+        dateStart: Date,
+        dateEnd?: Date,
+        isSeries: boolean,
+        season?: string
     }
 
     const films: Film[] = useMemo(() => [
-        { id: uuid(), title: "Judgment at Nuremberg", year: 1961, date: new Date(2024, 0, 1) },
-        { id: uuid(), title: "Godzilla", year: 1998, date: new Date(2024, 0, 2) },
-        { id: uuid(), title: "Incendies", year: 2010, date: new Date(2024, 0, 3) },
-        { id: uuid(), title: "Zero Dark Thirty", year: 2012, date: new Date(2024, 0, 4) },
+        { id: uuid(), title: "Judgment at Nuremberg", year: 1961, dateStart: new Date(2024, 0, 1), isSeries: false },
+        { id: uuid(), title: "Godzilla", year: 1998, dateStart: new Date(2024, 0, 2), isSeries: false },
+        { id: uuid(), title: "Incendies", year: 2010, dateStart: new Date(2024, 0, 3), isSeries: false },
+        { id: uuid(), title: "Zero Dark Thirty", year: 2012, dateStart: new Date(2024, 0, 4), isSeries: false },
+        { id: uuid(), title: "Angelyne", year: 2022, dateStart: new Date(2024, 0, 5), isSeries: true, season: "Miniseries" },
     ], []);
 
-    films.sort((a: Film, b: Film) => a.date.getTime() - b.date.getTime());
+    films.sort((a: Film, b: Film) => a.dateStart.getTime() - b.dateStart.getTime());
 
     function formatDate(date: Date) {
         const day: string = date.getDate().toString().padStart(2, '0');
@@ -32,15 +36,22 @@ export default function CurrentFilms() {
         <div className="px-2 pt-1">
             {films.map((film) => (
                 <div key={film.id} className="my-1 flex">
-                    <Badge size="2" color="orange" className="text-amber-500 min-w-12 justify-center">{formatDate(film.date)}</Badge>
-                    <Badge size="2" color="orange" className="ml-1 inline-block">{film.id}</Badge>
+                    <Badge size="2" color="orange" className="text-amber-500 min-w-12 justify-center">{formatDate(film.dateStart)}</Badge>
+                    {film.isSeries ? <Badge size="2" color="teal" className="text-emerald-600 ml-1 inline-block">{film.title} ({film.year}) – {film.season}</Badge> : <Badge size="2" color="orange" className="ml-1 inline-block">{film.title} ({film.year})</Badge>}
 
-                    <Button size="1" color="jade" variant="soft" className="text-lime-700 hover:text-lime-600 transition mx-1 cursor-pointer"><Pencil2Icon /></Button>
+
+                    <Button size="1" color="jade" variant="soft" className="text-lime-700 hover:text-lime-600 transition mx-1 cursor-pointer">
+                        <Pencil2Icon />
+                    </Button>
+
                     <Button size="1" color="cyan" variant="soft" className="text-cyan-700 hover:text-cyan-600 transition cursor-pointer"
                         onClick={() => {
+                            navigator.clipboard.writeText(film.title);
                             setCopy(film.id);
                             setTimeout(() => setCopy(""), 300);
-                        }}><CopyIcon /></Button>
+                        }}>
+                        <CopyIcon />
+                    </Button>
 
                     {copy === film.id && <Badge size="2" color="cyan" className="text-cyan-600 ml-1 h-6 w-8 justify-center"><CheckIcon /></Badge>}
                 </div>
