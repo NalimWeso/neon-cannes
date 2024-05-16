@@ -1,5 +1,6 @@
 import TitleBar from "./components/TitleBar.tsx";
 import CurrentFilms from "./components/CurrentFilms.tsx";
+import WaitingRoom from "./components/WaitingRoom.tsx";
 import FutureFilms from "./components/FutureFilms.tsx";
 import NewCategory from "./components/NewCategory.tsx";
 import '@radix-ui/themes/styles.css';
@@ -11,6 +12,7 @@ function App() {
       <Theme className="text-white text-base font-kannada cursor-default">
         <TitleBar />
         <CurrentFilms />
+        <WaitingRoom />
         <FutureFilms />
         <NewCategory />
       </Theme>
