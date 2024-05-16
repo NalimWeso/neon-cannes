@@ -6,5 +6,5 @@ export type Film = {
     date?: Date,
     dateEnd?: Date,
     season?: string,
-    category?: string
+    category: string
 }

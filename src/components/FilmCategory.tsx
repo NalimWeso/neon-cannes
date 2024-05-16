@@ -1,4 +1,4 @@
-import { Pencil2Icon, CopyIcon, CheckIcon, PlusIcon } from '@radix-ui/react-icons';
+import { Pencil2Icon, PlusIcon, CopyIcon, CheckIcon } from '@radix-ui/react-icons';
 import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
 import { Film } from './FilmType';
@@ -14,14 +14,18 @@ export default function FilmCategory({ films, category }: Props) {
     return (
         <div className="pt-4">
             <Badge size="3" color='orange' className="font-bold text-amber-500">{category}</Badge>
-            <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 transition cursor-pointer"><Pencil2Icon /></Button>
-            <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 max-w-8 transition cursor-pointer">
+
+            <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
+                <Pencil2Icon />
+            </Button>
+
+            <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
                 <PlusIcon />
             </Button>
 
             {films.filter(film => film.category === category).map((film) => (
                 <div key={film.id} className="my-1 flex">
-                    <Badge size="2" color={film.season ? "teal" : "orange"} className="inline-block">
+                    <Badge size="2" color={film.season ? "teal" : "orange"}>
                         {film.title} ({film.year}{film.yearEnd && ` - ${film.yearEnd}`}) {film.season && `– ${film.season}`}
                     </Badge>
 
@@ -38,7 +42,7 @@ export default function FilmCategory({ films, category }: Props) {
                         <CopyIcon />
                     </Button>
 
-                    {copy === film.id && <Badge size="2" color="cyan" className="text-cyan-600 ml-1 h-6 w-8 justify-center"><CheckIcon /></Badge>}
+                    {copy === film.id && <Badge size="2" color="cyan" className="text-cyan-600 ml-1 w-8 h-6"><CheckIcon /></Badge>}
                 </div>
             ))}
         </div>

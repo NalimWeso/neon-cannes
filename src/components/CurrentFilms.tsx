@@ -8,12 +8,12 @@ export default function CurrentFilms() {
     const [copy, setCopy] = useState("");
 
     const films: Film[] = useMemo(() => [
-        { id: uuid(), title: "Judgment at Nuremberg", year: 1961, date: new Date(2024, 0, 1) },
-        { id: uuid(), title: "Godzilla", year: 1998, date: new Date(2024, 0, 2) },
-        { id: uuid(), title: "Incendies", year: 2010, date: new Date(2024, 0, 3) },
-        { id: uuid(), title: "Zero Dark Thirty", year: 2012, date: new Date(2024, 0, 4) },
-        { id: uuid(), title: "Angelyne", year: 2022, date: new Date(2024, 0, 5), dateEnd: new Date(2024, 0, 7), season: "Miniseries" },
-        { id: uuid(), title: "Fargo", year: 2014, yearEnd: "Present", date: new Date(2024, 0, 8), dateEnd: new Date(2024, 0, 30), season: "Seasons 1-5" },
+        { id: uuid(), title: "Judgment at Nuremberg", year: 1961, date: new Date(2024, 0, 1), category: "Current" },
+        { id: uuid(), title: "Godzilla", year: 1998, date: new Date(2024, 0, 2), category: "Current" },
+        { id: uuid(), title: "Incendies", year: 2010, date: new Date(2024, 0, 3), category: "Current" },
+        { id: uuid(), title: "Zero Dark Thirty", year: 2012, date: new Date(2024, 0, 4), category: "Current" },
+        { id: uuid(), title: "Angelyne", year: 2022, date: new Date(2024, 0, 5), dateEnd: new Date(2024, 0, 7), season: "Miniseries", category: "Current" },
+        { id: uuid(), title: "Fargo", year: 2014, yearEnd: "Present", date: new Date(2024, 0, 8), dateEnd: new Date(2024, 0, 30), season: "Seasons 1-5", category: "Current" },
     ], []);
 
     films.sort((a: Film, b: Film) => (a.date?.getTime() ?? 0) - (b.date?.getTime() ?? 0));
@@ -32,7 +32,7 @@ export default function CurrentFilms() {
                         {film.date && formatDate(film.date)} {film.dateEnd && `– ${formatDate(film.dateEnd)}`}
                     </Badge>
 
-                    <Badge size="2" color={film.season ? "teal" : "orange"} className="ml-1 inline-block">
+                    <Badge size="2" color={film.season ? "teal" : "orange"} className="ml-1">
                         {film.title} ({film.year}{film.yearEnd && ` - ${film.yearEnd}`}) {film.season && `– ${film.season}`}
                     </Badge>
 
@@ -49,7 +49,7 @@ export default function CurrentFilms() {
                         <CopyIcon />
                     </Button>
 
-                    {copy === film.id && <Badge size="2" color="cyan" className="text-cyan-600 ml-1 h-6 w-8 justify-center"><CheckIcon /></Badge>}
+                    {copy === film.id && <Badge size="2" color="cyan" className="text-cyan-600 ml-1 w-8 h-6"><CheckIcon /></Badge>}
                 </div>
             ))}
         </div>
