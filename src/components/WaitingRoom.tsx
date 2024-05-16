@@ -4,7 +4,7 @@ import { Badge, Button } from '@radix-ui/themes';
 export default function WaitingRoom() {
     return (
         <>
-            <div className="px-2 pt-6 leading-6">
+            <div className="px-2 pt-6">
                 <Badge size="3" color='orange' className="font-bold text-amber-500">Waiting Room</Badge>
 
                 <div className="cursor-default my-1">
@@ -14,7 +14,7 @@ export default function WaitingRoom() {
                 </div>
 
                 <div className="cursor-default my-1">
-                    <Badge size="2" color="teal" className="text-emerald-600 inline-block">Sonic Prime (2022 - 2024) – Seasons 1-3</Badge>
+                    <Badge size="2" color="teal" className="text-emerald-600 inline-block">Fargo (2014 - Present) – Seasons 1-5</Badge>
                     <Button size="1" color="jade" variant="soft" className="text-lime-700 hover:text-lime-600 transition mx-1 mt-0.5 cursor-pointer"><Pencil2Icon /></Button>
                     <Button size="1" color="cyan" variant="soft" className="text-cyan-700 hover:text-cyan-600 transition mt-0.5 cursor-pointer"><CopyIcon /></Button>
                 </div>

@@ -9,7 +9,7 @@ import { Theme } from '@radix-ui/themes';
 function App() {
   return (
     <>
-      <Theme className="text-white text-base font-kannada cursor-default">
+      <Theme className="text-white text-base leading-6 font-kannada cursor-default">
         <TitleBar />
         <CurrentFilms />
         <WaitingRoom />

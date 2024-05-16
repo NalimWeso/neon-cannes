@@ -4,10 +4,9 @@ import { Badge, Button } from '@radix-ui/themes';
 export default function FutureFilms() {
     return (
         <>
-            <div className="px-2 pt-6 leading-6">
-                <Badge size="3" color='orange' className="font-bold text-amber-500">Great Category</Badge>
-                <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 cursor-pointer"><Pencil2Icon /></Button>
-                <Button size="1" color='orange' variant="soft" className="text-amber-500 text-lg ml-1 py-3.5 cursor-pointer">&#43;</Button>
+            <div className="px-2 pt-6">
+                <Badge size="3" color='orange' className="font-bold text-amber-500">Tier I</Badge>
+                <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 transition cursor-pointer"><Pencil2Icon /></Button>
 
                 <div className="cursor-default my-1">
                     <Badge size="2" color="orange" className="inline-block">A Bittersweet Life (2005)</Badge>
@@ -30,8 +29,7 @@ export default function FutureFilms() {
 
             <div className="px-2 pt-6 leading-6">
                 <Badge size="3" color='orange' className="font-bold text-amber-500">Animation</Badge>
-                <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 cursor-pointer"><Pencil2Icon /></Button>
-                <Button size="1" color='orange' variant="soft" className="text-amber-500 text-lg ml-1 py-3.5 cursor-pointer">&#43;</Button>
+                <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 transition cursor-pointer"><Pencil2Icon /></Button>
 
                 <div className="cursor-default my-1">
                     <Badge size="2" color="orange" className="inline-block">Pink Floyd: The Wall (1982)</Badge>
