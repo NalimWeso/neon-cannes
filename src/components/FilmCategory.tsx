@@ -1,4 +1,4 @@
-import { Pencil2Icon, CopyIcon, CheckIcon } from '@radix-ui/react-icons';
+import { Pencil2Icon, CopyIcon, CheckIcon, PlusIcon } from '@radix-ui/react-icons';
 import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
 import { Film } from './FilmType';
@@ -15,6 +15,9 @@ export default function FilmCategory({ films, category }: Props) {
         <div className="pt-4">
             <Badge size="3" color='orange' className="font-bold text-amber-500">{category}</Badge>
             <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 transition cursor-pointer"><Pencil2Icon /></Button>
+            <Button size="1" color="orange" variant="soft" className="text-amber-500 text-xs ml-1 py-3.5 max-w-8 transition cursor-pointer">
+                <PlusIcon />
+            </Button>
 
             {films.filter(film => film.category === category).map((film) => (
                 <div key={film.id} className="my-1 flex">
