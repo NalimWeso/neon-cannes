@@ -1,4 +1,4 @@
-import { Cross1Icon, MinusIcon } from '@radix-ui/react-icons'
+import { Cross1Icon, MinusIcon } from '@radix-ui/react-icons';
 import { Text, Button } from '@radix-ui/themes';
 import { ipcRenderer } from "electron";
 
@@ -9,7 +9,7 @@ export default function TitleBar() {
         <>
             <div className="h-8 w-full bg-titlebar flex justify-between items-center">
                 <div className='w-full draggable'>
-                    <Text className='text-amber-500 text-center font-bold mt-1.5 ml-1'>Neon Cannes</Text>
+                    <Text className='text-amber-500 text-center text-xl font-bold mt-1.5 ml-1'>Neon Cannes</Text>
                 </div>
 
                 <div className='flex'>
