@@ -6,7 +6,7 @@ import NewCategory from "./components/NewCategory.tsx";
 import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes';
 
-function App() {
+export default function App() {
   return (
     <>
       <Theme className="text-white text-base leading-6 font-kannada cursor-default">
@@ -19,5 +19,3 @@ function App() {
     </>
   );
 }
-
-export default App;
