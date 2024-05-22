@@ -18,7 +18,9 @@ function createWindow() {
   win = new BrowserWindow({
     title: "Neon Cannes",
     width: 1200,
+    minWidth: 500,
     height: 800,
+    minHeight: 500,
     movable: true,
     frame: false,
     // icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
