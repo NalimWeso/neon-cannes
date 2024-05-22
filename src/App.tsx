@@ -11,10 +11,12 @@ export default function App() {
     <>
       <Theme className="text-white text-base leading-6 font-kannada cursor-default">
         <TitleBar />
-        <CurrentFilms />
-        <WaitingRoom />
-        <FutureFilms />
-        <NewCategory />
+        <div className="overflow-y-auto h-[calc(100vh-32px)]">
+          <CurrentFilms />
+          <WaitingRoom />
+          <FutureFilms />
+          <NewCategory />
+        </div>
       </Theme>
     </>
   );
