@@ -23,7 +23,7 @@ function createWindow() {
     minHeight: 500,
     movable: true,
     frame: false,
-    // icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
+    icon: path.join('src', 'assets', 'NeonMovies.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
       nodeIntegration: true,
