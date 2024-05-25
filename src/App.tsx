@@ -9,7 +9,7 @@ import { Theme } from '@radix-ui/themes';
 export default function App() {
   return (
     <>
-      <Theme className="text-white text-base leading-6 font-kannada cursor-default">
+      <Theme className="text-white text-base font-kannada leading-6 cursor-default">
         <TitleBar />
         <div className="overflow-y-auto h-[calc(100vh-32px)]">
           <CurrentFilms />
