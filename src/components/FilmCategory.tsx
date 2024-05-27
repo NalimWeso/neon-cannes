@@ -7,6 +7,7 @@ export default function FilmCategory() {
     const [copy, setCopy] = useState("");
     const sortedData = [...data].sort((a, b) => a.position - b.position);
 
+
     function formatDate(date: Date) {
         const day: string = date.getDate().toString().padStart(2, '0');
         const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -17,7 +18,15 @@ export default function FilmCategory() {
         <>
             {sortedData.map(entry => {
                 const category = entry.category;
-                const films = entry.films;
+                const films = category === "Current" ?
+                    [...entry.films]
+                        .filter(film => 'date' in film)
+                        .sort((a, b) => ('date' in a && 'date' in b) ?
+                            (a.date && b.date ? new Date(a.date).getTime() - new Date(b.date).getTime() : 0) : 0
+                        ) :
+                    entry.films.slice().sort((a, b) =>
+                        ('index' in a && 'index' in b) ? (a.index || 0) - (b.index || 0) : 0
+                    );
 
                 return (
                     <div className={`ml-1 ${category === "Current" ? 'pt-0' : 'pt-6'}`}>
