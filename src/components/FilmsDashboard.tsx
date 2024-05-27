@@ -3,7 +3,7 @@ import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
 import data from '../../public/data.json';
 
-export default function FilmCategory() {
+export default function FilmsDashboard() {
     const [copy, setCopy] = useState("");
     const sortedData = [...data].sort((a, b) => a.position - b.position);
 
