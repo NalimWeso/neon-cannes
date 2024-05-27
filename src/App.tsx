@@ -2,6 +2,7 @@ import TitleBar from "./components/TitleBar.tsx";
 import FilmsDashboard from "./components/FilmsDashboard.tsx";
 import NewCategory from "./components/NewCategory.tsx";
 import { Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
 
 export default function App() {
   return (
