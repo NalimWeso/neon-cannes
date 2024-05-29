@@ -11,8 +11,8 @@ export default function FilmsDashboard() {
 
     const [isSeries, setIsSeries] = useState(false);
 
-    function handleToggle() {
-        setIsSeries(!isSeries);
+    function handleToggle(num: number) {
+        setIsSeries(num === 1 ? !isSeries : false);
     }
 
     function formatDate(date: Date) {
@@ -69,11 +69,15 @@ export default function FilmsDashboard() {
                                                     </div>
 
                                                     <div className='mt-2'>
-                                                        <RadioCards.Root color="orange" variant='classic' defaultValue="1" columns={{ initial: '1', sm: '2' }} onValueChange={handleToggle}>
-                                                            <RadioCards.Item value="1" className='p-2 mt-2 rounded'>
+                                                        <RadioCards.Root color="orange" variant='classic'
+                                                            defaultValue="1"
+                                                            columns={{ initial: '1', sm: '2' }}
+                                                            onValueChange={() => handleToggle(1)}
+                                                        >
+                                                            <RadioCards.Item value="1" className='p-2 mt-2 rounded cursor-pointer hover:bg-orange-800 transition mr-1'>
                                                                 <Text className="text-amber-500 font-bold">Film</Text>
                                                             </RadioCards.Item>
-                                                            <RadioCards.Item value="2" className='p-2 mt-2 rounded'>
+                                                            <RadioCards.Item value="2" className='p-2 mt-2 rounded cursor-pointer hover:bg-orange-800 transition ml-1'>
                                                                 <Text className="text-amber-500 font-bold">Series</Text>
                                                             </RadioCards.Item>
                                                         </RadioCards.Root>
@@ -93,23 +97,19 @@ export default function FilmsDashboard() {
                                                         </TextField.Root>
 
                                                         {isSeries === true && (
-                                                            <TextField.Root placeholder="2019" variant="soft">
-                                                                <TextField.Slot className='text-amber-500 font-bold mr-7'>
-                                                                    End
+                                                            <TextField.Root placeholder="2019 / Present" variant="soft">
+                                                                <TextField.Slot className='text-amber-500 font-bold mr-5'>
+                                                                    End?
                                                                 </TextField.Slot>
                                                             </TextField.Root>
                                                         )}
-
-                                                        <TextField.Root placeholder="Last" variant="soft">
-                                                            <TextField.Slot className='text-amber-500 font-bold mr-4'>
-                                                                Index
-                                                            </TextField.Slot>
-                                                        </TextField.Root>
                                                     </div>
 
                                                     <div className='text-right mt-2'>
                                                         <Dialog.Close>
-                                                            <Button size="1" color="orange" variant="soft" className="text-amber-500 py-1 w-16 rounded transition">
+                                                            <Button size="1" color="orange" variant="soft" className="text-amber-500 py-1 w-16 rounded transition"
+                                                                onClick={() => handleToggle(0)}
+                                                            >
                                                                 Cancel
                                                             </Button>
                                                         </Dialog.Close>
