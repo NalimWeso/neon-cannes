@@ -1,11 +1,11 @@
 import { Pencil2Icon } from '@radix-ui/react-icons';
 import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
-import data from '../../public/data.json';
+import films from '../../public/films.json';
 
 export default function ModifyDialog({ category }: { category: string }) {
     function getPosition(category: string) {
-        const categoryData = data.find(item => item.category === category);
+        const categoryData = films.find(item => item.category === category);
         return categoryData ? categoryData.position - 1 : 0;
     }
 

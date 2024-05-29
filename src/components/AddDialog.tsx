@@ -2,7 +2,7 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField, RadioCards } from '@radix-ui/themes';
 import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-// import data from '../../public/data.json';
+// import films from '../../public/films.json';
 
 export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);

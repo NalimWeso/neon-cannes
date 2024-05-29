@@ -3,11 +3,11 @@ import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
 import ModifyDialog from './ModifyDialog';
 import AddDialog from './AddDialog';
-import data from '../../public/data.json';
+import films from '../../public/films.json';
 
 export default function FilmsDashboard() {
     const [copy, setCopy] = useState("");
-    const sortedData = [...data].sort((a, b) => a.position - b.position);
+    const sortedFilms = [...films].sort((a, b) => a.position - b.position);
 
     function formatDate(date: Date) {
         const day: string = date.getDate().toString().padStart(2, '0');
@@ -17,7 +17,7 @@ export default function FilmsDashboard() {
 
     return (
         <>
-            {sortedData.map(entry => {
+            {sortedFilms.map(entry => {
                 const category = entry.category;
                 const films = category === "Current" ?
                     [...entry.films]
