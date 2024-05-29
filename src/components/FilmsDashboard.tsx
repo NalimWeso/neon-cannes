@@ -52,7 +52,7 @@ export default function FilmsDashboard() {
                                     {film.title} ({film.year}{film.yearEnd && ` - ${film.yearEnd}`}) {film.season && `– ${film.season}`}
                                 </Badge>
 
-                                <Button size="1" color="jade" variant="soft" className="text-lime-700 hover:text-lime-600 transition mx-1 cursor-pointer">
+                                <Button size="1" color="jade" variant="soft" className="text-lime-700 hover:text-lime-600 mx-1 transition cursor-pointer">
                                     <Pencil2Icon />
                                 </Button>
 
