@@ -1,12 +1,19 @@
 import { Pencil2Icon, PlusIcon, CopyIcon, CheckIcon } from '@radix-ui/react-icons';
-import { Badge, Button } from '@radix-ui/themes';
+import { Badge, Button, Text, TextField, RadioCards } from '@radix-ui/themes';
 import { useState } from 'react';
 import data from '../../public/data.json';
+
+import * as Dialog from '@radix-ui/react-dialog';
 
 export default function FilmsDashboard() {
     const [copy, setCopy] = useState("");
     const sortedData = [...data].sort((a, b) => a.position - b.position);
 
+    const [isSeries, setIsSeries] = useState(false);
+
+    function handleToggle() {
+        setIsSeries(!isSeries);
+    }
 
     function formatDate(date: Date) {
         const day: string = date.getDate().toString().padStart(2, '0');
@@ -31,19 +38,92 @@ export default function FilmsDashboard() {
                 return (
                     <div className={`ml-1 ${category === "Current" ? 'pt-0' : 'pt-6'}`}>
                         {category !== "Current" && (
-                            <>
-                                <Badge size="3" color='orange' className="font-bold text-amber-500">{category}</Badge>
+                            <div className="flex items-center">
+                                <Badge size="3" color='orange' className="text-amber-500 font-bold">{category}</Badge>
 
-                                {category !== "Waiting Room" && (
-                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
-                                        <Pencil2Icon />
-                                    </Button>
-                                )}
+                                <>
+                                    {category !== "Waiting Room" && (
+                                        <Dialog.Root>
+                                            <Dialog.Trigger>
+                                                <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
+                                                    <Pencil2Icon />
+                                                </Button>
+                                            </Dialog.Trigger>
+                                        </Dialog.Root>
+                                    )}
 
-                                <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
-                                    <PlusIcon />
-                                </Button>
-                            </>
+                                    <Dialog.Root>
+                                        <Dialog.Trigger>
+                                            <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
+                                                <PlusIcon />
+                                            </Button>
+                                        </Dialog.Trigger>
+
+                                        <Dialog.Portal>
+                                            <Dialog.Overlay className='fixed inset-0 bg-black/15'>
+                                                <Dialog.Content className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white border-2 border-titlebar p-3 shadow w-full max-w-md bg-orange-950'>
+                                                    <div className="flex justify-between items-center">
+                                                        <Dialog.Title className='text-amber-500 text-2xl font-bold'>
+                                                            {category}
+                                                        </Dialog.Title>
+                                                    </div>
+
+                                                    <div className='mt-2'>
+                                                        <RadioCards.Root color="orange" variant='classic' defaultValue="1" columns={{ initial: '1', sm: '2' }} onValueChange={handleToggle}>
+                                                            <RadioCards.Item value="1" className='p-2 mt-2 rounded'>
+                                                                <Text className="text-amber-500 font-bold">Film</Text>
+                                                            </RadioCards.Item>
+                                                            <RadioCards.Item value="2" className='p-2 mt-2 rounded'>
+                                                                <Text className="text-amber-500 font-bold">Series</Text>
+                                                            </RadioCards.Item>
+                                                        </RadioCards.Root>
+                                                    </div>
+
+                                                    <div className='mt-4'>
+                                                        <TextField.Root placeholder={!isSeries ? "Star Wars" : "Mr. Robot"} variant="soft">
+                                                            <TextField.Slot className='text-amber-500 font-bold mr-6 selection:bg-red-500'>
+                                                                Title
+                                                            </TextField.Slot>
+                                                        </TextField.Root>
+
+                                                        <TextField.Root placeholder={!isSeries ? "1977" : "2015"} variant="soft">
+                                                            <TextField.Slot className='text-amber-500 font-bold mr-6'>
+                                                                Year
+                                                            </TextField.Slot>
+                                                        </TextField.Root>
+
+                                                        {isSeries === true && (
+                                                            <TextField.Root placeholder="2019" variant="soft">
+                                                                <TextField.Slot className='text-amber-500 font-bold mr-7'>
+                                                                    End
+                                                                </TextField.Slot>
+                                                            </TextField.Root>
+                                                        )}
+
+                                                        <TextField.Root placeholder="Last" variant="soft">
+                                                            <TextField.Slot className='text-amber-500 font-bold mr-4'>
+                                                                Index
+                                                            </TextField.Slot>
+                                                        </TextField.Root>
+                                                    </div>
+
+                                                    <div className='text-right mt-2'>
+                                                        <Dialog.Close>
+                                                            <Button size="1" color="orange" variant="soft" className="text-amber-500 py-1 w-16 rounded transition">
+                                                                Cancel
+                                                            </Button>
+                                                        </Dialog.Close>
+
+                                                        <Button size="1" color="orange" variant="soft" radius="medium" className="text-amber-500 ml-2 py-1 w-16 rounded transition">
+                                                            Add
+                                                        </Button>
+                                                    </div>
+                                                </Dialog.Content>
+                                            </Dialog.Overlay>
+                                        </Dialog.Portal>
+                                    </Dialog.Root>
+                                </>
+                            </div>
                         )}
 
                         {films.map((film) => (
