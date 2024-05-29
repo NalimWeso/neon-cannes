@@ -20,8 +20,8 @@ export default function ModifyDialog({ category }: { category: string }) {
                     </Dialog.Trigger>
 
                     <Dialog.Portal>
-                        <Dialog.Overlay>
-                            <Dialog.Content className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white border-2 border-titlebar p-3 shadow w-full max-w-md bg-orange-950'>
+                        <Dialog.Overlay className='fixed inset-0 bg-black/15'>
+                            <Dialog.Content className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-950 text-white border-2 border-titlebar p-3 w-full max-w-md shadow'>
                                 <div className="flex justify-between items-center">
                                     <Dialog.Title className='text-amber-500 text-2xl font-bold'>
                                         {category}
@@ -44,12 +44,12 @@ export default function ModifyDialog({ category }: { category: string }) {
 
                                 <div className='text-right mt-2'>
                                     <Dialog.Close>
-                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold py-1 w-16 rounded transition">
+                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition">
                                             Cancel
                                         </Button>
                                     </Dialog.Close>
 
-                                    <Button size="1" color="orange" variant="soft" radius="medium" className="text-amber-500 font-bold ml-2 py-1 w-16 rounded transition">
+                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition">
                                         Save
                                     </Button>
                                 </div>
