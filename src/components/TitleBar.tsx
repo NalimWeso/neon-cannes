@@ -10,13 +10,11 @@ export default function TitleBar() {
             </div>
 
             <div className='flex'>
-                <Button size="1" radius="none" variant="solid" className="bg-titlebar hover:bg-amber-600 transition duration-50 h-8 w-12 -mt-1"
-                    onClick={() => ipc.send("minimize")}>
+                <Button onClick={() => ipc.send("minimize")} tabIndex={-1} size="1" radius="none" variant="solid" className="bg-titlebar hover:bg-amber-600 transition duration-50 h-8 w-12 -mt-1">
                     <MinusIcon />
                 </Button>
 
-                <Button size="1" radius="none" variant="solid" className="bg-titlebar hover:bg-red-800 transition duration-50 h-8 w-12 -mt-1 -mr-0.5"
-                    onClick={() => ipc.send("close")}>
+                <Button onClick={() => ipc.send("close")} tabIndex={-1} size="1" radius="none" variant="solid" className="bg-titlebar hover:bg-red-800 transition duration-50 h-8 w-12 -mt-1 -mr-0.5">
                     <Cross1Icon />
                 </Button>
             </div>

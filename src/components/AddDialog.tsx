@@ -30,7 +30,7 @@ export default function AddDialog({ category }: { category: string }) {
                             </div>
 
                             <div className='mt-2'>
-                                <RadioCards.Root color="orange" defaultValue="1" columns={{ initial: '1', sm: '2' }} onValueChange={() => handleSeries(1)}>
+                                <RadioCards.Root onValueChange={() => handleSeries(1)} color="orange" defaultValue="1" columns={{ initial: '1', sm: '2' }}>
                                     <RadioCards.Item value="1" className='hover:bg-orange-800 mt-2 mr-1 p-2 rounded transition cursor-pointer'>
                                         <Text className="text-amber-500 font-bold">Film</Text>
                                     </RadioCards.Item>
@@ -64,7 +64,7 @@ export default function AddDialog({ category }: { category: string }) {
 
                             <div className='text-right mt-2'>
                                 <Dialog.Close asChild>
-                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer" onClick={() => handleSeries(0)}>
+                                    <Button onClick={() => handleSeries(0)} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
                                         Cancel
                                     </Button>
                                 </Dialog.Close>
