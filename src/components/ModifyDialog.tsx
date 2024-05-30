@@ -13,7 +13,7 @@ export default function ModifyDialog({ category }: { category: string }) {
         <>
             {category !== "Waiting Room" && (
                 <Dialog.Root>
-                    <Dialog.Trigger>
+                    <Dialog.Trigger asChild>
                         <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
                             <Pencil2Icon />
                         </Button>
@@ -43,15 +43,17 @@ export default function ModifyDialog({ category }: { category: string }) {
                                 </div>
 
                                 <div className='text-right mt-2'>
-                                    <Dialog.Close>
-                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition">
+                                    <Dialog.Close asChild>
+                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
                                             Cancel
                                         </Button>
                                     </Dialog.Close>
 
-                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition">
-                                        Save
-                                    </Button>
+                                    <Dialog.Close asChild>
+                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                            Save
+                                        </Button>
+                                    </Dialog.Close>
                                 </div>
                             </Dialog.Content>
                         </Dialog.Overlay>

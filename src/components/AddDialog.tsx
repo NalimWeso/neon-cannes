@@ -14,7 +14,7 @@ export default function AddDialog({ category }: { category: string }) {
     return (
         <>
             <Dialog.Root>
-                <Dialog.Trigger>
+                <Dialog.Trigger asChild>
                     <Button size="1" color="orange" variant="soft" className="text-amber-500 ml-1 py-3.5 max-w-8 transition cursor-pointer">
                         <PlusIcon />
                     </Button>
@@ -63,15 +63,17 @@ export default function AddDialog({ category }: { category: string }) {
                             </div>
 
                             <div className='text-right mt-2'>
-                                <Dialog.Close>
-                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition" onClick={() => handleSeries(0)}>
+                                <Dialog.Close asChild>
+                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer" onClick={() => handleSeries(0)}>
                                         Cancel
                                     </Button>
                                 </Dialog.Close>
 
-                                <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition">
-                                    Add
-                                </Button>
+                                <Dialog.Close asChild>
+                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
+                                        Add
+                                    </Button>
+                                </Dialog.Close>
                             </div>
                         </Dialog.Content>
                     </Dialog.Overlay>
