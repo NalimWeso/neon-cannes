@@ -1,12 +1,27 @@
 import { Pencil2Icon } from '@radix-ui/react-icons';
 import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useState } from 'react';
+import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
 export default function ModifyDialog({ category }: { category: string }) {
+    const [categoryName, setCategoryName] = useState(category);
+
     function getPosition(category: string) {
         const categoryData = films.find(item => item.category === category);
         return categoryData ? categoryData.position - 1 : 0;
+    }
+
+    function handleSave() {
+        const updatedCategory = films.map(item => {
+            if (item.category === category) {
+                return { ...item, category: categoryName };
+            }
+            return item;
+        });
+
+        ipcRenderer.invoke('write-json', updatedCategory);
     }
 
     return (
@@ -29,7 +44,7 @@ export default function ModifyDialog({ category }: { category: string }) {
                                 </div>
 
                                 <div className='mt-2'>
-                                    <TextField.Root placeholder={category} variant="soft">
+                                    <TextField.Root placeholder={category} onChange={(e) => setCategoryName(e.target.value)} variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-8'>
                                             Name
                                         </TextField.Slot>
@@ -50,7 +65,7 @@ export default function ModifyDialog({ category }: { category: string }) {
                                     </Dialog.Close>
 
                                     <Dialog.Close asChild>
-                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                        <Button onClick={handleSave} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
                                             Save
                                         </Button>
                                     </Dialog.Close>

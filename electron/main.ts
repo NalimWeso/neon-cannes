@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -42,6 +43,18 @@ function createWindow() {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
 }
+
+const filePath = path.join(__dirname, '..', 'public', 'films.json');
+
+ipcMain.handle('read-json', async () => {
+  const data = fs.readFileSync(filePath, 'utf-8');
+  return JSON.parse(data);
+});
+
+ipcMain.handle('write-json', async (_, content) => {
+  fs.writeFileSync(filePath, JSON.stringify(content, null, 2), 'utf-8');
+  return { status: 'success' };
+});
 
 ipcMain.on("minimize", () => {
   win?.minimize();
