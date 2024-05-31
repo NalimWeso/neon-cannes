@@ -5,12 +5,25 @@ import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
-export default function ModifyDialog({ category }: { category: string }) {
+export default function ModifyDialog({ category, position }: { category: string, position: number }) {
     const [categoryName, setCategoryName] = useState(category);
+    const [categoryPosition, setCategoryPosition] = useState(--position);
 
-    function getPosition(category: string) {
-        const categoryData = films.find(item => item.category === category);
-        return categoryData ? categoryData.position - 1 : 0;
+    function handleOnChange(element: string | number) {
+        if (typeof element === "string") {
+            const input = element.trim().replace(/\s+/g, ' ');
+            setCategoryName(input === "" ? category : input);
+        }
+
+        if (typeof element === "number") {
+            !isNaN(element) && setCategoryPosition(element);
+        }
+    }
+
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (!((e.key >= '0' && e.key <= '9') || e.key === 'Backspace' || e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+            e.preventDefault();
+        }
     }
 
     function handleSave() {
@@ -44,13 +57,13 @@ export default function ModifyDialog({ category }: { category: string }) {
                                 </div>
 
                                 <div className='mt-2'>
-                                    <TextField.Root placeholder={category} onChange={(e) => setCategoryName(e.target.value)} variant="soft">
+                                    <TextField.Root onChange={(e) => handleOnChange(e.target.value)} placeholder={category} variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-8'>
                                             Name
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root placeholder={`${getPosition(category)}`} variant="soft">
+                                    <TextField.Root onChange={(e) => handleOnChange(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${categoryPosition}`} variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                             Position
                                         </TextField.Slot>
@@ -76,5 +89,5 @@ export default function ModifyDialog({ category }: { category: string }) {
                 </Dialog.Root>
             )}
         </>
-    )
+    );
 }
