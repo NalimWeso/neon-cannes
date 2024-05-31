@@ -9,29 +9,37 @@ export default function ModifyDialog({ category, position }: { category: string,
     const [categoryName, setCategoryName] = useState(category);
     const [categoryPosition, setCategoryPosition] = useState(position);
 
-    function handleOnChange(element: string | number) {
-        if (typeof element === "string") {
-            const input = element.trim().replace(/\s+/g, ' ');
-            setCategoryName(input === "" ? category : input);
-        }
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        const length = e.currentTarget.value.length;
+        const key = e.key
 
-        if (typeof element === "number") {
-            !isNaN(element) && setCategoryPosition(element - 1);
+        if ((length === 0 && key === '0') || !((key >= '0' && key <= '9') || key === 'Backspace' || key === 'ArrowRight' || key === 'ArrowLeft')) {
+            e.preventDefault();
         }
     }
 
-    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-        if ((e.currentTarget.value.length === 0 && e.key === '0') || !((e.key >= '0' && e.key <= '9') || e.key === 'Backspace' || e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
-            e.preventDefault();
+    function handleOnChange(element: string | number) {
+        if (typeof element === "string") {
+            const input = element.trim().replace(/\s+/g, ' ');
+            setCategoryName(input);
+        }
+
+        if (typeof element === "number") {
+            if (!isNaN(element)) {
+                setCategoryPosition(element - 1);
+            }
         }
     }
 
     function handleSave() {
         const updatedCategory = films.map(item => {
             if (item.category === category) {
-                return { ...item, category: categoryName, position: categoryPosition + 2 };
-            } else if (item.position >= categoryPosition) {
-                return { ...item, position: item.position };
+                console.log("categoryPosition: " + categoryPosition);
+                return {
+                    ...item,
+                    category: categoryName,
+                    // position: categoryPosition
+                };
             }
             return item;
         });
@@ -74,13 +82,19 @@ export default function ModifyDialog({ category, position }: { category: string,
 
                                 <div className='text-right mt-2'>
                                     <Dialog.Close asChild>
-                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                             Cancel
                                         </Button>
                                     </Dialog.Close>
 
                                     <Dialog.Close asChild>
-                                        <Button onClick={handleSave} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mx-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                            Delete
+                                        </Button>
+                                    </Dialog.Close>
+
+                                    <Dialog.Close asChild>
+                                        <Button onClick={handleSave} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
                                             Save
                                         </Button>
                                     </Dialog.Close>
