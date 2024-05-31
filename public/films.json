@@ -1,147 +1,147 @@
 [
-    {
-        "position": 0,
-        "category": "Current",
-        "films": [
-            {
-                "id": "99125ed5-c29f-4a2a-a53b-109d73780f9a",
-                "title": "Judgment at Nuremberg",
-                "year": 1961,
-                "date": "2024-01-01T00:00:00.000Z"
-            },
-            {
-                "id": "45be1958-b1f9-43f2-a783-3bf3fbb09c45",
-                "title": "Godzilla",
-                "year": 1998,
-                "date": "2024-01-02T00:00:00.000Z"
-            },
-            {
-                "id": "f1023eef-e9d5-432e-b966-5ae1368e51af",
-                "title": "Incendies",
-                "year": 2010,
-                "date": "2024-01-03T00:00:00.000Z"
-            },
-            {
-                "id": "d7dfdaff-a94a-4364-b17f-46a08e587d54",
-                "title": "Zero Dark Thirty",
-                "year": 2012,
-                "date": "2024-01-04T00:00:00.000Z"
-            },
-            {
-                "id": "213798f3-7c1f-404a-b232-0019c9382447",
-                "title": "Angelyne",
-                "year": 2022,
-                "date": "2024-01-05T00:00:00.000Z",
-                "dateEnd": "2024-01-06T00:00:00.000Z",
-                "season": "Miniseries"
-            },
-            {
-                "id": "9d15d42c-32a3-496e-b692-23eea8817bad",
-                "title": "Fargo",
-                "year": 2014,
-                "yearEnd": "Present",
-                "date": "2024-01-08T00:00:00.000Z",
-                "dateEnd": "2024-01-30T00:00:00.000Z",
-                "season": "Seasons 1-5"
-            }
-        ]
-    },
-    {
-        "position": 1,
-        "category": "Waiting Room",
-        "films": [
-            {
-                "index": 0,
-                "id": "fefbab92-3d24-4501-817d-9d2d996d58d5",
-                "title": "Star Wars: The Bad Batch",
-                "year": 2021,
-                "yearEnd": 2024,
-                "season": "Season 3"
-            },
-            {
-                "index": 1,
-                "id": "e39a6e96-36c6-4d8c-a8a2-4bf2f3c0bc0f",
-                "title": "The Peasants",
-                "year": 2023
-            },
-            {
-                "index": 2,
-                "id": "858f78a9-d266-4128-9daa-4fdc9b4927ba",
-                "title": "Rocketman",
-                "year": 2019
-            }
-        ]
-    },
-    {
-        "position": 2,
-        "category": "Animation",
-        "films": [
-            {
-                "index": 0,
-                "id": "dcc59c5e-8287-4bc0-a0bb-29c0e64be5c3",
-                "title": "Pink Floyd: The Wall",
-                "year": 1982
-            },
-            {
-                "index": 1,
-                "id": "cfe62636-b4c7-4fee-a055-92e688920605",
-                "title": "LEGO Batman: The Movie – DC Super Heroes Unite",
-                "year": 2013
-            },
-            {
-                "index": 2,
-                "id": "921fb7c3-88ee-4ad6-8c6d-604cc0d20585",
-                "title": "Agent 327: Operation Barbershop",
-                "year": 2017
-            }
-        ]
-    },
-    {
-        "position": 3,
-        "category": "Tier I",
-        "films": [
-            {
-                "index": 0,
-                "id": "8a1fb72f-a0d0-4660-9d7e-a98fbf1c96c3",
-                "title": "A Bittersweet Life",
-                "year": 2005
-            },
-            {
-                "index": 1,
-                "id": "5e19f139-2e71-44a8-bbd5-1746e8be0fe5",
-                "title": "The Bridge on the River Kwai",
-                "year": 1957
-            },
-            {
-                "index": 2,
-                "id": "4579192e-2a35-4fdd-9dd8-ef426eb106e9",
-                "title": "Kiss the Girls and Make Them Die",
-                "year": 1966
-            }
-        ]
-    },
-    {
-        "position": 4,
-        "category": "Tier II",
-        "films": [
-            {
-                "index": 0,
-                "id": "0eaf9d23-baee-4a20-ad3c-4f8ea8a3c8da",
-                "title": "Metropolis",
-                "year": 1927
-            },
-            {
-                "index": 1,
-                "id": "a3a0f63c-7883-425e-9a75-538c86c28fe9",
-                "title": "The Florida Project",
-                "year": 2017
-            },
-            {
-                "index": 2,
-                "id": "1e76dc35-97c0-4ccf-bd10-882da8c260b5",
-                "title": "Mystic River",
-                "year": 2003
-            }
-        ]
-    }
+  {
+    "position": 0,
+    "category": "Current",
+    "films": [
+      {
+        "id": "99125ed5-c29f-4a2a-a53b-109d73780f9a",
+        "title": "Judgment at Nuremberg",
+        "year": 1961,
+        "date": "2024-01-01T00:00:00.000Z"
+      },
+      {
+        "id": "45be1958-b1f9-43f2-a783-3bf3fbb09c45",
+        "title": "Godzilla",
+        "year": 1998,
+        "date": "2024-01-02T00:00:00.000Z"
+      },
+      {
+        "id": "f1023eef-e9d5-432e-b966-5ae1368e51af",
+        "title": "Incendies",
+        "year": 2010,
+        "date": "2024-01-03T00:00:00.000Z"
+      },
+      {
+        "id": "d7dfdaff-a94a-4364-b17f-46a08e587d54",
+        "title": "Zero Dark Thirty",
+        "year": 2012,
+        "date": "2024-01-04T00:00:00.000Z"
+      },
+      {
+        "id": "213798f3-7c1f-404a-b232-0019c9382447",
+        "title": "Angelyne",
+        "year": 2022,
+        "date": "2024-01-05T00:00:00.000Z",
+        "dateEnd": "2024-01-06T00:00:00.000Z",
+        "season": "Miniseries"
+      },
+      {
+        "id": "9d15d42c-32a3-496e-b692-23eea8817bad",
+        "title": "Fargo",
+        "year": 2014,
+        "yearEnd": "Present",
+        "date": "2024-01-08T00:00:00.000Z",
+        "dateEnd": "2024-01-30T00:00:00.000Z",
+        "season": "Seasons 1-5"
+      }
+    ]
+  },
+  {
+    "position": 1,
+    "category": "Waiting Room",
+    "films": [
+      {
+        "index": 3,
+        "id": "fefbab92-3d24-4501-817d-9d2d996d58d5",
+        "title": "Star Wars: The Bad Batch",
+        "year": 2021,
+        "yearEnd": 2024,
+        "season": "Season 3"
+      },
+      {
+        "index": 1,
+        "id": "e39a6e96-36c6-4d8c-a8a2-4bf2f3c0bc0f",
+        "title": "The Peasants",
+        "year": 2023
+      },
+      {
+        "index": 2,
+        "id": "858f78a9-d266-4128-9daa-4fdc9b4927ba",
+        "title": "Rocketman",
+        "year": 2019
+      }
+    ]
+  },
+  {
+    "position": 2,
+    "category": "Animation",
+    "films": [
+      {
+        "index": 0,
+        "id": "dcc59c5e-8287-4bc0-a0bb-29c0e64be5c3",
+        "title": "Pink Floyd: The Wall",
+        "year": 1982
+      },
+      {
+        "index": 1,
+        "id": "cfe62636-b4c7-4fee-a055-92e688920605",
+        "title": "LEGO Batman: The Movie – DC Super Heroes Unite",
+        "year": 2013
+      },
+      {
+        "index": 2,
+        "id": "921fb7c3-88ee-4ad6-8c6d-604cc0d20585",
+        "title": "Agent 327: Operation Barbershop",
+        "year": 2017
+      }
+    ]
+  },
+  {
+    "position": 3,
+    "category": "Original",
+    "films": [
+      {
+        "index": 0,
+        "id": "8a1fb72f-a0d0-4660-9d7e-a98fbf1c96c3",
+        "title": "A Bittersweet Life",
+        "year": 2005
+      },
+      {
+        "index": 1,
+        "id": "5e19f139-2e71-44a8-bbd5-1746e8be0fe5",
+        "title": "The Bridge on the River Kwai",
+        "year": 1957
+      },
+      {
+        "index": 2,
+        "id": "4579192e-2a35-4fdd-9dd8-ef426eb106e9",
+        "title": "Kiss the Girls and Make Them Die",
+        "year": 1966
+      }
+    ]
+  },
+  {
+    "position": 4,
+    "category": "Classics",
+    "films": [
+      {
+        "index": 0,
+        "id": "0eaf9d23-baee-4a20-ad3c-4f8ea8a3c8da",
+        "title": "Metropolis",
+        "year": 1927
+      },
+      {
+        "index": 1,
+        "id": "a3a0f63c-7883-425e-9a75-538c86c28fe9",
+        "title": "The Florida Project",
+        "year": 2017
+      },
+      {
+        "index": 2,
+        "id": "1e76dc35-97c0-4ccf-bd10-882da8c260b5",
+        "title": "Mystic River",
+        "year": 2003
+      }
+    ]
+  }
 ]
