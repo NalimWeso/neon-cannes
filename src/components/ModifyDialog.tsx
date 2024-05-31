@@ -7,7 +7,7 @@ import films from '../../public/films.json';
 
 export default function ModifyDialog({ category, position }: { category: string, position: number }) {
     const [categoryName, setCategoryName] = useState(category);
-    const [categoryPosition, setCategoryPosition] = useState(--position);
+    const [categoryPosition, setCategoryPosition] = useState(position);
 
     function handleOnChange(element: string | number) {
         if (typeof element === "string") {
@@ -16,12 +16,12 @@ export default function ModifyDialog({ category, position }: { category: string,
         }
 
         if (typeof element === "number") {
-            !isNaN(element) && setCategoryPosition(element);
+            !isNaN(element) && setCategoryPosition(element - 1);
         }
     }
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-        if (!((e.key >= '0' && e.key <= '9') || e.key === 'Backspace' || e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        if ((e.currentTarget.value.length === 0 && e.key === '0') || !((e.key >= '0' && e.key <= '9') || e.key === 'Backspace' || e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
             e.preventDefault();
         }
     }
@@ -29,7 +29,9 @@ export default function ModifyDialog({ category, position }: { category: string,
     function handleSave() {
         const updatedCategory = films.map(item => {
             if (item.category === category) {
-                return { ...item, category: categoryName };
+                return { ...item, category: categoryName, position: categoryPosition + 2 };
+            } else if (item.position >= categoryPosition) {
+                return { ...item, position: item.position };
             }
             return item;
         });
@@ -63,7 +65,7 @@ export default function ModifyDialog({ category, position }: { category: string,
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => handleOnChange(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${categoryPosition}`} variant="soft">
+                                    <TextField.Root onChange={(e) => handleOnChange(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${position - 1}`} variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                             Position
                                         </TextField.Slot>
