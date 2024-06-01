@@ -3,10 +3,14 @@ import { Text, Button } from '@radix-ui/themes';
 import { ipcRenderer as ipc } from 'electron';
 
 export default function TitleBar() {
+    function openGitHub() {
+        window.open("https://github.com/NalimWeso/", "_blank");
+    }
+
     return (
         <div className="h-7 w-full bg-titlebar flex justify-between items-center">
-            <div className='w-full draggable'>
-                <Text className='text-amber-500 text-center font-bold mt-1.5 ml-1'>Neon Cannes</Text>
+            <div className='w-full drag'>
+                <Text className='text-amber-500 text-center font-bold mt-1.5 ml-1 no-drag'><button onClick={openGitHub}>NalimWeso</button> Presents: Neon Cannes</Text>
             </div>
 
             <div className='flex'>
