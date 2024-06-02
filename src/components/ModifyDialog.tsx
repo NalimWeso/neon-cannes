@@ -9,20 +9,18 @@ export default function ModifyDialog({ category, position }: { category: string,
     const [categoryName, setCategoryName] = useState(category);
     const [categoryPosition, setCategoryPosition] = useState(position);
 
-    function handleOnChange(element: string | number) {
-        if (typeof element === "string") {
-            const input = element.trim().replace(/\s+/g, ' ');
-            setCategoryName(input);
-        }
-
-        if (typeof element === "number") {
-            if (!isNaN(element)) {
-                setCategoryPosition(element - 1);
-            }
+    function handleName(element: string) {
+        if (element.trim()) {
+            setCategoryName(element.trim().replace(/\s+/g, ' '));
         }
     }
 
-    function handleSave() {
+    function getLastPosition() {
+        const positions = films.map(film => film.position);
+        return Math.max(...positions);
+    }
+
+    function saveData() {
         const updatedCategory = films.map(item => {
             if (item.category === category) {
                 console.log("categoryPosition: " + categoryPosition);
@@ -36,11 +34,6 @@ export default function ModifyDialog({ category, position }: { category: string,
         });
 
         ipcRenderer.invoke('write-json', updatedCategory);
-    }
-
-    function getLastPosition() {
-        const positions = films.map(film => film.position);
-        return Math.max(...positions);
     }
 
     return (
@@ -63,19 +56,21 @@ export default function ModifyDialog({ category, position }: { category: string,
                                 </div>
 
                                 <div className='mt-2'>
-                                    <TextField.Root onChange={(e) => handleOnChange(e.target.value)} placeholder={category} variant="soft">
+                                    <TextField.Root onChange={(e) => handleName(e.target.value)} placeholder={category} variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-8'>
                                             Name
                                         </TextField.Slot>
                                     </TextField.Root>
 
                                     <div className='flex'>
-                                        <Text className='text-amber-500 font-bold py-1 pr-3.5'>Position</Text>
-                                        <Button disabled={position === 2} color="orange" variant={position !== 2 ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${position !== 2 ? `cursor-pointer` : `cursor-default`}`}>
+                                        <Text className='text-amber-500 font-bold py-1 pr-3.5 cursor-text'>Position</Text>
+                                        <Button disabled={categoryPosition === 2} onClick={() => setCategoryPosition(categoryPosition - 1)} color="orange" variant={categoryPosition !== 2 ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${categoryPosition !== 2 ? 'cursor-pointer' : 'cursor-default'}`} >
                                             <ChevronUpIcon />
                                         </Button>
-                                        <Text className='text-neutral-400 p-1'>{position - 1}</Text>
-                                        <Button disabled={position === getLastPosition()} color="orange" variant={position !== getLastPosition() ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${position !== getLastPosition() ? `cursor-pointer` : `cursor-default`}`}>
+
+                                        <Text className='text-neutral-400 p-1'>{categoryPosition - 1}</Text>
+
+                                        <Button disabled={categoryPosition === getLastPosition()} onClick={() => setCategoryPosition(categoryPosition + 1)} color="orange" variant={categoryPosition !== getLastPosition() ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${categoryPosition !== getLastPosition() ? `cursor-pointer` : `cursor-default`}`}>
                                             <ChevronDownIcon />
                                         </Button>
                                     </div>
@@ -89,14 +84,14 @@ export default function ModifyDialog({ category, position }: { category: string,
                                     </Dialog.Close>
 
                                     <Dialog.Close asChild>
-                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mx-0.5 py-1 w-16 rounded transition cursor-pointer">
-                                            Delete
+                                        <Button onClick={saveData} size="1" color="orange" variant="soft" className="text-amber-500 mx-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                            Save
                                         </Button>
                                     </Dialog.Close>
 
                                     <Dialog.Close asChild>
-                                        <Button onClick={handleSave} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
-                                            Save
+                                        <Button disabled={true} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-default">
+                                            Delete
                                         </Button>
                                     </Dialog.Close>
                                 </div>
