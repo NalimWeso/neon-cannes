@@ -38,6 +38,11 @@ export default function ModifyDialog({ category, position }: { category: string,
         ipcRenderer.invoke('write-json', updatedCategory);
     }
 
+    function getLastPosition() {
+        const positions = films.map(film => film.position);
+        return Math.max(...positions);
+    }
+
     return (
         <>
             {category !== "Waiting Room" && (
@@ -66,11 +71,11 @@ export default function ModifyDialog({ category, position }: { category: string,
 
                                     <div className='flex'>
                                         <Text className='text-amber-500 font-bold py-1 pr-3.5'>Position</Text>
-                                        <Button color="orange" variant="soft" className="text-amber-500 text-2xl my-1 p-1 rounded transition cursor-pointer">
+                                        <Button disabled={position === 2} color="orange" variant={position !== 2 ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${position !== 2 ? `cursor-pointer` : `cursor-default`}`}>
                                             <ChevronUpIcon />
                                         </Button>
                                         <Text className='text-neutral-400 p-1'>{position - 1}</Text>
-                                        <Button color="orange" variant="soft" className="text-amber-500 text-2xl my-1 p-1 rounded transition cursor-pointer">
+                                        <Button disabled={position === getLastPosition()} color="orange" variant={position !== getLastPosition() ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${position !== getLastPosition() ? `cursor-pointer` : `cursor-default`}`}>
                                             <ChevronDownIcon />
                                         </Button>
                                     </div>
