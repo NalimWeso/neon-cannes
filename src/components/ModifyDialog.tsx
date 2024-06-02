@@ -1,5 +1,5 @@
-import { Pencil2Icon } from '@radix-ui/react-icons';
-import { Button, TextField } from '@radix-ui/themes';
+import { Pencil2Icon, ChevronUpIcon, ChevronDownIcon } from '@radix-ui/react-icons';
+import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { ipcRenderer } from 'electron';
@@ -8,15 +8,6 @@ import films from '../../public/films.json';
 export default function ModifyDialog({ category, position }: { category: string, position: number }) {
     const [categoryName, setCategoryName] = useState(category);
     const [categoryPosition, setCategoryPosition] = useState(position);
-
-    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-        const length = e.currentTarget.value.length;
-        const key = e.key
-
-        if ((length === 0 && key === '0') || !((key >= '0' && key <= '9') || key === 'Backspace' || key === 'ArrowRight' || key === 'ArrowLeft')) {
-            e.preventDefault();
-        }
-    }
 
     function handleOnChange(element: string | number) {
         if (typeof element === "string") {
@@ -73,11 +64,16 @@ export default function ModifyDialog({ category, position }: { category: string,
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => handleOnChange(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${position - 1}`} variant="soft">
-                                        <TextField.Slot className='text-amber-500 font-bold mr-4'>
-                                            Position
-                                        </TextField.Slot>
-                                    </TextField.Root>
+                                    <div className='flex'>
+                                        <Text className='text-amber-500 font-bold py-1 pr-3.5'>Position</Text>
+                                        <Button color="orange" variant="soft" className="text-amber-500 text-2xl my-1 p-1 rounded transition cursor-pointer">
+                                            <ChevronUpIcon />
+                                        </Button>
+                                        <Text className='text-neutral-400 p-1'>{position - 1}</Text>
+                                        <Button color="orange" variant="soft" className="text-amber-500 text-2xl my-1 p-1 rounded transition cursor-pointer">
+                                            <ChevronDownIcon />
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <div className='text-right mt-2'>
