@@ -63,7 +63,6 @@ export default function ModifyDialog({ category, position }: { category: string,
         });
 
         updatedData.sort((a, b) => a.position - b.position);
-
         ipcRenderer.invoke('write-json', updatedData);
 
         setCategoryName(category);
