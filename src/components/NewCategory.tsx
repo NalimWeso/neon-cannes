@@ -1,12 +1,49 @@
 import { RocketIcon } from '@radix-ui/react-icons';
-import { Button } from '@radix-ui/themes';
+import { Button, TextField } from '@radix-ui/themes';
+import * as Dialog from '@radix-ui/react-dialog';
 
 export default function NewCategory() {
     return (
         <div className="mb-1 ml-1 pt-6">
-            <Button size="1" color="orange" variant="soft" className="text-amber-500 text-sm font-bold px-3 py-3.5 rounded transition cursor-pointer">
-                New Category<RocketIcon className='ml-1' />
-            </Button>
+            <Dialog.Root>
+                <Dialog.Trigger>
+                    <Button size="1" color="orange" variant="soft" className="text-amber-500 text-sm font-bold px-3 py-3.5 rounded transition cursor-pointer">
+                        New Category<RocketIcon className='ml-1' />
+                    </Button>
+                </Dialog.Trigger>
+
+                <Dialog.Portal>
+                    <Dialog.Overlay className='fixed inset-0 bg-black/15'>
+                        <Dialog.Content className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-950 text-white border-2 border-titlebar p-3 w-full max-w-md shadow'>
+                            <Dialog.Title className='text-amber-500 text-2xl font-bold'>
+                                New Category
+                            </Dialog.Title>
+
+                            <div className='mt-2'>
+                                <TextField.Root placeholder="Animation" variant="soft">
+                                    <TextField.Slot className='text-amber-500 font-bold mr-8'>
+                                        Name
+                                    </TextField.Slot>
+                                </TextField.Root>
+                            </div>
+
+                            <div className='text-right mt-2'>
+                                <Dialog.Close asChild>
+                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                        Cancel
+                                    </Button>
+                                </Dialog.Close>
+
+                                <Dialog.Close asChild>
+                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 mx-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                        Save
+                                    </Button>
+                                </Dialog.Close>
+                            </div>
+                        </Dialog.Content>
+                    </Dialog.Overlay>
+                </Dialog.Portal>
+            </Dialog.Root>
         </div>
     )
 }
