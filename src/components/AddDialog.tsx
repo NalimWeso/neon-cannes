@@ -54,11 +54,22 @@ export default function AddDialog({ category }: { category: string }) {
                                 </TextField.Root>
 
                                 {isSeries === true && (
-                                    <TextField.Root placeholder="2019 / Present" variant="soft">
-                                        <TextField.Slot className='text-amber-500 font-bold mr-4'>
-                                            End?
-                                        </TextField.Slot>
-                                    </TextField.Root>
+                                    <>
+                                        <TextField.Root placeholder="2019" variant="soft" className='w-24'>
+                                            <TextField.Slot className='text-amber-500 font-bold mr-4'>
+                                                End?
+                                            </TextField.Slot>
+                                        </TextField.Root>
+
+                                        <div className="mt-0.5">
+                                            <Button color="orange" variant="outline" className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                                Present
+                                            </Button>
+                                            <Button color="orange" variant="outline" className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                                Miniseries
+                                            </Button>
+                                        </div>
+                                    </>
                                 )}
                             </div>
 
