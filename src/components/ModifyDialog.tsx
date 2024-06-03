@@ -129,7 +129,7 @@ export default function ModifyDialog({ category, position }: { category: string,
 
                                 <div className='text-right mt-2'>
                                     <Dialog.Close asChild>
-                                        <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                        <Button onClick={() => setCategoryName(category)} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                             Cancel
                                         </Button>
                                     </Dialog.Close>
