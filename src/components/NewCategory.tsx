@@ -1,8 +1,25 @@
 import { RocketIcon } from '@radix-ui/react-icons';
 import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useState } from 'react';
+import { ipcRenderer } from 'electron';
 
 export default function NewCategory() {
+    const [categoryName, setCategoryName] = useState("");
+
+    function handleName(element: string) {
+        if (element.trim()) {
+            setCategoryName(element.trim().replace(/\s+/g, ' '));
+        }
+    }
+
+    function saveData() {
+        if (categoryName) {
+            ipcRenderer.invoke('add-json', categoryName);
+            setCategoryName("");
+        }
+    }
+
     return (
         <div className="mb-1 ml-1 pt-6">
             <Dialog.Root>
@@ -20,7 +37,7 @@ export default function NewCategory() {
                             </Dialog.Title>
 
                             <div className='mt-2'>
-                                <TextField.Root placeholder="Animation" variant="soft">
+                                <TextField.Root onChange={(e) => handleName(e.target.value)} placeholder="Animation" variant="soft">
                                     <TextField.Slot className='text-amber-500 font-bold mr-8'>
                                         Name
                                     </TextField.Slot>
@@ -29,13 +46,13 @@ export default function NewCategory() {
 
                             <div className='text-right mt-2'>
                                 <Dialog.Close asChild>
-                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => setCategoryName("")} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                         Cancel
                                     </Button>
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 mx-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={saveData} size="1" color="orange" variant="soft" className="text-amber-500 mx-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
                                         Save
                                     </Button>
                                 </Dialog.Close>

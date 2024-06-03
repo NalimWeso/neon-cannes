@@ -62,6 +62,20 @@ ipcMain.handle('write-json', async (_, content) => {
   return { status: 'success' };
 });
 
+ipcMain.handle('add-json', async (_, categoryName) => {
+  const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+  const newCategory = {
+    position: data.length,
+    category: categoryName,
+    films: []
+  };
+
+  data.push(newCategory);
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+  return { status: 'success' };
+});
+
 ipcMain.on("minimize", () => {
   win?.minimize();
 });
