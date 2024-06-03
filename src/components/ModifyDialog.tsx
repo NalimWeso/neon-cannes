@@ -25,11 +25,17 @@ export default function ModifyDialog({ category, position }: { category: string,
         return Math.max(...positions);
     }
 
+    function getStatus(category: string) {
+        const categoryFilms = films.find(film => film.category === category);
+        const containsFilms = categoryFilms && Array.isArray(categoryFilms.films) && categoryFilms.films.length > 0;
+        return containsFilms;
+    }
+
     function saveData() {
         const oldPosition = position;
         const newPosition = categoryPosition;
 
-        const updatedCategory = films.map(item => {
+        const updatedData = films.map(item => {
             if (item.category === category) {
                 return {
                     ...item,
@@ -56,10 +62,28 @@ export default function ModifyDialog({ category, position }: { category: string,
             return item;
         });
 
-        ipcRenderer.invoke('write-json', updatedCategory);
+        ipcRenderer.invoke('write-json', updatedData);
 
         setCategoryName(category);
         setCategoryPosition(position);
+    }
+
+    function deleteCategory(category: string) {
+        const categoryToDelete = films.find(film => film.category === category);
+        const positionToDelete = categoryToDelete?.position;
+
+        if (positionToDelete !== undefined) {
+            const updatedData = films
+                .filter(film => film.category !== category)
+                .map(film => {
+                    if (film.position > positionToDelete) {
+                        return { ...film, position: film.position - 1 };
+                    }
+                    return film;
+                });
+
+            ipcRenderer.invoke('write-json', updatedData);
+        }
     }
 
     return (
@@ -116,7 +140,7 @@ export default function ModifyDialog({ category, position }: { category: string,
                                     </Dialog.Close>
 
                                     <Dialog.Close asChild>
-                                        <Button disabled={true} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-default">
+                                        <Button onClick={() => deleteCategory(category)} disabled={getStatus(category)} size="1" color="orange" variant="soft" className={`text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition ${!getStatus(category) ? `cursor-pointer` : `cursor-default`}`}>
                                             Delete
                                         </Button>
                                     </Dialog.Close>
