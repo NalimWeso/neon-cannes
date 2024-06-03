@@ -1,13 +1,18 @@
 import { Pencil2Icon, ChevronUpIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
 export default function ModifyDialog({ category, position }: { category: string, position: number }) {
     const [categoryName, setCategoryName] = useState(category);
     const [categoryPosition, setCategoryPosition] = useState(position);
+
+    useEffect(() => {
+        setCategoryName(category);
+        setCategoryPosition(position);
+    }, [category, position]);
 
     function handleName(element: string) {
         if (element.trim()) {
@@ -21,19 +26,40 @@ export default function ModifyDialog({ category, position }: { category: string,
     }
 
     function saveData() {
+        const oldPosition = position;
+        const newPosition = categoryPosition;
+
         const updatedCategory = films.map(item => {
             if (item.category === category) {
-                console.log("categoryPosition: " + categoryPosition);
                 return {
                     ...item,
                     category: categoryName,
-                    // position: categoryPosition
+                    position: newPosition
                 };
+            } else {
+                if (oldPosition < newPosition) {
+                    if (item.position > oldPosition && item.position <= newPosition) {
+                        return {
+                            ...item,
+                            position: item.position - 1
+                        };
+                    }
+                } else if (oldPosition > newPosition) {
+                    if (item.position >= newPosition && item.position < oldPosition) {
+                        return {
+                            ...item,
+                            position: item.position + 1
+                        };
+                    }
+                }
             }
             return item;
         });
 
         ipcRenderer.invoke('write-json', updatedCategory);
+
+        setCategoryName(category);
+        setCategoryPosition(position);
     }
 
     return (
@@ -64,7 +90,7 @@ export default function ModifyDialog({ category, position }: { category: string,
 
                                     <div className='flex'>
                                         <Text className='text-amber-500 font-bold py-1 pr-3.5 cursor-text'>Position</Text>
-                                        <Button disabled={categoryPosition === 2} onClick={() => setCategoryPosition(categoryPosition - 1)} color="orange" variant={categoryPosition !== 2 ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${categoryPosition !== 2 ? 'cursor-pointer' : 'cursor-default'}`} >
+                                        <Button disabled={categoryPosition === 2} onClick={() => setCategoryPosition(categoryPosition - 1)} color="orange" variant={categoryPosition !== 1 ? "soft" : "surface"} className={`text-amber-500 text-2xl my-1 p-1 rounded transition ${categoryPosition !== 1 ? 'cursor-pointer' : 'cursor-default'}`} >
                                             <ChevronUpIcon />
                                         </Button>
 
