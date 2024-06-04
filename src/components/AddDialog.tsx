@@ -6,9 +6,27 @@ import { useState } from 'react';
 
 export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);
+    const [title, setTitle] = useState("Star Wars");
+    const [year, setYear] = useState(1977);
+    const [end, setEnd] = useState<number | "Present" | "Miniseries">(2019);
 
     function handleSeries(num: number) {
         setIsSeries(num === 1 ? !isSeries : false);
+    }
+
+    function handleTitle(element: string) {
+        if (element.trim()) {
+            setTitle(element.trim().replace(/\s+/g, ' '));
+        }
+    }
+
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        const length = e.currentTarget.value.length;
+        const key = e.key
+
+        if ((length === 0 && key === '0') || !((key >= '0' && key <= '9') || key === 'Backspace' || key === 'ArrowRight' || key === 'ArrowLeft')) {
+            e.preventDefault();
+        }
     }
 
     return (
@@ -41,13 +59,13 @@ export default function AddDialog({ category }: { category: string }) {
                             </div>
 
                             <div className='mt-2'>
-                                <TextField.Root placeholder={!isSeries ? "Star Wars" : "Mr. Robot"} variant="soft">
+                                <TextField.Root onChange={(e) => handleTitle(e.target.value)} placeholder={!isSeries ? "Star Wars" : "Mr. Robot"} variant="soft">
                                     <TextField.Slot className='text-amber-500 font-bold mr-5'>
                                         Title
                                     </TextField.Slot>
                                 </TextField.Root>
 
-                                <TextField.Root placeholder={!isSeries ? "1977" : "2015"} variant="soft">
+                                <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={!isSeries ? "1977" : "2015"} variant="soft" className='w-24'>
                                     <TextField.Slot className='text-amber-500 font-bold mr-5'>
                                         Year
                                     </TextField.Slot>
@@ -55,17 +73,18 @@ export default function AddDialog({ category }: { category: string }) {
 
                                 {isSeries === true && (
                                     <>
-                                        <TextField.Root placeholder="2019" variant="soft" className='w-24'>
+                                        <TextField.Root onChange={(e) => setEnd(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder="2019" variant="soft" className=''>
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
+                                            {end}
                                         </TextField.Root>
 
-                                        <div className="mt-0.5">
-                                            <Button color="orange" variant="outline" className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                        <div className="mt-1">
+                                            <Button onClick={() => setEnd("Present")} color="orange" variant="outline" className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
                                                 Present
                                             </Button>
-                                            <Button color="orange" variant="outline" className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                            <Button onClick={() => setEnd("Miniseries")} color="orange" variant="outline" className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
                                                 Miniseries
                                             </Button>
                                         </div>
