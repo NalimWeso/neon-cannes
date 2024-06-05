@@ -8,7 +8,10 @@ export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("Star Wars");
     const [year, setYear] = useState(1977);
-    const [end, setEnd] = useState<number | "Present" | "Miniseries">(2019);
+    const [end, setEnd] = useState<number | null | "Present" | "Miniseries">(2019);
+
+    const [btnPresent, setBtnPresent] = useState(0);
+    const [btnMiniseries, setBtnMiniseries] = useState(0);
 
     function handleSeries(num: number) {
         setIsSeries(num === 1 ? !isSeries : false);
@@ -22,10 +25,32 @@ export default function AddDialog({ category }: { category: string }) {
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
         const length = e.currentTarget.value.length;
-        const key = e.key
+        const key = e.key;
 
         if ((length === 0 && key === '0') || !((key >= '0' && key <= '9') || key === 'Backspace' || key === 'ArrowRight' || key === 'ArrowLeft')) {
             e.preventDefault();
+        }
+    }
+
+    function clickButton(value: "Present" | "Miniseries") {
+        if (value === "Present") {
+            if (btnPresent === 0) {
+                setBtnPresent(1);
+                setBtnMiniseries(0);
+                setEnd("Present");
+            } else {
+                setBtnPresent(0);
+                setEnd(null);
+            }
+        } else if (value === "Miniseries") {
+            if (btnMiniseries === 0) {
+                setBtnMiniseries(1);
+                setBtnPresent(0);
+                setEnd("Miniseries");
+            } else {
+                setBtnMiniseries(0);
+                setEnd(null);
+            }
         }
     }
 
@@ -73,18 +98,26 @@ export default function AddDialog({ category }: { category: string }) {
 
                                 {isSeries === true && (
                                     <>
-                                        <TextField.Root onChange={(e) => setEnd(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder="2019" variant="soft" className=''>
+                                        <TextField.Root
+                                            value={btnPresent === 1 || btnMiniseries === 1 ? "" : undefined}
+                                            onChange={(e) => {
+                                                const value = parseInt(e.target.value, 10);
+                                                setEnd(isNaN(value) ? null : value);
+                                                setBtnPresent(0);
+                                                setBtnMiniseries(0);
+                                            }}
+                                            onKeyDown={handleKeyDown} placeholder="2019" variant="soft"
+                                        >
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
-                                            {end}
                                         </TextField.Root>
 
                                         <div className="mt-1">
-                                            <Button onClick={() => setEnd("Present")} color="orange" variant="outline" className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                            <Button onClick={() => clickButton("Present")} color="orange" variant={btnPresent === 0 ? `outline` : `soft`} className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
                                                 Present
                                             </Button>
-                                            <Button onClick={() => setEnd("Miniseries")} color="orange" variant="outline" className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                            <Button onClick={() => clickButton("Miniseries")} color="orange" variant={btnMiniseries === 0 ? `outline` : `soft`} className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
                                                 Miniseries
                                             </Button>
                                         </div>
@@ -94,7 +127,7 @@ export default function AddDialog({ category }: { category: string }) {
 
                             <div className='text-right mt-2'>
                                 <Dialog.Close asChild>
-                                    <Button onClick={() => handleSeries(0)} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { handleSeries(0); setEnd(null); setBtnPresent(0); setBtnMiniseries(0); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
                                         Cancel
                                     </Button>
                                 </Dialog.Close>
