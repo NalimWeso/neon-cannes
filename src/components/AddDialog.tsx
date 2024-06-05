@@ -2,7 +2,6 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField, RadioCards } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-// import films from '../../public/films.json';
 
 export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);
@@ -23,6 +22,13 @@ export default function AddDialog({ category }: { category: string }) {
         }
     }
 
+    function handleEnd(e: React.ChangeEvent<HTMLInputElement>) {
+        const value = parseInt(e.target.value, 10);
+        setEnd(isNaN(value) ? null : value);
+        setBtnPresent(0);
+        setBtnMiniseries(0);
+    }
+
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
         const length = e.currentTarget.value.length;
         const key = e.key;
@@ -32,7 +38,7 @@ export default function AddDialog({ category }: { category: string }) {
         }
     }
 
-    function clickButton(value: "Present" | "Miniseries") {
+    function handleButton(value: "Present" | "Miniseries") {
         if (value === "Present") {
             if (btnPresent === 0) {
                 setBtnPresent(1);
@@ -98,26 +104,17 @@ export default function AddDialog({ category }: { category: string }) {
 
                                 {isSeries === true && (
                                     <>
-                                        <TextField.Root
-                                            value={btnPresent === 1 || btnMiniseries === 1 ? "" : undefined}
-                                            onChange={(e) => {
-                                                const value = parseInt(e.target.value, 10);
-                                                setEnd(isNaN(value) ? null : value);
-                                                setBtnPresent(0);
-                                                setBtnMiniseries(0);
-                                            }}
-                                            onKeyDown={handleKeyDown} placeholder="2019" variant="soft"
-                                        >
+                                        <TextField.Root value={btnPresent === 1 || btnMiniseries === 1 ? "" : undefined} onChange={handleEnd} onKeyDown={handleKeyDown} placeholder="2019" variant="soft">
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
                                         </TextField.Root>
 
                                         <div className="mt-1">
-                                            <Button onClick={() => clickButton("Present")} color="orange" variant={btnPresent === 0 ? `outline` : `soft`} className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                            <Button onClick={() => handleButton("Present")} color="orange" variant={btnPresent === 0 ? `outline` : `soft`} className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
                                                 Present
                                             </Button>
-                                            <Button onClick={() => clickButton("Miniseries")} color="orange" variant={btnMiniseries === 0 ? `outline` : `soft`} className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
+                                            <Button onClick={() => handleButton("Miniseries")} color="orange" variant={btnMiniseries === 0 ? `outline` : `soft`} className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
                                                 Miniseries
                                             </Button>
                                         </div>
