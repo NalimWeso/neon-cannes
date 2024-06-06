@@ -8,7 +8,6 @@ export default function AddDialog({ category }: { category: string }) {
     const [title, setTitle] = useState("Star Wars");
     const [year, setYear] = useState(1977);
     const [end, setEnd] = useState<number | null | "Present" | "Miniseries">(2019);
-
     const [btnPresent, setBtnPresent] = useState(0);
     const [btnMiniseries, setBtnMiniseries] = useState(0);
 
@@ -39,24 +38,19 @@ export default function AddDialog({ category }: { category: string }) {
     }
 
     function handleButton(value: "Present" | "Miniseries") {
-        if (value === "Present") {
-            if (btnPresent === 0) {
-                setBtnPresent(1);
-                setBtnMiniseries(0);
-                setEnd("Present");
-            } else {
-                setBtnPresent(0);
-                setEnd(null);
-            }
-        } else if (value === "Miniseries") {
-            if (btnMiniseries === 0) {
-                setBtnMiniseries(1);
-                setBtnPresent(0);
-                setEnd("Miniseries");
-            } else {
-                setBtnMiniseries(0);
-                setEnd(null);
-            }
+        const isPresent = value === "Present";
+        const btnValue = isPresent ? btnPresent : btnMiniseries;
+        const setMainBtn = isPresent ? setBtnPresent : setBtnMiniseries;
+        const setOtherBtn = isPresent ? setBtnMiniseries : setBtnPresent;
+        const endValue = isPresent ? "Present" : "Miniseries";
+
+        if (btnValue === 0) {
+            setMainBtn(1);
+            setOtherBtn(0);
+            setEnd(endValue);
+        } else {
+            setMainBtn(0);
+            setEnd(null);
         }
     }
 
@@ -108,6 +102,7 @@ export default function AddDialog({ category }: { category: string }) {
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
+                                            {end}
                                         </TextField.Root>
 
                                         <div className="mt-1">
