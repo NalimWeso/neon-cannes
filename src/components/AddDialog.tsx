@@ -2,12 +2,13 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField, RadioCards } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
+// import { ipcRenderer } from 'electron';
 
 export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);
-    const [title, setTitle] = useState("Star Wars");
-    const [year, setYear] = useState(1977);
-    const [end, setEnd] = useState<number | null | "Present" | "Miniseries">(2019);
+    const [title, setTitle] = useState("");
+    const [year, setYear] = useState(0);
+    const [end, setEnd] = useState<number | null | "Present" | "Miniseries">(null);
     const [btnPresent, setBtnPresent] = useState(0);
     const [btnMiniseries, setBtnMiniseries] = useState(0);
 
@@ -52,6 +53,10 @@ export default function AddDialog({ category }: { category: string }) {
             setMainBtn(0);
             setEnd(null);
         }
+    }
+
+    function saveData() {
+
     }
 
     return (
@@ -102,7 +107,6 @@ export default function AddDialog({ category }: { category: string }) {
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
-                                            {end}
                                         </TextField.Root>
 
                                         <div className="mt-1">
@@ -125,7 +129,7 @@ export default function AddDialog({ category }: { category: string }) {
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { saveData(); handleSeries(0); setEnd(null); setBtnPresent(0); setBtnMiniseries(0); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
                                         Add
                                     </Button>
                                 </Dialog.Close>
