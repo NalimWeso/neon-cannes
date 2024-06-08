@@ -36,7 +36,7 @@ export default function ModifyDialog({ category, position, id }: { category: str
         const newPosition = categoryPosition;
 
         const updatedData = films.map(item => {
-            if (item.category === category) {
+            if (item.id === id) {
                 return {
                     ...item,
                     category: categoryName,
