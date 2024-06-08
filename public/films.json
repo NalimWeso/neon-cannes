@@ -1,6 +1,7 @@
 [
   {
     "position": 0,
+    "id": "542383bd-33fc-4495-a48b-487b7b0ffcd2",
     "category": "Current",
     "films": [
       {
@@ -48,10 +49,11 @@
   },
   {
     "position": 1,
+    "id": "70abd07a-b095-44a2-9b66-5e70b5a51333",
     "category": "Waiting Room",
     "films": [
       {
-        "index": 3,
+        "index": 0,
         "id": "fefbab92-3d24-4501-817d-9d2d996d58d5",
         "title": "Star Wars: The Bad Batch",
         "year": 2021,
@@ -74,6 +76,7 @@
   },
   {
     "position": 2,
+    "id": "55ef1f20-ce0e-4316-9690-c367801aa8d6",
     "category": "Animation",
     "films": [
       {
@@ -98,6 +101,7 @@
   },
   {
     "position": 3,
+    "id": "1e93da52-17cb-4755-b447-c4071a9ca601",
     "category": "Original",
     "films": [
       {
@@ -122,6 +126,7 @@
   },
   {
     "position": 4,
+    "id": "3450943b-6374-4f4a-ba46-3a891fc6db64",
     "category": "Classics",
     "films": [
       {

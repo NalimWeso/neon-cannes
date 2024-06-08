@@ -2,6 +2,7 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'fs'
+import { v4 as uuid } from 'uuid';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -67,6 +68,7 @@ ipcMain.handle('add-json', async (_, categoryName) => {
 
   const newCategory = {
     position: data.length,
+    id: uuid(),
     category: categoryName,
     films: []
   };

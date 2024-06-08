@@ -28,7 +28,7 @@ export default function NewCategory({ onSave }: CategoryCallbacks) {
     return (
         <div className="mb-1 ml-1 pt-6">
             <Dialog.Root>
-                <Dialog.Trigger>
+                <Dialog.Trigger asChild>
                     <Button size="1" color="orange" variant="soft" className="text-amber-500 text-sm font-bold px-3 py-3.5 rounded transition cursor-pointer">
                         New Category<RocketIcon className='ml-1' />
                     </Button>
