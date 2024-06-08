@@ -4,7 +4,11 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 
-export default function NewCategory() {
+interface CategoryCallbacks {
+    onSave: (categoryName: string) => void;
+}
+
+export default function NewCategory({ onSave }: CategoryCallbacks) {
     const [categoryName, setCategoryName] = useState("");
 
     function handleName(element: string) {
@@ -16,6 +20,7 @@ export default function NewCategory() {
     function saveData() {
         if (categoryName) {
             ipcRenderer.invoke('add-json', categoryName);
+            onSave(categoryName);
             setCategoryName("");
         }
     }
@@ -62,5 +67,5 @@ export default function NewCategory() {
                 </Dialog.Portal>
             </Dialog.Root>
         </div>
-    )
+    );
 }
