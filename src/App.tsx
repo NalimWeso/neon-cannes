@@ -1,7 +1,7 @@
-import { useRef } from 'react';
 import TitleBar from "./components/TitleBar";
 import FilmsDashboard from "./components/FilmsDashboard";
 import NewCategory from "./components/NewCategory";
+import { useRef } from 'react';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 
