@@ -2,15 +2,12 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField, RadioCards } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-// import { ipcRenderer } from 'electron';
 
 export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
     const [end, setEnd] = useState<number | null | "Present" | "Miniseries">(null);
-    const [btnPresent, setBtnPresent] = useState(0);
-    const [btnMiniseries, setBtnMiniseries] = useState(0);
 
     function handleSeries(num: number) {
         setIsSeries(num === 1 ? !isSeries : false);
@@ -29,29 +26,25 @@ export default function AddDialog({ category }: { category: string }) {
         setBtnMiniseries(0);
     }
 
-    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type: string) {
         const length = e.currentTarget.value.length;
         const key = e.key;
 
-        if ((length === 0 && key === '0') || !((key >= '0' && key <= '9') || key === 'Backspace' || key === 'ArrowRight' || key === 'ArrowLeft')) {
+        if (
+            ((length === 0 && key === '0') ||
+                !((key >= '0' && key <= '9') ||
+                    key === 'Tab' ||
+                    key === 'Backspace' ||
+                    key === 'ArrowRight' ||
+                    key === 'ArrowLeft' ||
+                    key === ',' ||
+                    key === ' ' ||
+                    key === 'M' ||
+                    key === 'm')) ||
+
+            (length > 0 && e.currentTarget.value[0].toUpperCase() === 'M' && key !== 'Backspace' && key !== 'ArrowRight' && key !== 'ArrowLeft')
+        ) {
             e.preventDefault();
-        }
-    }
-
-    function handleButton(value: "Present" | "Miniseries") {
-        const isPresent = value === "Present";
-        const btnValue = isPresent ? btnPresent : btnMiniseries;
-        const setMainBtn = isPresent ? setBtnPresent : setBtnMiniseries;
-        const setOtherBtn = isPresent ? setBtnMiniseries : setBtnPresent;
-        const endValue = isPresent ? "Present" : "Miniseries";
-
-        if (btnValue === 0) {
-            setMainBtn(1);
-            setOtherBtn(0);
-            setEnd(endValue);
-        } else {
-            setMainBtn(0);
-            setEnd(null);
         }
     }
 
@@ -103,20 +96,17 @@ export default function AddDialog({ category }: { category: string }) {
 
                                 {isSeries === true && (
                                     <>
-                                        <TextField.Root value={btnPresent === 1 || btnMiniseries === 1 ? "" : undefined} onChange={handleEnd} onKeyDown={handleKeyDown} placeholder="2019" variant="soft">
+                                        <TextField.Root onChange={handleEnd} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder="2019 / P (Present)" variant="soft">
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
                                         </TextField.Root>
 
-                                        <div className="mt-1">
-                                            <Button onClick={() => handleButton("Present")} color="orange" variant={btnPresent === 0 ? `outline` : `soft`} className="text-amber-500 font-bold mr-0.5 px-2 py-1 rounded transition cursor-pointer">
-                                                Present
-                                            </Button>
-                                            <Button onClick={() => handleButton("Miniseries")} color="orange" variant={btnMiniseries === 0 ? `outline` : `soft`} className="text-amber-500 font-bold ml-0.5 px-2 py-1 rounded transition cursor-pointer">
-                                                Miniseries
-                                            </Button>
-                                        </div>
+                                        <TextField.Root onChange={handleEnd} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="4 / M (Miniseries)" variant="soft">
+                                            <TextField.Slot className='text-amber-500 font-bold mr-5'>
+                                                Run
+                                            </TextField.Slot>
+                                        </TextField.Root>
                                     </>
                                 )}
                             </div>
