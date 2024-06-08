@@ -20,6 +20,7 @@ export default function FilmsDashboard() {
             {sortedFilms.map(entry => {
                 const category = entry.category;
                 const position = entry.position;
+                const id = entry.id;
                 const films = category === "Current" ?
                     [...entry.films]
                         .filter(film => 'date' in film)
@@ -36,7 +37,7 @@ export default function FilmsDashboard() {
                             <div className="flex items-center">
                                 <Badge size="3" color='orange' className="text-amber-500 font-bold">{category}</Badge>
 
-                                <ModifyDialog category={category} position={position} />
+                                <ModifyDialog category={category} position={position} id={id} />
                                 <AddDialog category={category} />
                             </div>
                         )}
