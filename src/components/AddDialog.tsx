@@ -7,7 +7,8 @@ export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
-    const [end, setEnd] = useState<number | null | "Present" | "Miniseries">(null);
+    const [end, setEnd] = useState<number | null | "Present">(null);
+    const [season, setSeason] = useState<number | null | "Miniseries">(null);
 
     function handleSeries(num: number) {
         setIsSeries(num === 1 ? !isSeries : false);
@@ -19,18 +20,26 @@ export default function AddDialog({ category }: { category: string }) {
         }
     }
 
-    function handleEnd(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = parseInt(e.target.value, 10);
-        setEnd(isNaN(value) ? null : value);
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
+        const value = e.target.value.toUpperCase();
+        const num = parseInt(value, 10);
+        const parsed = isNaN(num) ? null : num;
+
+        if (type === "Present") {
+            setEnd(value === 'P' ? 'Present' : parsed);
+        } else {
+            setSeason(value === 'M' ? 'Miniseries' : parsed);
+        }
     }
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type?: string) {
         const length = e.currentTarget.value.length;
         const allowedKeys = ['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'];
+        const initialKeys = [...allowedKeys];
         const key = e.key;
 
         if (type === "Present" || type === "Miniseries") {
-            allowedKeys.push(',', ' ', ...(type === 'Present' ? ['P', 'p'] : ['M', 'm']));
+            allowedKeys.push(...(type === 'Present' ? ['P', 'p'] : ['M', 'm', ',', ' ']));
         }
 
         const isDigit = key >= '0' && key <= '9';
@@ -38,14 +47,15 @@ export default function AddDialog({ category }: { category: string }) {
         if (
             (!isDigit && !allowedKeys.includes(key)) ||
             (length === 0 && ['0', ',', ' '].includes(key)) ||
-            (length > 0 && ['M', 'P'].includes(e.currentTarget.value[0].toUpperCase()) && !['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'].includes(key))
+            (length >= 4 && !allowedKeys.includes(key)) ||
+            (length > 0 && ['M', 'P'].includes(e.currentTarget.value[0].toUpperCase()) && !initialKeys.includes(key))
         ) {
             e.preventDefault();
         }
     }
 
     function saveData() {
-
+        title; year; end; season;
     }
 
     return (
@@ -92,16 +102,18 @@ export default function AddDialog({ category }: { category: string }) {
 
                                 {isSeries === true && (
                                     <>
-                                        <TextField.Root onChange={handleEnd} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder="2019 / P (Present)" variant="soft">
+                                        <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder="2019 / P (Present)" variant="soft">
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
+                                            {end}
                                         </TextField.Root>
 
-                                        <TextField.Root onChange={handleEnd} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="4 / M (Miniseries)" variant="soft">
+                                        <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="4 / M (Miniseries)" variant="soft">
                                             <TextField.Slot className='text-amber-500 font-bold mr-5'>
                                                 Run
                                             </TextField.Slot>
+                                            {season}
                                         </TextField.Root>
                                     </>
                                 )}
