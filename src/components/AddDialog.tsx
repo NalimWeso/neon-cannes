@@ -46,8 +46,9 @@ export default function AddDialog({ category }: { category: string }) {
 
         if (
             (!isDigit && !allowedKeys.includes(key)) ||
-            (length === 0 && ['0', ',', ' '].includes(key)) ||
             (length >= 4 && !allowedKeys.includes(key)) ||
+            (length === 0 && ['0', ',', ' '].includes(key)) ||
+            (length > 0 && isNaN(Number(key)) && !initialKeys.includes(key)) ||
             (length > 0 && ['M', 'P'].includes(e.currentTarget.value[0].toUpperCase()) && !initialKeys.includes(key))
         ) {
             e.preventDefault();
