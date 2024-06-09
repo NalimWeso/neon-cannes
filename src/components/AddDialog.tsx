@@ -22,27 +22,23 @@ export default function AddDialog({ category }: { category: string }) {
     function handleEnd(e: React.ChangeEvent<HTMLInputElement>) {
         const value = parseInt(e.target.value, 10);
         setEnd(isNaN(value) ? null : value);
-        setBtnPresent(0);
-        setBtnMiniseries(0);
     }
 
-    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type: string) {
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type?: string) {
         const length = e.currentTarget.value.length;
+        const allowedKeys = ['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'];
         const key = e.key;
 
-        if (
-            ((length === 0 && key === '0') ||
-                !((key >= '0' && key <= '9') ||
-                    key === 'Tab' ||
-                    key === 'Backspace' ||
-                    key === 'ArrowRight' ||
-                    key === 'ArrowLeft' ||
-                    key === ',' ||
-                    key === ' ' ||
-                    key === 'M' ||
-                    key === 'm')) ||
+        if (type === "Present" || type === "Miniseries") {
+            allowedKeys.push(',', ' ', ...(type === 'Present' ? ['P', 'p'] : ['M', 'm']));
+        }
 
-            (length > 0 && e.currentTarget.value[0].toUpperCase() === 'M' && key !== 'Backspace' && key !== 'ArrowRight' && key !== 'ArrowLeft')
+        const isDigit = key >= '0' && key <= '9';
+
+        if (
+            (!isDigit && !allowedKeys.includes(key)) ||
+            (length === 0 && ['0', ',', ' '].includes(key)) ||
+            (length > 0 && ['M', 'P'].includes(e.currentTarget.value[0].toUpperCase()) && !['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'].includes(key))
         ) {
             e.preventDefault();
         }
@@ -113,13 +109,13 @@ export default function AddDialog({ category }: { category: string }) {
 
                             <div className='text-right mt-2'>
                                 <Dialog.Close asChild>
-                                    <Button onClick={() => { handleSeries(0); setEnd(null); setBtnPresent(0); setBtnMiniseries(0); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
                                         Cancel
                                     </Button>
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button onClick={() => { saveData(); handleSeries(0); setEnd(null); setBtnPresent(0); setBtnMiniseries(0); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { saveData(); handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
                                         Add
                                     </Button>
                                 </Dialog.Close>
