@@ -27,9 +27,9 @@ export default function AddDialog({ category }: { category: string }) {
             return Number(value);
         }
 
-        const numberPair = value.split(',');
-        if (numberPair.length === 2 && /^\d+$/.test(numberPair[0]) && /^\d+$/.test(numberPair[1])) {
-            return [Number(numberPair[0]), Number(numberPair[1])] as [number, number];
+        const valuePair = value.split(',');
+        if (valuePair.length === 2 && /^\d+$/.test(valuePair[0]) && /^\d+$/.test(valuePair[1])) {
+            return [Number(valuePair[0]), Number(valuePair[1])];
         }
 
         return null;
