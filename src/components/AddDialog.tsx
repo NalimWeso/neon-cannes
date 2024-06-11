@@ -8,7 +8,7 @@ export default function AddDialog({ category }: { category: string }) {
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
     const [end, setEnd] = useState<null | number | "Present">(null);
-    const [season, setSeason] = useState<null | number | [number, number] | string | "Miniseries">(null);
+    const [season, setSeason] = useState<null | number | [number, number] | "Miniseries">(null);
 
     function handleSeries(num: number) {
         setIsSeries(num === 1 ? !isSeries : false);
@@ -20,6 +20,21 @@ export default function AddDialog({ category }: { category: string }) {
         }
     }
 
+    function parseValue(value: string): null | number | [number, number] {
+        value = value.replace(/\s+/g, '').replace(/,$/, '');
+
+        if (/^\d+$/.test(value)) {
+            return Number(value);
+        }
+
+        const numberPair = value.split(',');
+        if (numberPair.length === 2 && /^\d+$/.test(numberPair[0]) && /^\d+$/.test(numberPair[1])) {
+            return [Number(numberPair[0]), Number(numberPair[1])] as [number, number];
+        }
+
+        return null;
+    }
+
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
         const value = e.target.value.toUpperCase();
         e.target.value = value;
@@ -29,7 +44,7 @@ export default function AddDialog({ category }: { category: string }) {
         if (type === "Present") {
             setEnd(value === 'P' ? 'Present' : isNaN(num) ? null : num);
         } else {
-            setSeason(value === 'M' ? 'Miniseries' : value);
+            setSeason(value === 'M' ? 'Miniseries' : parseValue(value));
         }
     }
 
@@ -112,14 +127,12 @@ export default function AddDialog({ category }: { category: string }) {
                                             <TextField.Slot className='text-amber-500 font-bold mr-4'>
                                                 End?
                                             </TextField.Slot>
-                                            {end}
                                         </TextField.Root>
 
                                         <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="1, 4 / M (Miniseries)" variant="soft">
                                             <TextField.Slot className='text-amber-500 font-bold mr-5'>
                                                 Run
                                             </TextField.Slot>
-                                            {season}
                                         </TextField.Root>
                                     </>
                                 )}
