@@ -21,15 +21,21 @@ export default function AddDialog({ category }: { category: string }) {
     }
 
     function parseValue(value: string): null | number | [number, number] {
-        value = value.replace(/\s+/g, '').replace(/,$/, '');
+        value = value.replace(/-$/, '');
 
         if (/^\d+$/.test(value)) {
             return Number(value);
         }
 
-        const valuePair = value.split(',');
-        if (valuePair.length === 2 && /^\d+$/.test(valuePair[0]) && /^\d+$/.test(valuePair[1])) {
-            return [Number(valuePair[0]), Number(valuePair[1])];
+        const dashValue = value.indexOf('-');
+
+        if (dashValue !== -1) {
+            const first = value.slice(0, dashValue);
+            const second = value.slice(dashValue + 1);
+
+            if (/^\d+$/.test(first) && /^\d+$/.test(second)) {
+                return [Number(first), Number(second)];
+            }
         }
 
         return null;
@@ -51,25 +57,23 @@ export default function AddDialog({ category }: { category: string }) {
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type?: string) {
         const current = e.currentTarget.value;
         const length = current.length;
-        const allowedKeys = ['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'];
-        const specialKeys = [',', ' '];
-        const initialKeys = [...allowedKeys];
+        const initialKeys = ['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'];
+        const allowedKeys = [...initialKeys];
         const key = e.key;
 
         if (type === "Present" || type === "Miniseries") {
-            allowedKeys.push(...(type === 'Present' ? ['P', 'p'] : ['M', 'm', ...specialKeys]));
+            initialKeys.push(...(type === 'Present' ? ['P', 'p'] : ['M', 'm', '-']));
         }
 
         const isDigit = key >= '0' && key <= '9';
 
         if (
-            (!isDigit && !allowedKeys.includes(key)) ||
-            (length === 0 && ['0', ',', ' '].includes(key)) ||
-            (length >= (type !== 'Miniseries' ? 4 : 8) && !initialKeys.includes(key)) ||
-            (length > 0 && isNaN(Number(key)) && !initialKeys.includes(key) && !specialKeys.includes(key)) ||
-            (length > 0 && ['M', 'P'].includes(current[0].toUpperCase()) && !initialKeys.includes(key)) ||
-            (key === ',' && (length === 0 || isNaN(Number(current[length - 1])) || current[length - 1] === ' ' || current.includes(','))) ||
-            (key === ' ' && (length === 0 || current[length - 1] !== ',' || current.includes(' ')))
+            (!isDigit && !initialKeys.includes(key)) ||
+            (length === 0 && ['0', '-'].includes(key)) ||
+            (length >= (type !== 'Miniseries' ? 4 : 7) && !allowedKeys.includes(key)) ||
+            (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-') ||
+            (length > 0 && ['M', 'P'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
+            (key === '-' && (length === 0 || current.includes('-')))
         ) {
             e.preventDefault();
         }
@@ -129,7 +133,7 @@ export default function AddDialog({ category }: { category: string }) {
                                             </TextField.Slot>
                                         </TextField.Root>
 
-                                        <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="1, 4 / M (Miniseries)" variant="soft">
+                                        <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="1-4 / M (Miniseries)" variant="soft">
                                             <TextField.Slot className='text-amber-500 font-bold mr-5'>
                                                 Run
                                             </TextField.Slot>
