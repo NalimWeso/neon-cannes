@@ -1,8 +1,8 @@
 import { Pencil2Icon, CopyIcon, CheckIcon } from '@radix-ui/react-icons';
 import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
-import ModifyDialog from './ModifyDialog';
-import AddDialog from './AddDialog';
+import ModifyCategory from './ModifyCategory';
+import AddMovie from './AddMovie';
 import films from '../../public/films.json';
 
 export default function FilmsDashboard() {
@@ -37,8 +37,8 @@ export default function FilmsDashboard() {
                             <div className="flex items-center">
                                 <Badge size="3" color='orange' className="text-amber-500 font-bold">{category}</Badge>
 
-                                <ModifyDialog category={category} position={position} id={id} />
-                                <AddDialog category={category} />
+                                <ModifyCategory category={category} position={position} id={id} />
+                                <AddMovie category={category} />
                             </div>
                         )}
 
