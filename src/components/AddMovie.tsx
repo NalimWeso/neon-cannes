@@ -93,12 +93,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                 };
 
                 ipcRenderer.invoke('add-json', newMovie, id);
-                setTitle("");
-                setYear(0);
-                setEnd(null);
-                setSeason(null);
             }
         }
+
+        setTitle("");
+        setYear(0);
+        setEnd(null);
+        setSeason(null);
     }
 
     return (

@@ -28,8 +28,9 @@ export default function NewCategory({ onSave }: CategoryCallbacks) {
 
             ipcRenderer.invoke('add-json', newCategory);
             onSave(categoryName);
-            setCategoryName("");
         }
+
+        setCategoryName("");
     }
 
     return (
