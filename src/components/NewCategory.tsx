@@ -3,6 +3,8 @@ import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { ipcRenderer } from 'electron';
+import { v4 as uuid } from 'uuid';
+import films from '../../public/films.json'
 
 interface CategoryCallbacks {
     onSave: (categoryName: string) => void;
@@ -12,14 +14,19 @@ export default function NewCategory({ onSave }: CategoryCallbacks) {
     const [categoryName, setCategoryName] = useState("");
 
     function handleName(element: string) {
-        if (element.trim()) {
-            setCategoryName(element.trim().replace(/\s+/g, ' '));
-        }
+        setCategoryName(element.trim().replace(/\s+/g, ' '));
     }
 
     function saveData() {
         if (categoryName) {
-            ipcRenderer.invoke('add-json', categoryName);
+            const newCategory = {
+                position: films.length,
+                id: uuid(),
+                category: categoryName,
+                films: []
+            };
+
+            ipcRenderer.invoke('add-json', newCategory);
             onSave(categoryName);
             setCategoryName("");
         }
