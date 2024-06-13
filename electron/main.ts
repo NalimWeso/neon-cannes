@@ -62,11 +62,11 @@ ipcMain.handle('write-json', async (_, content) => {
   return { status: 'success' };
 });
 
-ipcMain.handle('add-json', async (_, object, category) => {
+ipcMain.handle('add-json', async (_, object, categoryId) => {
   const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-  if (category) {
-    const categoryMatch = data.find((target: { category: string }) => target.category === category);
+  if (categoryId) {
+    const categoryMatch = data.find((target: { id: string }) => target.id === categoryId);
     categoryMatch.films.push(object);
   } else {
     data.push(object);

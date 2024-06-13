@@ -38,7 +38,7 @@ export default function FilmsDashboard() {
                                 <Badge size="3" color='orange' className="text-amber-500 font-bold">{category}</Badge>
 
                                 <ModifyCategory category={category} position={position} id={id} />
-                                <AddMovie category={category} />
+                                <AddMovie category={category} id={id} />
                             </div>
                         )}
 

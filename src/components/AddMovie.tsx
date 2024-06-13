@@ -6,7 +6,7 @@ import { ipcRenderer } from 'electron';
 import { v4 as uuid } from 'uuid';
 import films from '../../public/films.json'
 
-export default function AddDialog({ category }: { category: string }) {
+export default function AddDialog({ category, id }: { category: string, id: string }) {
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
@@ -91,7 +91,7 @@ export default function AddDialog({ category }: { category: string }) {
                 ...(season && isSeries && { season })
             };
 
-            ipcRenderer.invoke('add-json', newMovie, category);
+            ipcRenderer.invoke('add-json', newMovie, id);
             setTitle("");
             setYear(0);
             setEnd(null);
