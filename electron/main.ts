@@ -62,9 +62,15 @@ ipcMain.handle('write-json', async (_, content) => {
   return { status: 'success' };
 });
 
-ipcMain.handle('add-json', async (_, object) => {
+ipcMain.handle('add-json', async (_, object, category) => {
   const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  data.push(object);
+
+  if (category) {
+    const categoryMatch = data.find((target: { category: string }) => target.category === category);
+    categoryMatch.films.push(object);
+  } else {
+    data.push(object);
+  }
 
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
   return { status: 'success' };

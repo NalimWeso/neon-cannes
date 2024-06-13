@@ -2,6 +2,9 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField, RadioCards } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
+import { ipcRenderer } from 'electron';
+import { v4 as uuid } from 'uuid';
+import films from '../../public/films.json'
 
 export default function AddDialog({ category }: { category: string }) {
     const [isSeries, setIsSeries] = useState(false);
@@ -77,25 +80,23 @@ export default function AddDialog({ category }: { category: string }) {
         }
     }
 
-    function saveData() {
-        if (title && year && season) {
-            end;
+    function addData() {
+        if (title && year) {
+            const newMovie = {
+                index: films.length,
+                id: uuid(),
+                title,
+                year,
+                ...(end && { yearEnd: end }),
+                ...(season && isSeries && { season })
+            };
+
+            ipcRenderer.invoke('add-json', newMovie, category);
+            setTitle("");
+            setYear(0);
+            setEnd(null);
+            setSeason(null);
         }
-
-        // 1. Title:
-        // · as a string (if a title is entered).
-
-        // 2. Year:
-        // · as a number (if a year is entered).
-
-        // 3. End:
-        // · as a number (if a year is entered),
-        // · as 'Present' (if 'Present', meaning 'P' is entered).
-
-        // 4. Season:
-        // · as a number (if one season is entered),
-        // · as [number, number] (if two seasons are entered),
-        // · as 'Miniseries' (if 'Miniseries', meaning 'M' is entered).
     }
 
     return (
@@ -132,7 +133,6 @@ export default function AddDialog({ category }: { category: string }) {
                                     <TextField.Slot className='text-amber-500 font-bold mr-5'>
                                         Title
                                     </TextField.Slot>
-                                    {title}
                                 </TextField.Root>
 
                                 <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={!isSeries ? "1977" : "2015"} variant="soft" className='w-24'>
@@ -160,13 +160,13 @@ export default function AddDialog({ category }: { category: string }) {
 
                             <div className='text-right mt-2'>
                                 <Dialog.Close asChild>
-                                    <Button onClick={() => { handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { handleSeries(0); setTitle(""), setYear(0), setEnd(null), setSeason(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
                                         Cancel
                                     </Button>
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button onClick={() => { saveData(); handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { addData(); handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
                                         Add
                                     </Button>
                                 </Dialog.Close>
