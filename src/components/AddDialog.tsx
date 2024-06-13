@@ -15,9 +15,7 @@ export default function AddDialog({ category }: { category: string }) {
     }
 
     function handleTitle(element: string) {
-        if (element.trim()) {
-            setTitle(element.trim().replace(/\s+/g, ' '));
-        }
+        setTitle(element.trim().replace(/\s+/g, ' '));
     }
 
     function parseValue(value: string): null | number | [number, number] {
@@ -80,7 +78,24 @@ export default function AddDialog({ category }: { category: string }) {
     }
 
     function saveData() {
-        title; year; end; season;
+        if (title && year && season) {
+            end;
+        }
+
+        // 1. Title:
+        // · as a string (if a title is entered).
+
+        // 2. Year:
+        // · as a number (if a year is entered).
+
+        // 3. End:
+        // · as a number (if a year is entered),
+        // · as 'Present' (if 'Present', meaning 'P' is entered).
+
+        // 4. Season:
+        // · as a number (if one season is entered),
+        // · as [number, number] (if two seasons are entered),
+        // · as 'Miniseries' (if 'Miniseries', meaning 'M' is entered).
     }
 
     return (
@@ -117,6 +132,7 @@ export default function AddDialog({ category }: { category: string }) {
                                     <TextField.Slot className='text-amber-500 font-bold mr-5'>
                                         Title
                                     </TextField.Slot>
+                                    {title}
                                 </TextField.Root>
 
                                 <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={!isSeries ? "1977" : "2015"} variant="soft" className='w-24'>
