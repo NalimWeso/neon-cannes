@@ -1,7 +1,8 @@
-import { Pencil2Icon, CopyIcon, CheckIcon } from '@radix-ui/react-icons';
+import { CopyIcon, CheckIcon } from '@radix-ui/react-icons';
 import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
 import ModifyCategory from './ModifyCategory';
+import ModifyMovie from './ModifyMovie';
 import AddMovie from './AddMovie';
 import films from '../../public/films.json';
 
@@ -54,9 +55,7 @@ export default function FilmsDashboard() {
                                     {film.title} ({film.year}{film.yearEnd && ` - ${film.yearEnd}`}) {film.season && `– ${film.season}`}
                                 </Badge>
 
-                                <Button size="1" color="jade" variant="soft" className="text-lime-700 hover:text-lime-600 mx-1 transition cursor-pointer">
-                                    <Pencil2Icon />
-                                </Button>
+                                <ModifyMovie title={film.title} year={film.year} yearEnd={film.yearEnd ?? undefined} />
 
                                 <Button size="1" color="cyan" variant="soft" className="text-cyan-700 hover:text-cyan-600 transition cursor-pointer"
                                     onClick={() => {
