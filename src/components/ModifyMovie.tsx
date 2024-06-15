@@ -13,22 +13,22 @@ export default function ModifyMovie({ title, year, yearEnd }: { title: string, y
 
             <Dialog.Portal>
                 <Dialog.Overlay className='fixed inset-0 bg-black/15'>
-                    <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-950 text-white border-2 border-titlebar p-3 w-full max-w-md shadow' >
+                    <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-lime-950 text-white border-2 border-lime-500 p-3 w-full max-w-md shadow' >
                         <div className="flex justify-between items-center">
-                            <Dialog.Title className='text-amber-500 text-2xl font-bold'>
+                            <Dialog.Title className='text-lime-500 text-2xl font-bold'>
                                 {title} ({year}{yearEnd ? ` - ${yearEnd}` : null})
                             </Dialog.Title>
                         </div>
 
                         <div className='mt-2'>
                             <TextField.Root placeholder={title} variant="soft">
-                                <TextField.Slot className='text-amber-500 font-bold mr-5'>
+                                <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Title
                                 </TextField.Slot>
                             </TextField.Root>
 
                             <TextField.Root placeholder={`${year}`} variant="soft">
-                                <TextField.Slot className='text-amber-500 font-bold mr-5'>
+                                <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Year
                                 </TextField.Slot>
                             </TextField.Root>
