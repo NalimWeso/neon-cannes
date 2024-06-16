@@ -7,8 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        "background": "#151515",
-        "titlebar": "#C24E07"
+        "night": "#151515",
+        "jungle": "#13241A",
+        "forest": "#477411",
+        "sunset": "#C24E07"
       },
       fontSize: {
         base: "18px"

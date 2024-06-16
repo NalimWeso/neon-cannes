@@ -13,7 +13,7 @@ export default function ModifyMovie({ title, year, yearEnd }: { title: string, y
 
             <Dialog.Portal>
                 <Dialog.Overlay className='fixed inset-0 bg-black/15'>
-                    <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-lime-950 text-white border-2 border-lime-500 p-3 w-full max-w-md shadow' >
+                    <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungle text-white border-2 border-forest p-3 w-full max-w-md shadow' >
                         <div className="flex justify-between items-center">
                             <Dialog.Title className='text-lime-500 text-2xl font-bold'>
                                 {title} ({year}{yearEnd ? ` - ${yearEnd}` : null})
@@ -36,13 +36,13 @@ export default function ModifyMovie({ title, year, yearEnd }: { title: string, y
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
+                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
                                     Add
                                 </Button>
                             </Dialog.Close>
