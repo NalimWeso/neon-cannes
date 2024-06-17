@@ -2,7 +2,7 @@ import { Pencil2Icon } from '@radix-ui/react-icons';
 import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 
-export default function ModifyMovie({ title, year, yearEnd }: { title: string, year: number, yearEnd: number | string | undefined }) {
+export default function ModifyMovie({ title, year, yearEnd, season }: { title: string, year: number, yearEnd: number | string | undefined, season: string | undefined }) {
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
@@ -32,17 +32,39 @@ export default function ModifyMovie({ title, year, yearEnd }: { title: string, y
                                     Year
                                 </TextField.Slot>
                             </TextField.Root>
+
+                            {season && (
+                                <>
+                                    <TextField.Root placeholder={`${yearEnd ? yearEnd : '----'}`} variant="soft">
+                                        <TextField.Slot className='text-lime-500 font-bold mr-4'>
+                                            End?
+                                        </TextField.Slot>
+                                    </TextField.Root>
+
+                                    <TextField.Root placeholder={season} variant="soft">
+                                        <TextField.Slot className='text-lime-500 font-bold mr-5'>
+                                            Run
+                                        </TextField.Slot>
+                                    </TextField.Root>
+                                </>
+                            )}
                         </div>
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
+                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold mx-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                    Save
+                                </Button>
+                            </Dialog.Close>
+
+                            <Dialog.Close asChild>
+                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Add
                                 </Button>
                             </Dialog.Close>
