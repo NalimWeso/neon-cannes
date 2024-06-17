@@ -162,13 +162,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button onClick={() => { handleSeries(0); setTitle(""), setYear(0), setEnd(null), setSeason(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-1 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { handleSeries(0); setTitle(""), setYear(0), setEnd(null), setSeason(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => { addData(); handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-1 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { addData(); handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Add
                                 </Button>
                             </Dialog.Close>

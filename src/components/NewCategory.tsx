@@ -65,7 +65,7 @@ export default function NewCategory({ onSave }: CategoryCallbacks) {
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button onClick={saveData} size="1" color="orange" variant="soft" className="text-amber-500 mx-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={saveData} size="1" color="orange" variant="soft" className="text-amber-500 ml-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
                                         Add
                                     </Button>
                                 </Dialog.Close>
