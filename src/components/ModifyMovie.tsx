@@ -3,6 +3,17 @@ import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 
 export default function ModifyMovie({ title, year, yearEnd, season }: { title: string, year: number, yearEnd: number | string | undefined, season: string | undefined }) {
+
+    function processSeason(season: string) {
+        const regex = /Seasons?\s+(\d+(-\d+)?)/i;
+        const match = season.match(regex);
+        if (match) {
+            return match[1];
+        } else if (season === 'Miniseries') {
+            return 'Miniseries';
+        }
+    }
+
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
@@ -41,7 +52,7 @@ export default function ModifyMovie({ title, year, yearEnd, season }: { title: s
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root placeholder={season} variant="soft">
+                                    <TextField.Root placeholder={processSeason(season)} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                             Run
                                         </TextField.Slot>
