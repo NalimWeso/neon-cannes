@@ -1,8 +1,110 @@
 import { Pencil2Icon } from '@radix-ui/react-icons';
 import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useState } from 'react';
 
-export default function ModifyMovie({ title, year, yearEnd, season }: { title: string, year: number, yearEnd?: number | string, season?: string }) {
+export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }:
+    { initTitle: string, initYear: number, initEnd?: number | string, initSeason?: string }) {
+    const [title, setTitle] = useState(initTitle);
+    const [year, setYear] = useState(initYear);
+    const [end, setEnd] = useState<undefined | number | string>(initEnd);
+    const [season, setSeason] = useState<undefined | number | [number, number] | string>(initSeason);
+
+    function handleTitle(element: string) {
+        setTitle(element.trim().replace(/\s+/g, ' '));
+    }
+
+    function parseValue(value: string): undefined | number | [number, number] {
+        value = value.replace(/-$/, '');
+
+        if (/^\d+$/.test(value)) {
+            return Number(value);
+        }
+
+        const dashValue = value.indexOf('-');
+
+        if (dashValue !== -1) {
+            const first = value.slice(0, dashValue);
+            const second = value.slice(dashValue + 1);
+
+            if (/^\d+$/.test(first) && /^\d+$/.test(second)) {
+                return [Number(first), Number(second)];
+            }
+        }
+
+        return undefined;
+    }
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
+        const value = e.target.value.toUpperCase();
+        e.target.value = value;
+
+        const num = parseInt(value, 10);
+
+        if (type === "Present") {
+            setEnd(value === 'P' ? 'Present' : isNaN(num) ? undefined : num);
+        } else {
+            setSeason(value === 'M' ? 'Miniseries' : parseValue(value));
+        }
+    }
+
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type?: string) {
+        const current = e.currentTarget.value;
+        const length = current.length;
+        const initialKeys = ['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'];
+        const allowedKeys = [...initialKeys];
+        const key = e.key;
+
+        if (type === "Present" || type === "Miniseries") {
+            initialKeys.push(...(type === 'Present' ? ['P', 'p'] : ['M', 'm', '-']));
+        }
+
+        const isDigit = key >= '0' && key <= '9';
+
+        if (
+            (!isDigit && !initialKeys.includes(key)) ||
+            (length === 0 && ['0', '-'].includes(key)) ||
+            (length >= (type !== 'Miniseries' ? 4 : 7) && !allowedKeys.includes(key)) ||
+            (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-') ||
+            (length > 0 && ['M', 'P'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
+            (key === '-' && (length === 0 || current.includes('-')))
+        ) {
+            e.preventDefault();
+        }
+    }
+
+    function saveData() {
+        // This function should save changed data of the film
+
+        setTitle(initTitle);
+        setYear(initYear);
+        setEnd(initEnd);
+        setSeason(initSeason);
+    }
+
+    function addData() {
+        // This function should add film to films with date after writing a date
+
+        // if (!isSeries || (isSeries && season !== null)) {
+        //     if (title && year) {
+        //         const newMovie = {
+        //             index: films.length,
+        //             id: uuid(),
+        //             title,
+        //             year,
+        //             ...(end && { yearEnd: end }),
+        //             ...(season && { season: typeof season === 'string' ? season : Array.isArray(season) ? `Seasons ${season[0]}-${season[1]}` : `Season ${season}` })
+        //         };
+
+        //         ipcRenderer.invoke('add-json', newMovie, id);
+        //     }
+        // }
+
+        setTitle(initTitle);
+        setYear(initYear);
+        setEnd(initEnd);
+        setSeason(initSeason);
+    }
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;
@@ -27,35 +129,39 @@ export default function ModifyMovie({ title, year, yearEnd, season }: { title: s
                     <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungle text-white border-2 border-forest p-3 w-full max-w-md shadow' >
                         <div className="flex justify-between items-center">
                             <Dialog.Title className='text-lime-500 text-2xl font-bold'>
-                                {title} ({year}{yearEnd ? ` - ${yearEnd}` : null})
+                                {initTitle} ({initYear}{initEnd ? ` - ${initEnd}` : null})
                             </Dialog.Title>
                         </div>
 
                         <div className='mt-2'>
-                            <TextField.Root placeholder={title} variant="soft">
+                            <TextField.Root onChange={(e) => handleTitle(e.target.value)} placeholder={initTitle} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Title
                                 </TextField.Slot>
+                                {title}
                             </TextField.Root>
 
-                            <TextField.Root placeholder={`${year}`} variant="soft">
+                            <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${initYear}`} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Year
                                 </TextField.Slot>
+                                {year}
                             </TextField.Root>
 
-                            {season && (
+                            {initSeason && (
                                 <>
-                                    <TextField.Root placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${initEnd ? initEnd : initYear}`} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-4'>
                                             End?
                                         </TextField.Slot>
+                                        {end}
                                     </TextField.Root>
 
-                                    <TextField.Root placeholder={processSeason(season)} variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(initSeason)} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                             Run
                                         </TextField.Slot>
+                                        {season}
                                     </TextField.Root>
                                 </>
                             )}
@@ -63,19 +169,19 @@ export default function ModifyMovie({ title, year, yearEnd, season }: { title: s
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { setTitle(initTitle), setYear(initYear), setEnd(initEnd), setSeason(initSeason); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold mx-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => saveData()} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mx-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Save
                                 </Button>
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => addData()} size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Add
                                 </Button>
                             </Dialog.Close>

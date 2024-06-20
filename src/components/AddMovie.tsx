@@ -10,18 +10,23 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
-    const [end, setEnd] = useState<null | number | "Present">(null);
-    const [season, setSeason] = useState<null | number | [number, number] | "Miniseries">(null);
+    const [end, setEnd] = useState<undefined | number | "Present">(undefined);
+    const [season, setSeason] = useState<undefined | number | [number, number] | "Miniseries">(undefined);
 
     function handleSeries(num: number) {
         setIsSeries(num === 1 ? !isSeries : false);
+
+        if (num === 1) {
+            setEnd(undefined);
+            setSeason(undefined);
+        }
     }
 
     function handleTitle(element: string) {
         setTitle(element.trim().replace(/\s+/g, ' '));
     }
 
-    function parseValue(value: string): null | number | [number, number] {
+    function parseValue(value: string): undefined | number | [number, number] {
         value = value.replace(/-$/, '');
 
         if (/^\d+$/.test(value)) {
@@ -39,7 +44,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
             }
         }
 
-        return null;
+        return undefined;
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
@@ -49,7 +54,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
         const num = parseInt(value, 10);
 
         if (type === "Present") {
-            setEnd(value === 'P' ? 'Present' : isNaN(num) ? null : num);
+            setEnd(value === 'P' ? 'Present' : isNaN(num) ? undefined : num);
         } else {
             setSeason(value === 'M' ? 'Miniseries' : parseValue(value));
         }
@@ -81,7 +86,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     }
 
     function addData() {
-        if (!isSeries || (isSeries && season !== null)) {
+        if (!isSeries || (isSeries && season !== undefined)) {
             if (title && year) {
                 const newMovie = {
                     index: films.length,
@@ -96,10 +101,11 @@ export default function AddDialog({ category, id }: { category: string, id: stri
             }
         }
 
+        handleSeries(0);
         setTitle("");
         setYear(0);
-        setEnd(null);
-        setSeason(null);
+        setEnd(undefined);
+        setSeason(undefined);
     }
 
     return (
@@ -162,13 +168,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button onClick={() => { handleSeries(0); setTitle(""), setYear(0), setEnd(null), setSeason(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { handleSeries(0); setTitle(""), setYear(0), setEnd(undefined), setSeason(undefined); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => { addData(); handleSeries(0); setEnd(null); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => addData()} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Add
                                 </Button>
                             </Dialog.Close>
