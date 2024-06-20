@@ -55,7 +55,12 @@ export default function FilmsDashboard() {
                                     {film.title} ({film.year}{film.yearEnd && ` - ${film.yearEnd}`}) {film.season && `– ${film.season}`}
                                 </Badge>
 
-                                <ModifyMovie title={film.title} year={film.year} yearEnd={film.yearEnd ?? undefined} season={film.season ?? undefined} />
+                                <ModifyMovie
+                                    title={film.title}
+                                    year={film.year}
+                                    {...(film.yearEnd ? { yearEnd: film.yearEnd } : {})}
+                                    {...(film.season ? { season: film.season } : {})}
+                                />
 
                                 <Button size="1" color="cyan" variant="soft" className="text-cyan-700 hover:text-cyan-600 transition cursor-pointer"
                                     onClick={() => {

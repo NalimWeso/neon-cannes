@@ -2,14 +2,14 @@ import { Pencil2Icon } from '@radix-ui/react-icons';
 import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 
-export default function ModifyMovie({ title, year, yearEnd, season }: { title: string, year: number, yearEnd: number | string | undefined, season: string | undefined }) {
+export default function ModifyMovie({ title, year, yearEnd, season }: { title: string, year: number, yearEnd?: number | string, season?: string }) {
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;
         const match = season.match(regex);
         if (match) {
             return match[1];
-        } else if (season === 'Miniseries') {
+        } else {
             return 'Miniseries';
         }
     }
@@ -46,7 +46,7 @@ export default function ModifyMovie({ title, year, yearEnd, season }: { title: s
 
                             {season && (
                                 <>
-                                    <TextField.Root placeholder={`${yearEnd ? yearEnd : '----'}`} variant="soft">
+                                    <TextField.Root placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-4'>
                                             End?
                                         </TextField.Slot>
