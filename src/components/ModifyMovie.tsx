@@ -76,6 +76,8 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
     function saveData() {
         // This function should save changed data of the film
 
+        title; year; end; season;
+
         setTitle(initTitle);
         setYear(initYear);
         setEnd(initEnd);
@@ -84,21 +86,6 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
 
     function addData() {
         // This function should add film to films with date after writing a date
-
-        // if (!isSeries || (isSeries && season !== null)) {
-        //     if (title && year) {
-        //         const newMovie = {
-        //             index: films.length,
-        //             id: uuid(),
-        //             title,
-        //             year,
-        //             ...(end && { yearEnd: end }),
-        //             ...(season && { season: typeof season === 'string' ? season : Array.isArray(season) ? `Seasons ${season[0]}-${season[1]}` : `Season ${season}` })
-        //         };
-
-        //         ipcRenderer.invoke('add-json', newMovie, id);
-        //     }
-        // }
 
         setTitle(initTitle);
         setYear(initYear);
@@ -127,25 +114,22 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
             <Dialog.Portal>
                 <Dialog.Overlay className='fixed inset-0 bg-black/15'>
                     <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungle text-white border-2 border-forest p-3 w-full max-w-md shadow' >
-                        <div className="flex justify-between items-center">
-                            <Dialog.Title className='text-lime-500 text-2xl font-bold'>
-                                {initTitle} ({initYear}{initEnd ? ` - ${initEnd}` : null})
-                            </Dialog.Title>
-                        </div>
+                        <Dialog.Title className='flex flex-wrap text-lime-500 text-2xl font-bold'>
+                            <div className='mr-1.5'>{initTitle}</div>
+                            <div>({initYear}{initEnd ? ` - ${initEnd}` : null})</div>
+                        </Dialog.Title>
 
                         <div className='mt-2'>
                             <TextField.Root onChange={(e) => handleTitle(e.target.value)} placeholder={initTitle} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Title
                                 </TextField.Slot>
-                                {title}
                             </TextField.Root>
 
                             <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${initYear}`} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Year
                                 </TextField.Slot>
-                                {year}
                             </TextField.Root>
 
                             {initSeason && (
@@ -154,14 +138,12 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
                                         <TextField.Slot className='text-lime-500 font-bold mr-4'>
                                             End?
                                         </TextField.Slot>
-                                        {end}
                                     </TextField.Root>
 
                                     <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(initSeason)} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                             Run
                                         </TextField.Slot>
-                                        {season}
                                     </TextField.Root>
                                 </>
                             )}
