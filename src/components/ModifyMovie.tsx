@@ -114,9 +114,8 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
             <Dialog.Portal>
                 <Dialog.Overlay className='fixed inset-0 bg-black/15'>
                     <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungle text-white border-2 border-forest p-3 w-full max-w-md shadow' >
-                        <Dialog.Title className='flex flex-wrap text-lime-500 text-2xl font-bold'>
-                            <div className='mr-1.5'>{initTitle}</div>
-                            <div>({initYear}{initEnd ? ` - ${initEnd}` : null})</div>
+                        <Dialog.Title className='text-lime-500 text-2xl font-bold'>
+                            {initTitle} ({initYear}{initEnd ? `\u00A0-\u00A0${initEnd}` : ''})
                         </Dialog.Title>
 
                         <div className='mt-2'>
