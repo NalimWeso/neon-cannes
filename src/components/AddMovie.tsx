@@ -119,11 +119,9 @@ export default function AddDialog({ category, id }: { category: string, id: stri
             <Dialog.Portal>
                 <Dialog.Overlay className='fixed inset-0 bg-black/15'>
                     <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-950 text-white border-2 border-sunset p-3 w-full max-w-md shadow' >
-                        <div className="flex justify-between items-center">
-                            <Dialog.Title className='text-amber-500 text-2xl font-bold'>
-                                {category}
-                            </Dialog.Title>
-                        </div>
+                        <Dialog.Title className='text-amber-500 text-2xl font-bold'>
+                            {category}
+                        </Dialog.Title>
 
                         <div className='mt-2'>
                             <RadioCards.Root onValueChange={() => handleSeries(1)} color="orange" defaultValue="1" columns={{ initial: '1', sm: '2' }}>
