@@ -5,30 +5,35 @@
     "category": "Current",
     "films": [
       {
+        "index": null,
         "id": "99125ed5-c29f-4a2a-a53b-109d73780f9a",
         "title": "Judgment at Nuremberg",
         "year": 1961,
         "date": "2024-01-01T00:00:00.000Z"
       },
       {
+        "index": null,
         "id": "45be1958-b1f9-43f2-a783-3bf3fbb09c45",
         "title": "Godzilla",
         "year": 1998,
         "date": "2024-01-02T00:00:00.000Z"
       },
       {
+        "index": null,
         "id": "f1023eef-e9d5-432e-b966-5ae1368e51af",
         "title": "Incendies",
         "year": 2010,
         "date": "2024-01-03T00:00:00.000Z"
       },
       {
+        "index": null,
         "id": "d7dfdaff-a94a-4364-b17f-46a08e587d54",
         "title": "Zero Dark Thirty",
         "year": 2012,
         "date": "2024-01-04T00:00:00.000Z"
       },
       {
+        "index": null,
         "id": "213798f3-7c1f-404a-b232-0019c9382447",
         "title": "Angelyne",
         "year": 2022,
@@ -38,6 +43,7 @@
         "season": "Miniseries"
       },
       {
+        "index": null,
         "id": "9d15d42c-32a3-496e-b692-23eea8817bad",
         "title": "Fargo",
         "year": 2014,
