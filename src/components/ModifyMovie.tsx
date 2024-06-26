@@ -1,14 +1,45 @@
-import { Pencil2Icon } from '@radix-ui/react-icons';
-import { Button, TextField } from '@radix-ui/themes';
+import { Pencil2Icon, ChevronUpIcon, ChevronDownIcon } from '@radix-ui/react-icons';
+import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
+import { ipcRenderer } from 'electron';
+import films from '../../public/films.json';
 
-export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }:
-    { initTitle: string, initYear: number, initEnd?: number | string, initSeason?: string }) {
-    const [title, setTitle] = useState(initTitle);
-    const [year, setYear] = useState(initYear);
+export default function ModifyMovie({ initIndex, initId, initTitle, initYear, initEnd, initSeason }:
+    { initIndex: number | null, initId: string, initTitle: string, initYear: number, initEnd?: number | string, initSeason?: string }) {
+    const [index, setIndex] = useState<number | null>(initIndex);
+    const [title, setTitle] = useState<string>(initTitle);
+    const [year, setYear] = useState<number>(initYear);
     const [end, setEnd] = useState<undefined | number | string>(initEnd);
     const [season, setSeason] = useState<undefined | number | [number, number] | string>(initSeason);
+
+    function processSeason(season: string) {
+        const regex = /Seasons?\s+(\d+(-\d+)?)/i;
+        const match = season.match(regex);
+        if (match) {
+            return match[1];
+        } else {
+            return 'Miniseries';
+        }
+    }
+
+    function getLastPosition(): number {
+        const category = films.find(category => category.films?.some(film => film.id === initId));
+
+        if (!category || !category.films) {
+            return 0;
+        }
+
+        const indexes = category.films
+            .filter(film => typeof film.index === 'number')
+            .map(film => film.index as number);
+
+        if (indexes.length === 0) {
+            return 0;
+        }
+
+        return Math.max(...indexes);
+    }
 
     function handleTitle(element: string) {
         setTitle(element.trim().replace(/\s+/g, ' '));
@@ -78,29 +109,36 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
 
         title; year; end; season;
 
+        setIndex(initIndex);
         setTitle(initTitle);
         setYear(initYear);
         setEnd(initEnd);
         setSeason(initSeason);
     }
 
-    function addData() {
-        // This function should add film to films with date after writing a date
+    function deleteFilm(filmId: string) {
+        const updatedData = films.map(category => {
+            if (category.films) {
+                const updatedFilms = category.films.filter(film => film.id !== filmId);
 
-        setTitle(initTitle);
-        setYear(initYear);
-        setEnd(initEnd);
-        setSeason(initSeason);
-    }
+                if (updatedFilms.length < category.films.length) {
+                    const filmToDelete = category.films.find(film => film.id === filmId);
+                    if (filmToDelete?.index !== null && filmToDelete?.index !== undefined) {
+                        updatedFilms.forEach((film, index) => {
+                            film.index = index;
+                        });
+                    }
+                }
 
-    function processSeason(season: string) {
-        const regex = /Seasons?\s+(\d+(-\d+)?)/i;
-        const match = season.match(regex);
-        if (match) {
-            return match[1];
-        } else {
-            return 'Miniseries';
-        }
+                return {
+                    ...category,
+                    films: updatedFilms,
+                };
+            }
+            return category;
+        });
+
+        ipcRenderer.invoke('write-json', updatedData);
     }
 
     return (
@@ -146,11 +184,26 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
                                     </TextField.Root>
                                 </>
                             )}
+
+                            {typeof index === 'number' && (
+                                <div className='flex'>
+                                    <Text className='text-lime-500 font-bold py-1 pr-3.5 cursor-text'>Position</Text>
+                                    <Button disabled={index === 0} onClick={() => setIndex(index - 1)} color="teal" variant={index !== 0 ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== 0 ? 'cursor-pointer' : 'cursor-default'}`} >
+                                        <ChevronUpIcon />
+                                    </Button>
+
+                                    <Text className='text-neutral-400 p-1'>{index + 1}</Text>
+
+                                    <Button disabled={index === getLastPosition()} onClick={() => setIndex(index + 1)} color="teal" variant={index !== getLastPosition() ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== getLastPosition() ? `cursor-pointer` : `cursor-default`}`}>
+                                        <ChevronDownIcon />
+                                    </Button>
+                                </div>
+                            )}
                         </div>
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button onClick={() => { setTitle(initTitle), setYear(initYear), setEnd(initEnd), setSeason(initSeason); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { setIndex(initIndex), setTitle(initTitle), setYear(initYear), setEnd(initEnd), setSeason(initSeason); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
@@ -162,8 +215,8 @@ export default function ModifyMovie({ initTitle, initYear, initEnd, initSeason }
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => addData()} size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
-                                    Add
+                                <Button onClick={() => deleteFilm(initId)} size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                    Delete
                                 </Button>
                             </Dialog.Close>
                         </div>

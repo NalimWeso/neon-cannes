@@ -56,6 +56,8 @@ export default function FilmsDashboard() {
                                 </Badge>
 
                                 <ModifyMovie
+                                    initIndex={film.index}
+                                    initId={film.id}
                                     initTitle={film.title}
                                     initYear={film.year}
                                     {...(film.yearEnd ? { initEnd: film.yearEnd } : {})}
