@@ -12,6 +12,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     const [year, setYear] = useState<number>(initYear);
     const [end, setEnd] = useState<undefined | number | string>(initEnd);
     const [season, setSeason] = useState<undefined | number | [number, number] | string>(initSeason);
+    const category = films.find(category => category.films?.some(film => film.id === initId));
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;
@@ -24,7 +25,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     }
 
     function getLastPosition(): number {
-        const category = films.find(category => category.films?.some(film => film.id === initId));
+
 
         if (!category || !category.films) {
             return 0;
@@ -200,6 +201,14 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                                 </div>
                             )}
                         </div>
+
+                        {category.category !== 'Current' && (
+                            <TextField.Root placeholder='01.01' variant="soft">
+                                <TextField.Slot className='text-lime-500 font-bold mr-5'>
+                                    To Current
+                                </TextField.Slot>
+                            </TextField.Root>
+                        )}
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
