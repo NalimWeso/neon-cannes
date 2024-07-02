@@ -75,5 +75,5 @@ export default function NewCategory({ onSave }: CategoryCallbacks) {
                 </Dialog.Portal>
             </Dialog.Root>
         </div>
-    );
+    )
 }

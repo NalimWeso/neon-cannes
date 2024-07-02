@@ -150,5 +150,5 @@ export default function ModifyDialog({ category, position, id }: { category: str
                 </Dialog.Root>
             )}
         </>
-    );
+    )
 }
