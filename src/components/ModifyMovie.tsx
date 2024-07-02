@@ -12,7 +12,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     const [year, setYear] = useState<number>(initYear);
     const [end, setEnd] = useState<undefined | number | string>(initEnd);
     const [season, setSeason] = useState<undefined | number | [number, number] | string>(initSeason);
-    const category = films.find(category => category.films?.some(film => film.id === initId));
+    const catContent = films.find(category => category.films?.some(film => film.id === initId));
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;
@@ -25,13 +25,11 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     }
 
     function getLastPosition(): number {
-
-
-        if (!category || !category.films) {
+        if (!catContent || !catContent.films) {
             return 0;
         }
 
-        const indexes = category.films
+        const indexes = catContent.films
             .filter(film => typeof film.index === 'number')
             .map(film => film.index as number);
 
@@ -188,7 +186,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
 
                             {typeof index === 'number' && (
                                 <div className='flex'>
-                                    <Text className='text-lime-500 font-bold py-1 pr-3.5 cursor-text'>Position</Text>
+                                    <Text className='text-lime-500 font-bold py-1 pr-2.5 cursor-text'>Position</Text>
                                     <Button disabled={index === 0} onClick={() => setIndex(index - 1)} color="teal" variant={index !== 0 ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== 0 ? 'cursor-pointer' : 'cursor-default'}`} >
                                         <ChevronUpIcon />
                                     </Button>
@@ -200,15 +198,15 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                                     </Button>
                                 </div>
                             )}
-                        </div>
 
-                        {category.category !== 'Current' && (
-                            <TextField.Root placeholder='01.01' variant="soft">
-                                <TextField.Slot className='text-lime-500 font-bold mr-5'>
-                                    To Current
-                                </TextField.Slot>
-                            </TextField.Root>
-                        )}
+                            {catContent?.category !== 'Current' && (
+                                <TextField.Root placeholder='01.01' variant="soft">
+                                    <TextField.Slot className='text-lime-500 font-bold mr-4'>
+                                        To Current
+                                    </TextField.Slot>
+                                </TextField.Root>
+                            )}
+                        </div>
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
