@@ -6,8 +6,8 @@ import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
 export default function ModifyDialog({ category, position, id }: { category: string, position: number, id: string }) {
-    const [categoryName, setCategoryName] = useState(category);
     const [categoryPosition, setCategoryPosition] = useState(position);
+    const [categoryName, setCategoryName] = useState(category);
 
     useEffect(() => {
         setCategoryName(category);

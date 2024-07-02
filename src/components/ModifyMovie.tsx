@@ -24,7 +24,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
         }
     }
 
-    function getLastPosition(): number {
+    function getLastIndex(): number {
         if (!catContent || !catContent.films) {
             return 0;
         }
@@ -193,7 +193,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
 
                                     <Text className='text-neutral-400 p-1'>{index + 1}</Text>
 
-                                    <Button disabled={index === getLastPosition()} onClick={() => setIndex(index + 1)} color="teal" variant={index !== getLastPosition() ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== getLastPosition() ? `cursor-pointer` : `cursor-default`}`}>
+                                    <Button disabled={index === getLastIndex()} onClick={() => setIndex(index + 1)} color="teal" variant={index !== getLastIndex() ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== getLastIndex() ? `cursor-pointer` : `cursor-default`}`}>
                                         <ChevronDownIcon />
                                     </Button>
                                 </div>
