@@ -106,7 +106,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     function saveData() {
         // This function should save changed data of the film
 
-        title; year; end; season;
+        index; title; year; end; season;
 
         setIndex(initIndex);
         setTitle(initTitle);
