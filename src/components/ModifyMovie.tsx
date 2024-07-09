@@ -41,7 +41,9 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     }
 
     function handleTitle(element: string) {
-        setTitle(element.trim().replace(/\s+/g, ' '));
+        if (element.trim()) {
+            setTitle(element.trim().replace(/\s+/g, ' '));
+        }
     }
 
     function parseValue(value: string): undefined | number | [number, number] {
@@ -127,8 +129,8 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
 
         ipcRenderer.invoke('write-json', updatedData);
 
-        setTitle(initTitle);
-        setYear(initYear);
+        // setTitle(title);
+        // setYear(year);
         end;
         season;
     }
