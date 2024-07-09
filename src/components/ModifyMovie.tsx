@@ -104,48 +104,33 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     }
 
     function saveData() {
-        // This function should save changed data of the film (fix all of this, lol)
+        const updatedData = films.map(category => {
+            if (category.films) {
+                const updatedFilms = category.films.map(film => {
+                    if (film.id === initId) {
+                        return {
+                            ...film,
+                            title: title,
+                            year: year,
+                        };
+                    }
+                    return film;
+                });
 
-        const oldIndex = index;
-        const newIndex = categoryIndex;
-
-        const updatedData = films.map(item => {
-            if (item.id === id) {
                 return {
-                    ...item,
-                    category: categoryName,
-                    position: newIndex
+                    ...category,
+                    films: updatedFilms,
                 };
-            } else {
-                if (oldIndex < newIndex) {
-                    if (item.position > oldIndex && item.position <= newIndex) {
-                        return {
-                            ...item,
-                            position: item.position - 1
-                        };
-                    }
-                } else if (oldIndex > newIndex) {
-                    if (item.position >= newIndex && item.position < oldIndex) {
-                        return {
-                            ...item,
-                            position: item.position + 1
-                        };
-                    }
-                }
             }
-            return item;
+            return category;
         });
 
-        updatedData.sort((a, b) => a.position - b.position);
         ipcRenderer.invoke('write-json', updatedData);
 
-        index; title; year; end; season;
-
-        setIndex(initIndex);
         setTitle(initTitle);
         setYear(initYear);
-        setEnd(initEnd);
-        setSeason(initSeason);
+        end;
+        season;
     }
 
     function deleteFilm(filmId: string) {
@@ -193,6 +178,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Title
                                 </TextField.Slot>
+                                {title}
                             </TextField.Root>
 
                             <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${initYear}`} variant="soft">
