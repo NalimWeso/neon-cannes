@@ -110,12 +110,19 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
             if (category.films) {
                 const updatedFilms = category.films.map(film => {
                     if (film.id === initId) {
-                        return {
+                        const update = {
                             ...film,
                             title: title,
-                            year: year,
+                            year: year
                         };
+
+                        if ('yearEnd' in film) {
+                            update.yearEnd = end;
+                        }
+
+                        return update;
                     }
+
                     return film;
                 });
 
@@ -180,7 +187,6 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Title
                                 </TextField.Slot>
-                                {title}
                             </TextField.Root>
 
                             <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${initYear}`} variant="soft">
