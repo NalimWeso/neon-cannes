@@ -120,6 +120,10 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                             update.yearEnd = end;
                         }
 
+                        if ('season' in film) {
+                            update.season = typeof season === 'string' ? season : Array.isArray(season) ? `Seasons ${season[0]}-${season[1]}` : `Season ${season}`;
+                        }
+
                         return update;
                     }
 
@@ -135,11 +139,6 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
         });
 
         ipcRenderer.invoke('write-json', updatedData);
-
-        // setTitle(title);
-        // setYear(year);
-        end;
-        season;
     }
 
     function deleteFilm(filmId: string) {
