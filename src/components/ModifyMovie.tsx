@@ -10,7 +10,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     const [index, setIndex] = useState<number | null>(initIndex);
     const [title, setTitle] = useState<string>(initTitle);
     const [year, setYear] = useState<number>(initYear);
-    const [end, setEnd] = useState<undefined | number | string>(initEnd);
+    const [end, setEnd] = useState<undefined | null | number | string>(initEnd);
     const [season, setSeason] = useState<undefined | number | [number, number] | string>(initSeason);
     const catContent = films.find(category => category.films?.some(film => film.id === initId));
 
@@ -74,7 +74,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
         const num = parseInt(value, 10);
 
         if (type === "Present") {
-            setEnd(value === 'P' ? 'Present' : isNaN(num) ? undefined : num);
+            setEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
         } else {
             setSeason(value === 'M' ? 'Miniseries' : parseValue(value));
         }
@@ -88,7 +88,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
         const key = e.key;
 
         if (type === "Present" || type === "Miniseries") {
-            initialKeys.push(...(type === 'Present' ? ['P', 'p'] : ['M', 'm', '-']));
+            initialKeys.push(...(type === 'Present' ? ['P', 'p', 'N', 'n'] : ['M', 'm', '-']));
         }
 
         const isDigit = key >= '0' && key <= '9';
@@ -98,7 +98,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
             (length === 0 && ['0', '-'].includes(key)) ||
             (length >= (type !== 'Miniseries' ? 4 : 7) && !allowedKeys.includes(key)) ||
             (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-') ||
-            (length > 0 && ['M', 'P'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
+            (length > 0 && ['M', 'P', 'N'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
             (key === '-' && (length === 0 || current.includes('-')))
         ) {
             e.preventDefault();
@@ -122,14 +122,12 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                         };
 
                         if ('yearEnd' in film) {
-                            if (end !== '') {
-                                if (typeof end === 'string') {
-                                    update.yearEnd = String(end);
-                                } else if (typeof end === 'number') {
-                                    update.yearEnd = Number(end);
-                                }
-                            } else {
+                            if (end === null) {
                                 update.yearEnd = null;
+                            } else if (typeof end === 'string') {
+                                update.yearEnd = String(end);
+                            } else if (typeof end === 'number') {
+                                update.yearEnd = Number(end);
                             }
                         }
 
@@ -213,6 +211,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                                         <TextField.Slot className='text-lime-500 font-bold mr-4'>
                                             End?
                                         </TextField.Slot>
+                                        {end}
                                     </TextField.Root>
 
                                     <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(initSeason)} variant="soft">
