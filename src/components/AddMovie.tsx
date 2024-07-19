@@ -100,8 +100,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                         id: uuid(),
                         title,
                         year,
-                        ...(end && { yearEnd: end }),
-                        ...(season && { season: seasonValue })
+                        ...(season !== undefined && { yearEnd: end === undefined ? null : end, season: seasonValue }),
                     };
 
                     ipcRenderer.invoke('add-json', newMovie, id);
