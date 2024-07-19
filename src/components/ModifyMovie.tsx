@@ -110,14 +110,27 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
             if (category.films) {
                 const updatedFilms = category.films.map(film => {
                     if (film.id === initId) {
-                        const update = {
+                        const update: {
+                            title: string;
+                            year: number;
+                            yearEnd?: string | number | null;
+                            season?: string;
+                        } = {
                             ...film,
                             title: title,
                             year: year
                         };
 
                         if ('yearEnd' in film) {
-                            update.yearEnd = end;
+                            if (end !== '') {
+                                if (typeof end === 'string') {
+                                    update.yearEnd = String(end);
+                                } else if (typeof end === 'number') {
+                                    update.yearEnd = Number(end);
+                                }
+                            } else {
+                                update.yearEnd = null;
+                            }
                         }
 
                         if ('season' in film) {
