@@ -10,7 +10,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
-    const [end, setEnd] = useState<undefined | number | "Present">(undefined);
+    const [end, setEnd] = useState<undefined | null | number | "Present">(undefined);
     const [season, setSeason] = useState<undefined | number | [number, number] | "Miniseries">(undefined);
 
     function handleSeries(num: number) {
@@ -54,7 +54,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
         const num = parseInt(value, 10);
 
         if (type === "Present") {
-            setEnd(value === 'P' ? 'Present' : isNaN(num) ? undefined : num);
+            setEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
         } else {
             setSeason(value === 'M' ? 'Miniseries' : parseValue(value));
         }
@@ -68,7 +68,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
         const key = e.key;
 
         if (type === "Present" || type === "Miniseries") {
-            initialKeys.push(...(type === 'Present' ? ['P', 'p'] : ['M', 'm', '-']));
+            initialKeys.push(...(type === 'Present' ? ['P', 'p', 'N', 'n'] : ['M', 'm', '-']));
         }
 
         const isDigit = key >= '0' && key <= '9';
@@ -78,7 +78,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
             (length === 0 && ['0', '-'].includes(key)) ||
             (length >= (type !== 'Miniseries' ? 4 : 7) && !allowedKeys.includes(key)) ||
             (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-') ||
-            (length > 0 && ['M', 'P'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
+            (length > 0 && ['M', 'P', 'N'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
             (key === '-' && (length === 0 || current.includes('-')))
         ) {
             e.preventDefault();
@@ -157,8 +157,8 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                             {isSeries === true && (
                                 <>
                                     <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder="2019 / P (Present)" variant="soft">
-                                        <TextField.Slot className='text-amber-500 font-bold mr-4'>
-                                            End?
+                                        <TextField.Slot className='text-amber-500 font-bold mr-6'>
+                                            End
                                         </TextField.Slot>
                                     </TextField.Root>
 

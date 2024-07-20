@@ -208,10 +208,9 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                             {initSeason && (
                                 <>
                                     <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${initEnd ? initEnd : initYear}`} variant="soft">
-                                        <TextField.Slot className='text-lime-500 font-bold mr-4'>
-                                            End?
+                                        <TextField.Slot className='text-lime-500 font-bold mr-6'>
+                                            End
                                         </TextField.Slot>
-                                        {end}
                                     </TextField.Root>
 
                                     <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(initSeason)} variant="soft">
