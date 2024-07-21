@@ -17,6 +17,11 @@ export default {
       },
       fontFamily: {
         kannada: ["Anek Kannada", "sans-serif"]
+      },
+      margin: {
+        '5.2': '1.3rem',
+        '5.7': '1.425rem',
+        '6.2': '1.55rem'
       }
     },
   },
