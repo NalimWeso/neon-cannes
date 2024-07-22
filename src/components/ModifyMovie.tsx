@@ -122,12 +122,12 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                         };
 
                         if ('yearEnd' in film) {
-                            if (end === null) {
-                                update.yearEnd = null;
+                            if (typeof end === 'number') {
+                                update.yearEnd = Number(end);
                             } else if (typeof end === 'string') {
                                 update.yearEnd = String(end);
-                            } else if (typeof end === 'number') {
-                                update.yearEnd = Number(end);
+                            } else {
+                                update.yearEnd = null;
                             }
                         }
 
