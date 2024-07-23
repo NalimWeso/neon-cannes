@@ -129,9 +129,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                             } else {
                                 update.yearEnd = null;
                             }
-                        }
 
-                        if ('season' in film) {
                             update.season = typeof season === 'string' ? season : Array.isArray(season) ? `Seasons ${season[0]}-${season[1]}` : `Season ${season}`;
                         }
 

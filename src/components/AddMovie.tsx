@@ -103,19 +103,19 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                         id: uuid(),
                         title,
                         year,
-                        ...(season !== undefined && { yearEnd: end === undefined ? null : end, season: seasonValue }),
+                        ...(season && { yearEnd: end === undefined ? null : end, season: seasonValue }),
                     };
 
                     ipcRenderer.invoke('add-json', newMovie, id);
-
-                    handleSeries(0);
-                    setTitle("");
-                    setYear(0);
-                    setEnd(undefined);
-                    setSeason(undefined);
                 }
             }
         }
+
+        handleSeries(0);
+        setTitle("");
+        setYear(0);
+        setEnd(undefined);
+        setSeason(undefined);
     }
 
     return (
