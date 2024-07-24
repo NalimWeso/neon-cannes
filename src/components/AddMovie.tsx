@@ -86,9 +86,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     }
 
     function addData() {
-        if (!isSeries || (isSeries && season !== undefined)) {
-
-            // && yearEnd
+        if (!isSeries || (isSeries && season !== undefined && end !== undefined)) {
 
             if (title && year) {
                 const categoryToUpdate = films.find(category => category.id === id);
@@ -159,13 +157,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                             {isSeries === true && (
                                 <>
-                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder="2019 / P (Present)" variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-6.2'>
                                             End
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="1-4 / M (Miniseries)" variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-5.7'>
                                             Run
                                         </TextField.Slot>
