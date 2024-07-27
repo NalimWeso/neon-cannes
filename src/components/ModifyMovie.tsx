@@ -106,17 +106,22 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     }
 
     function saveData() {
+        const oldIndex = initIndex;
+        const newIndex = index;
+
         const updatedData = films.map(category => {
-            if (category.films) {
+            if (category === catContent && category.films) {
                 const updatedFilms = category.films.map(film => {
                     if (film.id === initId) {
                         const update: {
+                            index: number | null,
                             title: string;
                             year: number;
                             yearEnd?: string | number | null;
                             season?: string;
                         } = {
                             ...film,
+                            index: newIndex,
                             title: title,
                             year: year
                         };
@@ -134,10 +139,30 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                         }
 
                         return update;
+                    } else {
+                        if (oldIndex && newIndex && film.index) {
+                            if (oldIndex < newIndex) {
+                                if (film.index > oldIndex && film.index <= newIndex) {
+                                    return {
+                                        ...film,
+                                        index: film.index - 1
+                                    };
+                                }
+                            } else if (oldIndex > newIndex) {
+                                if (film.index >= newIndex && film.index < oldIndex) {
+                                    return {
+                                        ...film,
+                                        index: film.index + 1
+                                    };
+                                }
+                            }
+                        }
                     }
 
                     return film;
                 });
+
+                updatedFilms.sort((a, b) => (a.index ?? 0) - (b.index ?? 0));
 
                 return {
                     ...category,
