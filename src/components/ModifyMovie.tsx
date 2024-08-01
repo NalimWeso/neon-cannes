@@ -200,6 +200,8 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
         });
 
         ipcRenderer.invoke('write-json', updatedData);
+
+        setIndex(initIndex);
     }
 
     return (
