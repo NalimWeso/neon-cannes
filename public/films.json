@@ -62,10 +62,10 @@
       {
         "index": 0,
         "id": "fefbab92-3d24-4501-817d-9d2d996d58d5",
-        "title": "Rocketman",
-        "year": 2019,
-        "yearEnd": null,
-        "season": "Season undefined"
+        "title": "Star Wars: The Bad Batch",
+        "year": 2021,
+        "yearEnd": 2024,
+        "season": "Season 3"
       },
       {
         "index": 1,
@@ -88,9 +88,9 @@
     "films": [
       {
         "index": 0,
-        "id": "921fb7c3-88ee-4ad6-8c6d-604cc0d20585",
-        "title": "Agent 327: Operation Barbershop",
-        "year": 2017
+        "id": "dcc59c5e-8287-4bc0-a0bb-29c0e64be5c3",
+        "title": "Pink Floyd: The Wall",
+        "year": 1982
       },
       {
         "index": 1,
@@ -100,9 +100,9 @@
       },
       {
         "index": 2,
-        "id": "dcc59c5e-8287-4bc0-a0bb-29c0e64be5c3",
-        "title": "Pink Floyd: The Wall",
-        "year": 1982
+        "id": "921fb7c3-88ee-4ad6-8c6d-604cc0d20585",
+        "title": "Agent 327: Operation Barbershop",
+        "year": 2017
       }
     ]
   },
@@ -112,14 +112,14 @@
     "category": "Original",
     "films": [
       {
-        "index": 1,
-        "id": "5e19f139-2e71-44a8-bbd5-1746e8be0fe5",
-        "title": "The Bridge on the River Kwai",
-        "year": 1957
+        "index": 0,
+        "id": "8a1fb72f-a0d0-4660-9d7e-a98fbf1c96c3",
+        "title": "A Bittersweet Life",
+        "year": 2005
       },
       {
-        "index": 2,
-        "id": "8a1fb72f-a0d0-4660-9d7e-a98fbf1c96c3",
+        "index": 1,
+        "id": "5e19f139-2e71-44a8-bbd5-1746e8be0fe5",
         "title": "The Bridge on the River Kwai",
         "year": 1957
       },
@@ -138,18 +138,18 @@
     "films": [
       {
         "index": 0,
+        "id": "0eaf9d23-baee-4a20-ad3c-4f8ea8a3c8da",
+        "title": "Metropolis",
+        "year": 1927
+      },
+      {
+        "index": 1,
         "id": "a3a0f63c-7883-425e-9a75-538c86c28fe9",
         "title": "The Florida Project",
         "year": 2017
       },
       {
-        "index": 0,
-        "id": "0eaf9d23-baee-4a20-ad3c-4f8ea8a3c8da",
-        "title": "Mystic River",
-        "year": 2003
-      },
-      {
-        "index": 1,
+        "index": 2,
         "id": "1e76dc35-97c0-4ccf-bd10-882da8c260b5",
         "title": "Mystic River",
         "year": 2003
