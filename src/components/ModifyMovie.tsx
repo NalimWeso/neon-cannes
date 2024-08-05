@@ -5,14 +5,14 @@ import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
-export default function ModifyMovie({ initIndex, initId, initTitle, initYear, initEnd, initSeason }:
-    { initIndex: number | null, initId: string, initTitle: string, initYear: number, initEnd?: number | string, initSeason?: string }) {
-    const [index, setIndex] = useState<number | null>(initIndex);
-    const [title, setTitle] = useState<string>(initTitle);
-    const [year, setYear] = useState<number>(initYear);
-    const [end, setEnd] = useState<undefined | null | number | string>(initEnd);
-    const [season, setSeason] = useState<undefined | number | [number, number] | string>(initSeason);
-    const catContent = films.find(category => category.films?.some(film => film.id === initId));
+export default function ModifyMovie({ index, id, title, year, end, season }:
+    { index: number | null, id: string, title: string, year: number, end?: number | string, season?: string }) {
+    const [filmIndex, setFilmIndex] = useState<number | null>(index);
+    const [filmTitle, setFilmTitle] = useState<string>(title);
+    const [filmYear, setFilmYear] = useState<number>(year);
+    const [filmEnd, setFilmEnd] = useState<undefined | null | number | string>(end);
+    const [filmSeason, setFilmSeason] = useState<undefined | number | [number, number] | string>(season);
+    const catContent = films.find(category => category.films?.some(film => film.id === id));
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;
@@ -42,7 +42,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
 
     function handleTitle(element: string) {
         if (element.trim()) {
-            setTitle(element.trim().replace(/\s+/g, ' '));
+            setFilmTitle(element.trim().replace(/\s+/g, ' '));
         }
     }
 
@@ -74,9 +74,9 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
         const num = parseInt(value, 10);
 
         if (type === "Present") {
-            setEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
+            setFilmEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
         } else {
-            setSeason(value === 'M' ? 'Miniseries' : parseValue(value));
+            setFilmSeason(value === 'M' ? 'Miniseries' : parseValue(value));
         }
     }
 
@@ -106,13 +106,13 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
     }
 
     function saveData() {
-        const oldIndex = initIndex;
-        const newIndex = index;
+        const oldIndex = index;
+        const newIndex = filmIndex;
 
         const updatedData = films.map(category => {
             if (category === catContent && category.films) {
                 const updatedFilms = category.films.map(film => {
-                    if (film.id === initId) {
+                    if (film.id === id) {
                         const update: {
                             index: number | null,
                             title: string;
@@ -122,20 +122,20 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                         } = {
                             ...film,
                             index: newIndex,
-                            title: title,
-                            year: year
+                            title: filmTitle,
+                            year: filmYear
                         };
 
                         if ('yearEnd' in film) {
-                            if (typeof end === 'number') {
-                                update.yearEnd = Number(end);
-                            } else if (typeof end === 'string') {
-                                update.yearEnd = String(end);
+                            if (typeof filmEnd === 'number') {
+                                update.yearEnd = Number(filmEnd);
+                            } else if (typeof filmEnd === 'string') {
+                                update.yearEnd = String(filmEnd);
                             } else {
                                 update.yearEnd = null;
                             }
 
-                            update.season = typeof season === 'string' ? season : Array.isArray(season) ? `Seasons ${season[0]}-${season[1]}` : `Season ${season}`;
+                            update.season = typeof filmSeason === 'string' ? filmSeason : Array.isArray(filmSeason) ? `Seasons ${filmSeason[0]}-${filmSeason[1]}` : `Season ${filmSeason}`;
                         }
 
                         return update;
@@ -174,7 +174,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
 
         ipcRenderer.invoke('write-json', updatedData);
 
-        setIndex(initIndex);
+        setFilmIndex(index);
     }
 
     function deleteFilm(filmId: string) {
@@ -200,8 +200,6 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
         });
 
         ipcRenderer.invoke('write-json', updatedData);
-
-        setIndex(initIndex);
     }
 
     return (
@@ -216,31 +214,31 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                 <Dialog.Overlay className='fixed inset-0 bg-black/15'>
                     <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungle text-white border-2 border-forest p-3 w-full max-w-md shadow' >
                         <Dialog.Title className='text-lime-500 text-2xl font-bold'>
-                            {initTitle} ({initYear}{initEnd ? `\u00A0-\u00A0${initEnd}` : ''})
+                            {title} ({year}{end ? `\u00A0-\u00A0${end}` : ''})
                         </Dialog.Title>
 
                         <div className='mt-2'>
-                            <TextField.Root onChange={(e) => handleTitle(e.target.value)} placeholder={initTitle} variant="soft">
+                            <TextField.Root onChange={(e) => handleTitle(e.target.value)} placeholder={title} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Title
                                 </TextField.Slot>
                             </TextField.Root>
 
-                            <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${initYear}`} variant="soft">
+                            <TextField.Root onChange={(e) => setFilmYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${year}`} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5.2'>
                                     Year
                                 </TextField.Slot>
                             </TextField.Root>
 
-                            {initSeason && (
+                            {season && (
                                 <>
-                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${initEnd ? initEnd : initYear}`} variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${end ? end : year}`} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-6.2'>
                                             End
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(initSeason)} variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(season)} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-5.7'>
                                             Run
                                         </TextField.Slot>
@@ -248,16 +246,16 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                                 </>
                             )}
 
-                            {typeof index === 'number' && (
+                            {typeof filmIndex === 'number' && (
                                 <div className='flex'>
                                     <Text className='text-lime-500 font-bold py-1 pr-2.5 cursor-text'>Position</Text>
-                                    <Button disabled={index === 0} onClick={() => setIndex(index - 1)} color="teal" variant={index !== 0 ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== 0 ? 'cursor-pointer' : 'cursor-default'}`} >
+                                    <Button disabled={filmIndex === 0} onClick={() => setFilmIndex(filmIndex - 1)} color="teal" variant={filmIndex !== 0 ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== 0 ? 'cursor-pointer' : 'cursor-default'}`} >
                                         <ChevronUpIcon />
                                     </Button>
 
-                                    <Text className='text-neutral-400 p-1'>{index + 1}</Text>
+                                    <Text className='text-neutral-400 p-1'>{filmIndex + 1}</Text>
 
-                                    <Button disabled={index === getLastIndex()} onClick={() => setIndex(index + 1)} color="teal" variant={index !== getLastIndex() ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== getLastIndex() ? `cursor-pointer` : `cursor-default`}`}>
+                                    <Button disabled={filmIndex === getLastIndex()} onClick={() => setFilmIndex(filmIndex + 1)} color="teal" variant={filmIndex !== getLastIndex() ? "soft" : "surface"} className={`text-lime-500 text-2xl my-1 p-1 rounded transition ${index !== getLastIndex() ? `cursor-pointer` : `cursor-default`}`}>
                                         <ChevronDownIcon />
                                     </Button>
                                 </div>
@@ -274,7 +272,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button onClick={() => { setIndex(initIndex), setTitle(initTitle), setYear(initYear), setEnd(initEnd), setSeason(initSeason); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { setFilmIndex(index), setFilmTitle(title), setFilmYear(year), setFilmEnd(end), setFilmSeason(season); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
@@ -286,7 +284,7 @@ export default function ModifyMovie({ initIndex, initId, initTitle, initYear, in
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => deleteFilm(initId)} size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => deleteFilm(id)} size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Delete
                                 </Button>
                             </Dialog.Close>

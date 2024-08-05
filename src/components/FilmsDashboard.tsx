@@ -56,12 +56,12 @@ export default function FilmsDashboard() {
                                 </Badge>
 
                                 <ModifyMovie
-                                    initIndex={film.index}
-                                    initId={film.id}
-                                    initTitle={film.title}
-                                    initYear={film.year}
-                                    {...(film.yearEnd ? { initEnd: film.yearEnd } : {})}
-                                    {...(film.season ? { initSeason: film.season } : {})}
+                                    index={film.index}
+                                    id={film.id}
+                                    title={film.title}
+                                    year={film.year}
+                                    {...(film.yearEnd ? { end: film.yearEnd } : {})}
+                                    {...(film.season ? { season: film.season } : {})}
                                 />
 
                                 <Button size="1" color="cyan" variant="soft" className="text-cyan-700 hover:text-cyan-600 transition cursor-pointer"
