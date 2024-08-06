@@ -1,7 +1,7 @@
 import { Pencil2Icon, ChevronUpIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
@@ -13,6 +13,14 @@ export default function ModifyMovie({ index, id, title, year, end, season }:
     const [filmEnd, setFilmEnd] = useState<undefined | null | number | string>(end);
     const [filmSeason, setFilmSeason] = useState<undefined | number | [number, number] | string>(season);
     const catContent = films.find(category => category.films?.some(film => film.id === id));
+
+    useEffect(() => {
+        setFilmIndex(index);
+        setFilmTitle(title);
+        setFilmYear(year);
+        setFilmEnd(end);
+        setFilmSeason(season);
+    }, [index, title, year, end, season]);
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;

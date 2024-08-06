@@ -60,15 +60,15 @@
     "category": "Waiting Room",
     "films": [
       {
-        "index": 0,
+        "index": 1,
         "id": "fefbab92-3d24-4501-817d-9d2d996d58d5",
-        "title": "Star Wars: The Bad Batch",
+        "title": "lego",
         "year": 2021,
         "yearEnd": 2024,
         "season": "Season 3"
       },
       {
-        "index": 1,
+        "index": 2,
         "id": "e39a6e96-36c6-4d8c-a8a2-4bf2f3c0bc0f",
         "title": "The Peasants",
         "year": 2023
