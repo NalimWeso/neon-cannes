@@ -148,7 +148,7 @@ export default function ModifyMovie({ index, id, title, year, end, season }:
 
                         return update;
                     } else {
-                        if (oldIndex && newIndex && film.index) {
+                        if (oldIndex !== null && newIndex !== null && film.index !== null) {
                             if (oldIndex < newIndex) {
                                 if (film.index > oldIndex && film.index <= newIndex) {
                                     return {
@@ -181,8 +181,6 @@ export default function ModifyMovie({ index, id, title, year, end, season }:
         });
 
         ipcRenderer.invoke('write-json', updatedData);
-
-        setFilmIndex(index);
     }
 
     function deleteFilm(filmId: string) {

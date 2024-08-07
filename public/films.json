@@ -60,15 +60,15 @@
     "category": "Waiting Room",
     "films": [
       {
-        "index": 1,
+        "index": 0,
         "id": "fefbab92-3d24-4501-817d-9d2d996d58d5",
-        "title": "lego",
+        "title": "Star Wars: The Bad Batch",
         "year": 2021,
         "yearEnd": 2024,
         "season": "Season 3"
       },
       {
-        "index": 2,
+        "index": 1,
         "id": "e39a6e96-36c6-4d8c-a8a2-4bf2f3c0bc0f",
         "title": "The Peasants",
         "year": 2023
@@ -94,15 +94,15 @@
       },
       {
         "index": 1,
-        "id": "cfe62636-b4c7-4fee-a055-92e688920605",
-        "title": "LEGO Batman: The Movie – DC Super Heroes Unite",
-        "year": 2013
-      },
-      {
-        "index": 2,
         "id": "921fb7c3-88ee-4ad6-8c6d-604cc0d20585",
         "title": "Agent 327: Operation Barbershop",
         "year": 2017
+      },
+      {
+        "index": 2,
+        "id": "cfe62636-b4c7-4fee-a055-92e688920605",
+        "title": "LEGO Batman: The Movie – DC Super Heroes Unite",
+        "year": 2013
       }
     ]
   },
