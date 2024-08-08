@@ -60,7 +60,7 @@ export default function FilmsDashboard() {
                                     id={film.id}
                                     title={film.title}
                                     year={film.year}
-                                    {...('yearEnd' in film && film.yearEnd ? { end: film.yearEnd } : {})}
+                                    {...('yearEnd' in film && film.yearEnd ? { yearEnd: film.yearEnd } : {})}
                                     {...('date' in film && film.date ? { date: film.date } : {})}
                                     {...('dateEnd' in film && film.dateEnd ? { date: film.dateEnd } : {})}
                                     {...('season' in film && film.season ? { season: film.season } : {})}
