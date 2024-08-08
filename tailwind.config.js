@@ -19,6 +19,7 @@ export default {
         kannada: ["Anek Kannada", "sans-serif"]
       },
       margin: {
+        '4.35': '1.0875rem',
         '5.2': '1.3rem',
         '5.7': '1.425rem',
         '6.2': '1.55rem'
