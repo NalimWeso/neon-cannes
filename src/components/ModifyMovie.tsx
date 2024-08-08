@@ -10,7 +10,9 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
     const [filmIndex, setFilmIndex] = useState<number | null>(index);
     const [filmTitle, setFilmTitle] = useState<string>(title);
     const [filmYear, setFilmYear] = useState<number>(year);
-    const [filmEnd, setFilmEnd] = useState<undefined | null | number | string>(yearEnd);
+    const [filmYearEnd, setFilmYearEnd] = useState<undefined | null | number | string>(yearEnd);
+    const [filmDate, setFilmDate] = useState<undefined | string>(date);
+    const [filmDateEnd, setFilmDateEnd] = useState<undefined | string>(dateEnd);
     const [filmSeason, setFilmSeason] = useState<undefined | number | [number, number] | string>(season);
     const catContent = films.find(category => category.films?.some(film => film.id === id));
 
@@ -18,9 +20,11 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         setFilmIndex(index);
         setFilmTitle(title);
         setFilmYear(year);
-        setFilmEnd(yearEnd);
+        setFilmYearEnd(yearEnd);
+        setFilmDate(date);
+        setFilmDateEnd(dateEnd);
         setFilmSeason(season);
-    }, [index, title, year, yearEnd, season]);
+    }, [index, title, year, yearEnd, date, dateEnd, season]);
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;
@@ -82,9 +86,11 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         const num = parseInt(value, 10);
 
         if (type === "Present") {
-            setFilmEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
-        } else {
+            setFilmYearEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
+        } else if (type === "Miniseries") {
             setFilmSeason(value === 'M' ? 'Miniseries' : parseValue(value));
+        } else {
+            setFilmDate("date");
         }
     }
 
@@ -95,19 +101,21 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         const allowedKeys = [...initialKeys];
         const key = e.key;
 
-        if (type === "Present" || type === "Miniseries") {
-            initialKeys.push(...(type === 'Present' ? ['P', 'p', 'N', 'n'] : ['M', 'm', '-']));
+        if (type === "Present" || type === "Miniseries" || type === "Date") {
+            initialKeys.push(...(type === 'Present' ? ['P', 'p', 'N', 'n'] : type === 'Date' ? ['.', '-'] : ['M', 'm', '-']));
         }
 
         const isDigit = key >= '0' && key <= '9';
 
         if (
             (!isDigit && !initialKeys.includes(key)) ||
-            (length === 0 && ['0', '-'].includes(key)) ||
-            (length >= (type !== 'Miniseries' ? 4 : 7) && !allowedKeys.includes(key)) ||
-            (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-') ||
+            (length === 0 && type !== 'Date' && key === '0') ||
+            (length >= (type === 'Present' ? 4 : (type === 'Date' ? 11 : 7)) && !allowedKeys.includes(key)) ||
+            (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-' && key !== '.') ||
             (length > 0 && ['M', 'P', 'N'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
-            (key === '-' && (length === 0 || current.includes('-')))
+            (key === '-' && (length === 0 || current.includes('-'))) ||
+            (key === '.' && (current.split('.').length > 2 || length === 0)) ||
+            (key === '.' && (current.split('.').length > (current.includes('-') ? 2 : 1) || length === 0 || isNaN(Number(current[current.length - 1]))))
         ) {
             e.preventDefault();
         }
@@ -137,10 +145,10 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                         };
 
                         if ('yearEnd' in film) {
-                            if (typeof filmEnd === 'number') {
-                                update.yearEnd = Number(filmEnd);
-                            } else if (typeof filmEnd === 'string') {
-                                update.yearEnd = String(filmEnd);
+                            if (typeof filmYearEnd === 'number') {
+                                update.yearEnd = Number(filmYearEnd);
+                            } else if (typeof filmYearEnd === 'string') {
+                                update.yearEnd = String(filmYearEnd);
                             } else {
                                 update.yearEnd = null;
                             }
@@ -239,19 +247,27 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             </TextField.Root>
 
                             {season && (
-                                <>
-                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
-                                        <TextField.Slot className='text-lime-500 font-bold mr-6.2'>
-                                            End
-                                        </TextField.Slot>
-                                    </TextField.Root>
+                                <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
+                                    <TextField.Slot className='text-lime-500 font-bold mr-6.2'>
+                                        End
+                                    </TextField.Slot>
+                                </TextField.Root>
+                            )}
 
-                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(season)} variant="soft">
-                                        <TextField.Slot className='text-lime-500 font-bold mr-5.7'>
-                                            Run
-                                        </TextField.Slot>
-                                    </TextField.Root>
-                                </>
+                            {date && (
+                                <TextField.Root onChange={(e) => handleChange(e, "Date")} onKeyDown={(e) => handleKeyDown(e, "Date")} placeholder={`08.01-30.01`} variant="soft">
+                                    <TextField.Slot className='text-lime-500 font-bold mr-4.35'>
+                                        Date
+                                    </TextField.Slot>
+                                </TextField.Root>
+                            )}
+
+                            {season && (
+                                <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(season)} variant="soft">
+                                    <TextField.Slot className='text-lime-500 font-bold mr-5.7'>
+                                        Run
+                                    </TextField.Slot>
+                                </TextField.Root>
                             )}
 
                             {typeof filmIndex === 'number' && (
@@ -280,7 +296,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button onClick={() => { setFilmIndex(index), setFilmTitle(title), setFilmYear(year), setFilmEnd(yearEnd), setFilmSeason(season); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { setFilmIndex(index), setFilmTitle(title), setFilmYear(year), setFilmYearEnd(yearEnd), setFilmSeason(season); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
