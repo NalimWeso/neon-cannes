@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
-export default function ModifyMovie({ index, id, title, year, end, season, date, dateEnd }:
-    { index: number | null, id: string, title: string, year: number, end?: number | string, date?: string, dateEnd?: string, season?: string }) {
+export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:
+    { index: number | null, id: string, title: string, year: number, yearEnd?: number | string, date?: string, dateEnd?: string, season?: string }) {
     const [filmIndex, setFilmIndex] = useState<number | null>(index);
     const [filmTitle, setFilmTitle] = useState<string>(title);
     const [filmYear, setFilmYear] = useState<number>(year);
-    const [filmEnd, setFilmEnd] = useState<undefined | null | number | string>(end);
+    const [filmEnd, setFilmEnd] = useState<undefined | null | number | string>(yearEnd);
     const [filmSeason, setFilmSeason] = useState<undefined | number | [number, number] | string>(season);
     const catContent = films.find(category => category.films?.some(film => film.id === id));
 
@@ -18,9 +18,9 @@ export default function ModifyMovie({ index, id, title, year, end, season, date,
         setFilmIndex(index);
         setFilmTitle(title);
         setFilmYear(year);
-        setFilmEnd(end);
+        setFilmEnd(yearEnd);
         setFilmSeason(season);
-    }, [index, title, year, end, season]);
+    }, [index, title, year, yearEnd, season]);
 
     function processSeason(season: string) {
         const regex = /Seasons?\s+(\d+(-\d+)?)/i;
@@ -222,7 +222,7 @@ export default function ModifyMovie({ index, id, title, year, end, season, date,
                 <Dialog.Overlay className='fixed inset-0 bg-black/15'>
                     <Dialog.Content onPointerDownOutside={(e) => e.preventDefault()} className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-jungle text-white border-2 border-forest p-3 w-full max-w-md shadow' >
                         <Dialog.Title className='text-lime-500 text-2xl font-bold'>
-                            {title} ({year}{end ? `\u00A0-\u00A0${end}` : ''})
+                            {title} ({year}{yearEnd ? `\u00A0-\u00A0${yearEnd}` : ''})
                         </Dialog.Title>
 
                         <div className='mt-2'>
@@ -240,7 +240,7 @@ export default function ModifyMovie({ index, id, title, year, end, season, date,
 
                             {season && (
                                 <>
-                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${end ? end : year}`} variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
                                         <TextField.Slot className='text-lime-500 font-bold mr-6.2'>
                                             End
                                         </TextField.Slot>
@@ -280,7 +280,7 @@ export default function ModifyMovie({ index, id, title, year, end, season, date,
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button onClick={() => { setFilmIndex(index), setFilmTitle(title), setFilmYear(year), setFilmEnd(end), setFilmSeason(season); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { setFilmIndex(index), setFilmTitle(title), setFilmYear(year), setFilmEnd(yearEnd), setFilmSeason(season); }} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
