@@ -60,8 +60,10 @@ export default function FilmsDashboard() {
                                     id={film.id}
                                     title={film.title}
                                     year={film.year}
-                                    {...(film.yearEnd ? { end: film.yearEnd } : {})}
-                                    {...(film.season ? { season: film.season } : {})}
+                                    {...('yearEnd' in film && film.yearEnd ? { end: film.yearEnd } : {})}
+                                    {...('date' in film && film.date ? { date: film.date } : {})}
+                                    {...('dateEnd' in film && film.dateEnd ? { date: film.dateEnd } : {})}
+                                    {...('season' in film && film.season ? { season: film.season } : {})}
                                 />
 
                                 <Button size="1" color="cyan" variant="soft" className="text-cyan-700 hover:text-cyan-600 transition cursor-pointer"

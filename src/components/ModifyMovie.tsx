@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import films from '../../public/films.json';
 
-export default function ModifyMovie({ index, id, title, year, end, season }:
-    { index: number | null, id: string, title: string, year: number, end?: number | string, season?: string }) {
+export default function ModifyMovie({ index, id, title, year, end, season, date, dateEnd }:
+    { index: number | null, id: string, title: string, year: number, end?: number | string, date?: string, dateEnd?: string, season?: string }) {
     const [filmIndex, setFilmIndex] = useState<number | null>(index);
     const [filmTitle, setFilmTitle] = useState<string>(title);
     const [filmYear, setFilmYear] = useState<number>(year);
@@ -127,6 +127,8 @@ export default function ModifyMovie({ index, id, title, year, end, season }:
                             year: number;
                             yearEnd?: string | number | null;
                             season?: string;
+                            date?: string;
+                            dateEnd?: string;
                         } = {
                             ...film,
                             index: newIndex,
