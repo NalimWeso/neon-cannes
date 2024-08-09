@@ -1,7 +1,7 @@
 import { CopyIcon, CheckIcon } from '@radix-ui/react-icons';
 import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
-import FormatDate from './FormatDate';
+import FormatDate from './Utils/FormatDate';
 import ModifyCategory from './ModifyCategory';
 import ModifyMovie from './ModifyMovie';
 import AddMovie from './AddMovie';
