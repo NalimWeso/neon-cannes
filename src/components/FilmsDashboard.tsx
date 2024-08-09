@@ -1,6 +1,7 @@
 import { CopyIcon, CheckIcon } from '@radix-ui/react-icons';
 import { Badge, Button } from '@radix-ui/themes';
 import { useState } from 'react';
+import FormatDate from './FormatDate';
 import ModifyCategory from './ModifyCategory';
 import ModifyMovie from './ModifyMovie';
 import AddMovie from './AddMovie';
@@ -9,12 +10,6 @@ import films from '../../public/films.json';
 export default function FilmsDashboard() {
     const [copy, setCopy] = useState("");
     const sortedFilms = [...films].sort((a, b) => a.position - b.position);
-
-    function formatDate(date: Date) {
-        const day: string = date.getDate().toString().padStart(2, '0');
-        const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
-        return `${day}.${month}`;
-    }
 
     return (
         <>
@@ -47,7 +42,7 @@ export default function FilmsDashboard() {
                             <div className="my-1 flex">
                                 {'date' in film && (
                                     <Badge size="2" color="orange" className="text-amber-500 mr-1 min-w-12 justify-center">
-                                        {formatDate(new Date(film.date))} {film.dateEnd ? `– ${formatDate(new Date(film.dateEnd))}` : ''}
+                                        {FormatDate(new Date(film.date), film.dateEnd ? new Date(film.dateEnd) : undefined)}
                                     </Badge>
                                 )}
 
@@ -62,7 +57,7 @@ export default function FilmsDashboard() {
                                     year={film.year}
                                     {...('yearEnd' in film && film.yearEnd ? { yearEnd: film.yearEnd } : {})}
                                     {...('date' in film && film.date ? { date: film.date } : {})}
-                                    {...('dateEnd' in film && film.dateEnd ? { date: film.dateEnd } : {})}
+                                    {...('dateEnd' in film && film.dateEnd ? { dateEnd: film.dateEnd } : {})}
                                     {...('season' in film && film.season ? { season: film.season } : {})}
                                 />
 

@@ -3,6 +3,7 @@ import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
+import FormatDate from './FormatDate';
 import films from '../../public/films.json';
 
 export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:
@@ -105,17 +106,15 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
             initialKeys.push(...(type === 'Present' ? ['P', 'p', 'N', 'n'] : type === 'Date' ? ['.', '-'] : ['M', 'm', '-']));
         }
 
-        const isDigit = key >= '0' && key <= '9';
-
         if (
-            (!isDigit && !initialKeys.includes(key)) ||
+            (!(key >= '0' && key <= '9') && !initialKeys.includes(key)) ||
             (length === 0 && type !== 'Date' && key === '0') ||
             (length >= (type === 'Present' ? 4 : (type === 'Date' ? 11 : 7)) && !allowedKeys.includes(key)) ||
             (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-' && key !== '.') ||
             (length > 0 && ['M', 'P', 'N'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
-            (key === '-' && (length === 0 || current.includes('-'))) ||
+            (key === '.' && (current.split('.').length > (current.includes('-') ? 2 : 1) || length === 0 || isNaN(Number(current[current.length - 1])))) ||
             (key === '.' && (current.split('.').length > 2 || length === 0)) ||
-            (key === '.' && (current.split('.').length > (current.includes('-') ? 2 : 1) || length === 0 || isNaN(Number(current[current.length - 1]))))
+            (key === '-' && (length === 0 || current.includes('-')))
         ) {
             e.preventDefault();
         }
@@ -255,7 +254,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {date && (
-                                <TextField.Root onChange={(e) => handleChange(e, "Date")} onKeyDown={(e) => handleKeyDown(e, "Date")} placeholder={`08.01-30.01`} variant="soft">
+                                <TextField.Root onChange={(e) => handleChange(e, "Date")} onKeyDown={(e) => handleKeyDown(e, "Date")} placeholder={FormatDate(new Date(date), dateEnd ? new Date(dateEnd) : undefined)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-4.35'>
                                         Date
                                     </TextField.Slot>
