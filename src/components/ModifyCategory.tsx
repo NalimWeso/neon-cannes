@@ -3,6 +3,7 @@ import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
+import HandleTitle from './Utils/HandleTitle';
 import films from '../../public/films.json';
 
 export default function ModifyDialog({ category, position, id }: { category: string, position: number, id: string }) {
@@ -13,12 +14,6 @@ export default function ModifyDialog({ category, position, id }: { category: str
         setCategoryName(category);
         setCategoryPosition(position);
     }, [category, position]);
-
-    function handleName(element: string) {
-        if (element.trim()) {
-            setCategoryName(element.trim().replace(/\s+/g, ' '));
-        }
-    }
 
     function getLastPosition() {
         const positions = films.map(film => film.position);
@@ -102,7 +97,7 @@ export default function ModifyDialog({ category, position, id }: { category: str
                                 </Dialog.Title>
 
                                 <div className='mt-2'>
-                                    <TextField.Root onChange={(e) => handleName(e.target.value)} placeholder={category} variant="soft">
+                                    <TextField.Root onChange={(e) => HandleTitle(e.target.value, setCategoryName)} placeholder={category} variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-8'>
                                             Name
                                         </TextField.Slot>

@@ -3,7 +3,9 @@ import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
+import HandleTitle from './Utils/HandleTitle';
 import FormatDate from './Utils/FormatDate';
+import ProcessSeason from './Utils/ProcessSeason';
 import films from '../../public/films.json';
 
 export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:
@@ -27,16 +29,6 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         setFilmSeason(season);
     }, [index, title, year, yearEnd, date, dateEnd, season]);
 
-    function processSeason(season: string) {
-        const regex = /Seasons?\s+(\d+(-\d+)?)/i;
-        const match = season.match(regex);
-        if (match) {
-            return match[1];
-        } else {
-            return 'Miniseries';
-        }
-    }
-
     function getLastIndex(): number {
         if (!catContent || !catContent.films) {
             return 0;
@@ -51,12 +43,6 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         }
 
         return Math.max(...indexes);
-    }
-
-    function handleTitle(element: string) {
-        if (element.trim()) {
-            setFilmTitle(element.trim().replace(/\s+/g, ' '));
-        }
     }
 
     function parseValue(value: string): undefined | number | [number, number] {
@@ -233,7 +219,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                         </Dialog.Title>
 
                         <div className='mt-2'>
-                            <TextField.Root onChange={(e) => handleTitle(e.target.value)} placeholder={title} variant="soft">
+                            <TextField.Root onChange={(e) => HandleTitle(e.target.value, setFilmTitle)} placeholder={title} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5'>
                                     Title
                                 </TextField.Slot>
@@ -262,7 +248,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {season && (
-                                <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={processSeason(season)} variant="soft">
+                                <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={ProcessSeason(season)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-5.7'>
                                         Run
                                     </TextField.Slot>
