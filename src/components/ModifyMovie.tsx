@@ -3,9 +3,9 @@ import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
-import HandleTitle from './Utils/HandleTitle';
-import FormatDate from './Utils/FormatDate';
-import ProcessSeason from './Utils/ProcessSeason';
+import HandleTitle from './utils/HandleTitle';
+import FormatDate from './utils/FormatDate';
+import ProcessSeason from './utils/ProcessSeason';
 import films from '../../public/films.json';
 
 export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:

@@ -3,7 +3,7 @@ import { Button, Text, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
-import HandleTitle from './Utils/HandleTitle';
+import HandleTitle from './utils/HandleTitle';
 import films from '../../public/films.json';
 
 export default function ModifyDialog({ category, position, id }: { category: string, position: number, id: string }) {
