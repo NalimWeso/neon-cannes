@@ -62,8 +62,6 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                 return [Number(first), Number(second)];
             }
         }
-
-        return undefined;
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
