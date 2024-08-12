@@ -75,7 +75,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         } else if (type === "Miniseries") {
             setFilmSeason(value === 'M' ? 'Miniseries' : parseValue(value));
         } else {
-            setFilmDate("date");
+            setFilmDate(value);
         }
     }
 
