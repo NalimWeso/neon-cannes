@@ -8,6 +8,8 @@ import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
 import films from '../../public/films.json';
 
+import DeleteContent from './utils/DeleteContent';
+
 export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:
     { index: number | null, id: string, title: string, year: number, yearEnd?: number | string, date?: string, dateEnd?: string, season?: string }) {
     const [filmIndex, setFilmIndex] = useState<number | null>(index);
