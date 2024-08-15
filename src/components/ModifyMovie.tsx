@@ -6,9 +6,8 @@ import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
-import films from '../../public/films.json';
-
 import DeleteContent from './utils/DeleteContent';
+import films from '../../public/films.json';
 
 export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:
     { index: number | null, id: string, title: string, year: number, yearEnd?: number | string, date?: string, dateEnd?: string, season?: string }) {

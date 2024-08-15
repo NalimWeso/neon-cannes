@@ -4,9 +4,8 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
-import films from '../../public/films.json';
-
 import DeleteContent from './utils/DeleteContent';
+import films from '../../public/films.json';
 
 export default function ModifyDialog({ category, position, id }: { category: string, position: number, id: string }) {
     const [categoryPosition, setCategoryPosition] = useState(position);
