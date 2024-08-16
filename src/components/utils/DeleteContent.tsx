@@ -12,7 +12,7 @@ export default function DeleteContent(id: string, isCategory: boolean) {
             updatedData = films
                 .filter(item => item.id !== id)
                 .map(item => {
-                    if (item.position && item.position > positionToDelete) {
+                    if (item.position > positionToDelete) {
                         return { ...item, position: item.position - 1 };
                     }
                     return item;
