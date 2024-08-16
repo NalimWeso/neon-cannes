@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import { v4 as uuid } from 'uuid';
+import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
 import films from '../../public/films.json';
 
@@ -14,14 +15,14 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     const [end, setEnd] = useState<undefined | null | number | "Present">(undefined);
     const [season, setSeason] = useState<undefined | number | [number, number] | "Miniseries">(undefined);
 
-    function handleSeries(num: number) {
-        setIsSeries(num === 1 ? !isSeries : false);
+    type SeriesControl = [
+        boolean,
+        React.Dispatch<React.SetStateAction<boolean>>,
+        React.Dispatch<React.SetStateAction<number | "Present" | null | undefined>>,
+        React.Dispatch<React.SetStateAction<number | [number, number] | "Miniseries" | undefined>>
+    ];
 
-        if (num === 1) {
-            setEnd(undefined);
-            setSeason(undefined);
-        }
-    }
+    const seriesControl: SeriesControl = [isSeries, setIsSeries, setEnd, setSeason];
 
     function parseValue(value: string): undefined | number | [number, number] {
         value = value.replace(/-$/, '');
@@ -106,7 +107,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
             }
         }
 
-        handleSeries(0);
+        HandleSeries(false, seriesControl);
         setTitle("");
         setYear(0);
         setEnd(undefined);
@@ -129,7 +130,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                         </Dialog.Title>
 
                         <div className='mt-2'>
-                            <RadioCards.Root onValueChange={() => handleSeries(1)} color="orange" defaultValue="1" columns={{ initial: '1', sm: '2' }}>
+                            <RadioCards.Root onValueChange={() => HandleSeries(true, seriesControl)} color="orange" defaultValue="1" columns={{ initial: '1', sm: '2' }}>
                                 <RadioCards.Item value="1" className='hover:bg-orange-800 mt-2 mr-1 p-2 rounded transition cursor-pointer'>
                                     <Text className="text-amber-500 font-bold">Film</Text>
                                 </RadioCards.Item>
@@ -171,7 +172,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                         <div className='text-right mt-2'>
                             <Dialog.Close asChild>
-                                <Button onClick={() => { handleSeries(0); setTitle(""), setYear(0), setEnd(undefined), setSeason(undefined); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { HandleSeries(false, seriesControl); setTitle(""), setYear(0), setEnd(undefined), setSeason(undefined); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold mr-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Cancel
                                 </Button>
                             </Dialog.Close>
