@@ -11,7 +11,7 @@ interface CategoryCallbacks {
     onSave: (categoryName: string) => void;
 }
 
-export default function NewCategory({ onSave }: CategoryCallbacks) {
+export default function AddCategory({ onSave }: CategoryCallbacks) {
     const [categoryName, setCategoryName] = useState("");
 
     function saveData() {

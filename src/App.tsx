@@ -1,6 +1,6 @@
 import TitleBar from "./components/TitleBar";
 import FilmsDashboard from "./components/FilmsDashboard";
-import NewCategory from "./components/NewCategory";
+import AddCategory from "./components/AddCategory";
 import { useRef } from 'react';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
@@ -22,7 +22,7 @@ export default function App() {
         <TitleBar />
         <div ref={scrollRef} className="overflow-y-auto h-[calc(100vh-32px)]">
           <FilmsDashboard />
-          <NewCategory onSave={scrollToBottom} />
+          <AddCategory onSave={scrollToBottom} />
         </div>
       </Theme>
     </>
