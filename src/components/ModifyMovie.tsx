@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
+import ModifyData from './utils/ModifyData';
 import DeleteContent from './utils/DeleteContent';
 import films from '../../public/films.json';
 

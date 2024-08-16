@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import { v4 as uuid } from 'uuid';
 import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
+import AddData from './utils/AddData';
 import films from '../../public/films.json';
 
 export default function AddDialog({ category, id }: { category: string, id: string }) {

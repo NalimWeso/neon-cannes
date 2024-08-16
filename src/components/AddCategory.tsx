@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import { v4 as uuid } from 'uuid';
 import HandleTitle from './utils/HandleTitle';
+import AddData from './utils/AddData';
 import films from '../../public/films.json';
 
 interface CategoryCallbacks {
