@@ -177,31 +177,6 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         ipcRenderer.invoke('write-json', updatedData);
     }
 
-    function deleteFilm(filmId: string) {
-        const updatedData = films.map(category => {
-            if (category.films) {
-                const updatedFilms = category.films.filter(film => film.id !== filmId);
-
-                if (updatedFilms.length < category.films.length) {
-                    const filmToDelete = category.films.find(film => film.id === filmId);
-                    if (filmToDelete?.index !== null && filmToDelete?.index !== undefined) {
-                        updatedFilms.forEach((film, index) => {
-                            film.index = index;
-                        });
-                    }
-                }
-
-                return {
-                    ...category,
-                    films: updatedFilms,
-                };
-            }
-            return category;
-        });
-
-        ipcRenderer.invoke('write-json', updatedData);
-    }
-
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
@@ -292,7 +267,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => deleteFilm(id)} size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => DeleteContent(id, false)} size="1" color="teal" variant="soft" className="text-lime-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Delete
                                 </Button>
                             </Dialog.Close>

@@ -62,24 +62,6 @@ export default function ModifyDialog({ category, position, id }: { category: str
         ipcRenderer.invoke('write-json', updatedData);
     }
 
-    function deleteCategory(categoryId: string) {
-        const categoryToDelete = films.find(film => film.id === categoryId);
-        const positionToDelete = categoryToDelete?.position;
-
-        if (positionToDelete !== undefined) {
-            const updatedData = films
-                .filter(film => film.id !== categoryId)
-                .map(film => {
-                    if (film.position > positionToDelete) {
-                        return { ...film, position: film.position - 1 };
-                    }
-                    return film;
-                });
-
-            ipcRenderer.invoke('write-json', updatedData);
-        }
-    }
-
     return (
         <>
             {category !== "Waiting Room" && (
@@ -132,7 +114,7 @@ export default function ModifyDialog({ category, position, id }: { category: str
                                     </Dialog.Close>
 
                                     <Dialog.Close asChild>
-                                        <Button onClick={() => deleteCategory(id)} disabled={getStatus(category)} size="1" color="orange" variant="soft" className={`text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition ${!getStatus(category) ? `cursor-pointer` : `cursor-default`}`}>
+                                        <Button onClick={() => DeleteContent(id, true)} disabled={getStatus(category)} size="1" color="orange" variant="soft" className={`text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition ${!getStatus(category) ? `cursor-pointer` : `cursor-default`}`}>
                                             Delete
                                         </Button>
                                     </Dialog.Close>
