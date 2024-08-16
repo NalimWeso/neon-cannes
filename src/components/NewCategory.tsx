@@ -4,7 +4,8 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { ipcRenderer } from 'electron';
 import { v4 as uuid } from 'uuid';
-import films from '../../public/films.json'
+import HandleTitle from './utils/HandleTitle';
+import films from '../../public/films.json';
 
 interface CategoryCallbacks {
     onSave: (categoryName: string) => void;
@@ -12,10 +13,6 @@ interface CategoryCallbacks {
 
 export default function NewCategory({ onSave }: CategoryCallbacks) {
     const [categoryName, setCategoryName] = useState("");
-
-    function handleName(element: string) {
-        setCategoryName(element.trim().replace(/\s+/g, ' '));
-    }
 
     function saveData() {
         if (categoryName) {
@@ -50,7 +47,7 @@ export default function NewCategory({ onSave }: CategoryCallbacks) {
                             </Dialog.Title>
 
                             <div className='mt-2'>
-                                <TextField.Root onChange={(e) => handleName(e.target.value)} placeholder="Animation" variant="soft">
+                                <TextField.Root onChange={(e) => HandleTitle(e.target.value, setCategoryName)} placeholder="Animation" variant="soft">
                                     <TextField.Slot className='text-amber-500 font-bold mr-8'>
                                         Name
                                     </TextField.Slot>
