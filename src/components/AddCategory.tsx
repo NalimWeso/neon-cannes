@@ -14,7 +14,7 @@ interface CategoryCallbacks {
 export default function AddCategory({ onSave }: CategoryCallbacks) {
     const [categoryName, setCategoryName] = useState("");
 
-    function saveData() {
+    function addData() {
         if (categoryName) {
             const newCategory = {
                 position: films.length,
@@ -62,7 +62,7 @@ export default function AddCategory({ onSave }: CategoryCallbacks) {
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button onClick={saveData} size="1" color="orange" variant="soft" className="text-amber-500 ml-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={addData} size="1" color="orange" variant="soft" className="text-amber-500 ml-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
                                         Add
                                     </Button>
                                 </Dialog.Close>
