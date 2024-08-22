@@ -85,29 +85,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     }
 
     function addData() {
-        if (!isSeries || (isSeries && season !== undefined && end !== undefined)) {
-
-            if (title && year) {
-                const categoryToUpdate = films.find(category => category.id === id);
-
-                if (categoryToUpdate) {
-                    const seasonValue = season && (
-                        typeof season === 'string' ? season : Array.isArray(season) ? `Seasons ${season[0]}-${season[1]}` : `Season ${season}`
-                    );
-
-                    const newMovie = {
-                        index: categoryToUpdate.films.length,
-                        id: uuid(),
-                        title,
-                        year,
-                        ...(season && { yearEnd: end === undefined ? null : end, season: seasonValue }),
-                    };
-
-                    ipcRenderer.invoke('add-json', newMovie, id);
-                }
-            }
-        }
-
+        AddData(false, id, undefined, title, year, isSeries, season, end);
         HandleSeries(false, seriesControl);
         setTitle("");
         setYear(0);
