@@ -2,12 +2,9 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button, Text, TextField, RadioCards } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-import { ipcRenderer } from 'electron';
-import { v4 as uuid } from 'uuid';
 import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
 import AddData from './utils/AddData';
-import films from '../../public/films.json';
 
 export default function AddDialog({ category, id }: { category: string, id: string }) {
     const [isSeries, setIsSeries] = useState(false);
@@ -84,15 +81,6 @@ export default function AddDialog({ category, id }: { category: string, id: stri
         }
     }
 
-    function addData() {
-        AddData(false, id, undefined, title, year, isSeries, season, end);
-        HandleSeries(false, seriesControl);
-        setTitle("");
-        setYear(0);
-        setEnd(undefined);
-        setSeason(undefined);
-    }
-
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
@@ -157,7 +145,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => addData()} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => { AddData(false, id, undefined, title, year, isSeries, season, end); HandleSeries(false, seriesControl); setTitle(""); setYear(0); setEnd(undefined); setSeason(undefined); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer" >
                                     Add
                                 </Button>
                             </Dialog.Close>
@@ -165,6 +153,6 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                     </Dialog.Content>
                 </Dialog.Overlay>
             </Dialog.Portal>
-        </Dialog.Root>
+        </Dialog.Root >
     )
 }
