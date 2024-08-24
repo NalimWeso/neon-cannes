@@ -2,11 +2,8 @@ import { RocketIcon } from '@radix-ui/react-icons';
 import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
-import { ipcRenderer } from 'electron';
-import { v4 as uuid } from 'uuid';
 import HandleTitle from './utils/HandleTitle';
 import AddData from './utils/AddData';
-import films from '../../public/films.json';
 
 interface CategoryCallbacks {
     onSave: (categoryName: string) => void;
@@ -14,22 +11,6 @@ interface CategoryCallbacks {
 
 export default function AddCategory({ onSave }: CategoryCallbacks) {
     const [categoryName, setCategoryName] = useState("");
-
-    function addData() {
-        if (categoryName) {
-            const newCategory = {
-                position: films.length,
-                id: uuid(),
-                category: categoryName,
-                films: []
-            };
-
-            ipcRenderer.invoke('add-json', newCategory);
-            onSave(categoryName);
-        }
-
-        setCategoryName("");
-    }
 
     return (
         <div className="mb-1 ml-1 pt-6">
@@ -63,7 +44,7 @@ export default function AddCategory({ onSave }: CategoryCallbacks) {
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button onClick={addData} size="1" color="orange" variant="soft" className="text-amber-500 ml-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { AddData(true, false, categoryName, undefined, undefined, undefined, undefined, undefined, onSave); setCategoryName(""); }} size="1" color="orange" variant="soft" className="text-amber-500 ml-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
                                         Add
                                     </Button>
                                 </Dialog.Close>
