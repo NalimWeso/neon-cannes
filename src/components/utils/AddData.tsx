@@ -2,8 +2,7 @@ import { ipcRenderer } from 'electron';
 import { v4 as uuid } from 'uuid';
 import films from '../../../public/films.json';
 
-export default function AddData(isCategory: boolean, id: string | boolean, categoryName?: string, title?: string, year?: number, isSeries?: boolean, season?: number | [number, number] | "Miniseries", end?: null | number | "Present", onSave?: (categoryName: string) => void
-) {
+export default function AddData(isCategory: boolean, id: string | boolean, categoryName?: string, title?: string, year?: number, isSeries?: boolean, season?: number | [number, number] | "Miniseries", end?: null | number | "Present", onSave?: (categoryName: string) => void) {
     if (isCategory) {
         if (categoryName) {
             const newCategory = {
