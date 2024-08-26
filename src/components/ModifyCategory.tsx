@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
 import DeleteContent from './utils/DeleteContent';
-import ModifyData from './utils/ModifyData';
+// import ModifyData from './utils/ModifyData';
 import films from '../../public/films.json';
 
 export default function ModifyDialog({ category, position, id }: { category: string, position: number, id: string }) {

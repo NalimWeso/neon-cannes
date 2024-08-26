@@ -13,7 +13,7 @@ export default function App() {
       if (scrollRef.current) {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }
-    }, 160);
+    }, 300);
   };
 
   return (

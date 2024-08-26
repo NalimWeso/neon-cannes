@@ -6,7 +6,7 @@ import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
-import ModifyData from './utils/ModifyData';
+// import ModifyData from './utils/ModifyData';
 import DeleteContent from './utils/DeleteContent';
 import films from '../../public/films.json';
 
@@ -20,6 +20,8 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
     const [filmDateEnd, setFilmDateEnd] = useState<undefined | string>(dateEnd);
     const [filmSeason, setFilmSeason] = useState<undefined | number | [number, number] | string>(season);
     const catContent = films.find(category => category.films?.some(film => film.id === id));
+
+    filmDate; filmDateEnd;
 
     useEffect(() => {
         setFilmIndex(index);

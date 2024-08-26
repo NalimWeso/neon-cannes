@@ -6,19 +6,19 @@ import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
 import AddData from './utils/AddData';
 
+type SeriesControl = [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>,
+    React.Dispatch<React.SetStateAction<number | "Present" | null | undefined>>,
+    React.Dispatch<React.SetStateAction<number | [number, number] | "Miniseries" | undefined>>
+];
+
 export default function AddDialog({ category, id }: { category: string, id: string }) {
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
     const [end, setEnd] = useState<undefined | null | number | "Present">(undefined);
     const [season, setSeason] = useState<undefined | number | [number, number] | "Miniseries">(undefined);
-
-    type SeriesControl = [
-        boolean,
-        React.Dispatch<React.SetStateAction<boolean>>,
-        React.Dispatch<React.SetStateAction<number | "Present" | null | undefined>>,
-        React.Dispatch<React.SetStateAction<number | [number, number] | "Miniseries" | undefined>>
-    ];
 
     const seriesControl: SeriesControl = [isSeries, setIsSeries, setEnd, setSeason];
 
