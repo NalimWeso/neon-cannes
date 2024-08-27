@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
+import HandleKeyDown from './utils/HandleKeyDown';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
 // import ModifyData from './utils/ModifyData';
@@ -80,31 +81,6 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
             setFilmSeason(value === 'M' ? 'Miniseries' : parseValue(value));
         } else {
             setFilmDate(value);
-        }
-    }
-
-    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type?: string) {
-        const current = e.currentTarget.value;
-        const length = current.length;
-        const initialKeys = ['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'];
-        const allowedKeys = [...initialKeys];
-        const key = e.key;
-
-        if (type === "Present" || type === "Miniseries" || type === "Date") {
-            initialKeys.push(...(type === 'Present' ? ['P', 'p', 'N', 'n'] : type === 'Date' ? ['.', '-'] : ['M', 'm', '-']));
-        }
-
-        if (
-            (!(key >= '0' && key <= '9') && !initialKeys.includes(key)) ||
-            (length === 0 && type !== 'Date' && key === '0') ||
-            (length >= (type === 'Present' ? 4 : (type === 'Date' ? 11 : 7)) && !allowedKeys.includes(key)) ||
-            (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-' && key !== '.') ||
-            (length > 0 && ['M', 'P', 'N'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
-            (key === '.' && (current.split('.').length > (current.includes('-') ? 2 : 1) || length === 0 || isNaN(Number(current[current.length - 1])))) ||
-            (key === '.' && (current.split('.').length > 2 || length === 0)) ||
-            (key === '-' && (length === 0 || current.includes('-')))
-        ) {
-            e.preventDefault();
         }
     }
 
@@ -202,14 +178,14 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                                 </TextField.Slot>
                             </TextField.Root>
 
-                            <TextField.Root onChange={(e) => setFilmYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={`${year}`} variant="soft">
+                            <TextField.Root onChange={(e) => setFilmYear(parseInt(e.target.value, 10))} onKeyDown={HandleKeyDown} placeholder={`${year}`} variant="soft">
                                 <TextField.Slot className='text-lime-500 font-bold mr-5.2'>
                                     Year
                                 </TextField.Slot>
                             </TextField.Root>
 
                             {season && (
-                                <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
+                                <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-6.2'>
                                         End
                                     </TextField.Slot>
@@ -217,7 +193,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {date && (
-                                <TextField.Root onChange={(e) => handleChange(e, "Date")} onKeyDown={(e) => handleKeyDown(e, "Date")} placeholder={FormatDate(new Date(date), dateEnd ? new Date(dateEnd) : undefined)} variant="soft">
+                                <TextField.Root onChange={(e) => handleChange(e, "Date")} onKeyDown={(e) => HandleKeyDown(e, "Date")} placeholder={FormatDate(new Date(date), dateEnd ? new Date(dateEnd) : undefined)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-4.35'>
                                         Date
                                     </TextField.Slot>
@@ -225,7 +201,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {season && (
-                                <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder={ProcessSeason(season)} variant="soft">
+                                <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder={ProcessSeason(season)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-5.7'>
                                         Run
                                     </TextField.Slot>

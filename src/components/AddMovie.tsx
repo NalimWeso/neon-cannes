@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
+import HandleKeyDown from './utils/HandleKeyDown';
 import AddData from './utils/AddData';
 
 type SeriesControl = [
@@ -19,7 +20,6 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     const [year, setYear] = useState(0);
     const [end, setEnd] = useState<undefined | null | number | "Present">(undefined);
     const [season, setSeason] = useState<undefined | number | [number, number] | "Miniseries">(undefined);
-
     const seriesControl: SeriesControl = [isSeries, setIsSeries, setEnd, setSeason];
 
     function parseValue(value: string): undefined | number | [number, number] {
@@ -56,31 +56,6 @@ export default function AddDialog({ category, id }: { category: string, id: stri
         }
     }
 
-    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>, type?: string) {
-        const current = e.currentTarget.value;
-        const length = current.length;
-        const initialKeys = ['Tab', 'Backspace', 'ArrowRight', 'ArrowLeft'];
-        const allowedKeys = [...initialKeys];
-        const key = e.key;
-
-        if (type === "Present" || type === "Miniseries") {
-            initialKeys.push(...(type === 'Present' ? ['P', 'p', 'N', 'n'] : ['M', 'm', '-']));
-        }
-
-        const isDigit = key >= '0' && key <= '9';
-
-        if (
-            (!isDigit && !initialKeys.includes(key)) ||
-            (length === 0 && ['0', '-'].includes(key)) ||
-            (length >= (type !== 'Miniseries' ? 4 : 7) && !allowedKeys.includes(key)) ||
-            (length > 0 && isNaN(Number(key)) && !allowedKeys.includes(key) && key !== '-') ||
-            (length > 0 && ['M', 'P', 'N'].includes(current[0].toUpperCase()) && !allowedKeys.includes(key)) ||
-            (key === '-' && (length === 0 || current.includes('-')))
-        ) {
-            e.preventDefault();
-        }
-    }
-
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
@@ -114,7 +89,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                                 </TextField.Slot>
                             </TextField.Root>
 
-                            <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={handleKeyDown} placeholder={!isSeries ? "1977" : "2015"} variant="soft">
+                            <TextField.Root onChange={(e) => setYear(parseInt(e.target.value, 10))} onKeyDown={HandleKeyDown} placeholder={!isSeries ? "1977" : "2015"} variant="soft">
                                 <TextField.Slot className='text-amber-500 font-bold mr-5.2'>
                                     Year
                                 </TextField.Slot>
@@ -122,13 +97,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                             {isSeries === true && (
                                 <>
-                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => handleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-6.2'>
                                             End
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => handleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
+                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-5.7'>
                                             Run
                                         </TextField.Slot>
