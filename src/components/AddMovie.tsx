@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
+// import HandleType from './utils/HandleType'; (HandleChange)
 import HandleKeyDown from './utils/HandleKeyDown';
 import AddData from './utils/AddData';
 

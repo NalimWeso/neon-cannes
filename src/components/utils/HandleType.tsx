@@ -1,4 +1,4 @@
-export default function HandleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
+export default function HandleType(e: React.ChangeEvent<HTMLInputElement>, type: string) {
     const value = e.target.value.toUpperCase();
     e.target.value = value;
 

@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
+// import HandleType from './utils/HandleType'; (HandleChange)
 import HandleKeyDown from './utils/HandleKeyDown';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
