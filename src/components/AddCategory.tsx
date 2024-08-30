@@ -3,7 +3,7 @@ import { Button, TextField } from '@radix-ui/themes';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import HandleTitle from './utils/HandleTitle';
-import AddData from './utils/AddData';
+import AddContent from './utils/AddContent';
 
 interface CategoryCallbacks {
     onSave: (categoryName: string) => void;
@@ -44,7 +44,7 @@ export default function AddCategory({ onSave }: CategoryCallbacks) {
                                 </Dialog.Close>
 
                                 <Dialog.Close asChild>
-                                    <Button onClick={() => { AddData(true, false, categoryName, undefined, undefined, undefined, undefined, undefined, onSave); setCategoryName(""); }} size="1" color="orange" variant="soft" className="text-amber-500 ml-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                    <Button onClick={() => { AddContent(true, false, categoryName, undefined, undefined, undefined, undefined, undefined, onSave); setCategoryName(""); }} size="1" color="orange" variant="soft" className="text-amber-500 ml-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
                                         Add
                                     </Button>
                                 </Dialog.Close>

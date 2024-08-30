@@ -6,7 +6,7 @@ import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
 // import HandleType from './utils/HandleType'; (HandleChange)
 import HandleKeyDown from './utils/HandleKeyDown';
-import AddData from './utils/AddData';
+import AddContent from './utils/AddContent';
 
 type SeriesControl = [
     boolean,
@@ -121,7 +121,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => { AddData(false, id, undefined, title, year, isSeries, season, end); HandleSeries(false, seriesControl); setTitle(""); setYear(0); setEnd(undefined); setSeason(undefined); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer" >
+                                <Button onClick={() => { AddContent(false, id, undefined, title, year, isSeries, season, end); HandleSeries(false, seriesControl); setTitle(""); setYear(0); setEnd(undefined); setSeason(undefined); }} size="1" color="orange" variant="soft" className="text-amber-500 font-bold ml-0.5 py-1 w-16 rounded transition cursor-pointer" >
                                     Add
                                 </Button>
                             </Dialog.Close>
