@@ -4,7 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
-// import HandleType from './utils/HandleType'; (HandleChange)
+import HandleType from './utils/HandleType';
 import HandleKeyDown from './utils/HandleKeyDown';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
@@ -71,18 +71,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
-        const value = e.target.value.toUpperCase();
-        e.target.value = value;
-
-        const num = parseInt(value, 10);
-
-        if (type === "Present") {
-            setFilmYearEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
-        } else if (type === "Miniseries") {
-            setFilmSeason(value === 'M' ? 'Miniseries' : parseValue(value));
-        } else {
-            setFilmDate(value);
-        }
+        HandleType(e, type, setFilmYearEnd, setFilmSeason, setFilmDate, parseValue);
     }
 
     function saveData() {

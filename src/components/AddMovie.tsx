@@ -4,7 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
-// import HandleType from './utils/HandleType'; (HandleChange)
+import HandleType from './utils/HandleType';
 import HandleKeyDown from './utils/HandleKeyDown';
 import AddContent from './utils/AddContent';
 
@@ -45,16 +45,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
-        const value = e.target.value.toUpperCase();
-        e.target.value = value;
-
-        const num = parseInt(value, 10);
-
-        if (type === "Present") {
-            setEnd(value === 'P' ? 'Present' : (value === 'N' ? null : isNaN(num) ? undefined : num))
-        } else {
-            setSeason(value === 'M' ? 'Miniseries' : parseValue(value));
-        }
+        HandleType(e, type, setEnd, setSeason, () => { }, parseValue);
     }
 
     return (
