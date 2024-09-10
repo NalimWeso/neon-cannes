@@ -44,10 +44,6 @@ export default function AddDialog({ category, id }: { category: string, id: stri
         return undefined;
     }
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>, type: string) {
-        HandleType(e, type, setEnd, setSeason, () => { }, parseValue);
-    }
-
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>
@@ -89,13 +85,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                             {isSeries === true && (
                                 <>
-                                    <TextField.Root onChange={(e) => handleChange(e, "Present")} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
+                                    <TextField.Root onChange={(e) => HandleType(e, "Present", setEnd, setSeason, () => { }, parseValue)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-6.2'>
                                             End
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => handleChange(e, "Miniseries")} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
+                                    <TextField.Root onChange={(e) => HandleType(e, "Miniseries", setEnd, setSeason, () => { }, parseValue)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-5.7'>
                                             Run
                                         </TextField.Slot>
