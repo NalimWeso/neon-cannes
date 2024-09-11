@@ -17,10 +17,10 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
     const [filmIndex, setFilmIndex] = useState<number | null>(index);
     const [filmTitle, setFilmTitle] = useState<string>(title);
     const [filmYear, setFilmYear] = useState<number>(year);
-    const [filmYearEnd, setFilmYearEnd] = useState<undefined | null | number | string>(yearEnd);
-    const [filmDate, setFilmDate] = useState<undefined | string>(date);
-    const [filmDateEnd, setFilmDateEnd] = useState<undefined | string>(dateEnd);
-    const [filmSeason, setFilmSeason] = useState<undefined | number | [number, number] | string>(season);
+    const [filmYearEnd, setFilmYearEnd] = useState<number | string | null | undefined>(yearEnd);
+    const [filmDate, setFilmDate] = useState<string | undefined>(date);
+    const [filmDateEnd, setFilmDateEnd] = useState<string | undefined>(dateEnd);
+    const [filmSeason, setFilmSeason] = useState<number | [number, number] | string | undefined>(season);
     const catContent = films.find(category => category.films?.some(film => film.id === id));
 
     filmDate; filmDateEnd;

@@ -19,11 +19,11 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     const [isSeries, setIsSeries] = useState(false);
     const [title, setTitle] = useState("");
     const [year, setYear] = useState(0);
-    const [end, setEnd] = useState<undefined | null | number | "Present">(undefined);
-    const [season, setSeason] = useState<undefined | number | [number, number] | "Miniseries">(undefined);
+    const [end, setEnd] = useState<number | "Present" | null | undefined>(undefined);
+    const [season, setSeason] = useState<number | [number, number] | "Miniseries" | undefined>(undefined);
     const seriesControl: SeriesControl = [isSeries, setIsSeries, setEnd, setSeason];
 
-    function parseValue(value: string): undefined | number | [number, number] {
+    function parseValue(value: string): number | [number, number] | undefined {
         value = value.replace(/-$/, '');
 
         if (/^\d+$/.test(value)) {
