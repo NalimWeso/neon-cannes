@@ -2,11 +2,11 @@ export default function HandleType(
     e: React.ChangeEvent<HTMLInputElement>,
     type: string,
     setYear: React.Dispatch<React.SetStateAction<number | "Present" | null | undefined>> |
-        React.Dispatch<React.SetStateAction<string | number | null | undefined>>,
+        React.Dispatch<React.SetStateAction<number | string | null | undefined>>,
     setSeason: React.Dispatch<React.SetStateAction<number | [number, number] | "Miniseries" | undefined>> |
-        React.Dispatch<React.SetStateAction<string | number | [number, number] | undefined>>,
+        React.Dispatch<React.SetStateAction<number | [number, number] | string | undefined>>,
     setDate: React.Dispatch<React.SetStateAction<string | undefined>>,
-    parseValue: (value: string) => undefined | number | [number, number]
+    parseValue: (value: string) => [number, number] | number | undefined
 ) {
     const value = e.target.value.toUpperCase();
     e.target.value = value;

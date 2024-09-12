@@ -5,6 +5,7 @@ import { useState } from 'react';
 import HandleSeries from './utils/HandleSeries';
 import HandleTitle from './utils/HandleTitle';
 import HandleType from './utils/HandleType';
+import ParseValue from './utils/ParseValue';
 import HandleKeyDown from './utils/HandleKeyDown';
 import AddContent from './utils/AddContent';
 
@@ -22,27 +23,6 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     const [end, setEnd] = useState<number | "Present" | null | undefined>(undefined);
     const [season, setSeason] = useState<number | [number, number] | "Miniseries" | undefined>(undefined);
     const seriesControl: SeriesControl = [isSeries, setIsSeries, setEnd, setSeason];
-
-    function parseValue(value: string): number | [number, number] | undefined {
-        value = value.replace(/-$/, '');
-
-        if (/^\d+$/.test(value)) {
-            return Number(value);
-        }
-
-        const dashValue = value.indexOf('-');
-
-        if (dashValue !== -1) {
-            const first = value.slice(0, dashValue);
-            const second = value.slice(dashValue + 1);
-
-            if (/^\d+$/.test(first) && /^\d+$/.test(second)) {
-                return [Number(first), Number(second)];
-            }
-        }
-
-        return undefined;
-    }
 
     return (
         <Dialog.Root>
@@ -85,13 +65,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                             {isSeries === true && (
                                 <>
-                                    <TextField.Root onChange={(e) => HandleType(e, "Present", setEnd, setSeason, () => { }, parseValue)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
+                                    <TextField.Root onChange={(e) => HandleType(e, "Present", setEnd, setSeason, () => { }, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-6.2'>
                                             End
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => HandleType(e, "Miniseries", setEnd, setSeason, () => { }, parseValue)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
+                                    <TextField.Root onChange={(e) => HandleType(e, "Miniseries", setEnd, setSeason, () => { }, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-5.7'>
                                             Run
                                         </TextField.Slot>

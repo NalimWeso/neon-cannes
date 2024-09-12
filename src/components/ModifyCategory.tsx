@@ -28,7 +28,7 @@ export default function ModifyDialog({ category, position, id }: { category: str
         return containsFilms;
     }
 
-    function saveData() {
+    function modifyData() {
         const oldPosition = position;
         const newPosition = categoryPosition;
 
@@ -109,7 +109,7 @@ export default function ModifyDialog({ category, position, id }: { category: str
                                     </Dialog.Close>
 
                                     <Dialog.Close asChild>
-                                        <Button onClick={saveData} size="1" color="orange" variant="soft" className="text-amber-500 mx-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
+                                        <Button onClick={modifyData} size="1" color="orange" variant="soft" className="text-amber-500 mx-0.5 font-bold py-1 w-16 rounded transition cursor-pointer">
                                             Save
                                         </Button>
                                     </Dialog.Close>

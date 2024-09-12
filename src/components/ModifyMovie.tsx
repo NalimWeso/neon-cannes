@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
 import HandleType from './utils/HandleType';
+import ParseValue from './utils/ParseValue';
 import HandleKeyDown from './utils/HandleKeyDown';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
@@ -51,26 +52,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         return Math.max(...indexes);
     }
 
-    function parseValue(value: string): undefined | number | [number, number] {
-        value = value.replace(/-$/, '');
-
-        if (/^\d+$/.test(value)) {
-            return Number(value);
-        }
-
-        const dashValue = value.indexOf('-');
-
-        if (dashValue !== -1) {
-            const first = value.slice(0, dashValue);
-            const second = value.slice(dashValue + 1);
-
-            if (/^\d+$/.test(first) && /^\d+$/.test(second)) {
-                return [Number(first), Number(second)];
-            }
-        }
-    }
-
-    function saveData() {
+    function modifyData() {
         const oldIndex = index;
         const newIndex = filmIndex;
 
@@ -171,7 +153,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             </TextField.Root>
 
                             {season && (
-                                <TextField.Root onChange={(e) => HandleType(e, "Present", setFilmYearEnd, setFilmSeason, setFilmDate, parseValue)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
+                                <TextField.Root onChange={(e) => HandleType(e, "Present", setFilmYearEnd, setFilmSeason, setFilmDate, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-6.2'>
                                         End
                                     </TextField.Slot>
@@ -179,7 +161,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {date && (
-                                <TextField.Root onChange={(e) => HandleType(e, "Date", setFilmYearEnd, setFilmSeason, setFilmDate, parseValue)} onKeyDown={(e) => HandleKeyDown(e, "Date")} placeholder={FormatDate(new Date(date), dateEnd ? new Date(dateEnd) : undefined)} variant="soft">
+                                <TextField.Root onChange={(e) => HandleType(e, "Date", setFilmYearEnd, setFilmSeason, setFilmDate, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Date")} placeholder={FormatDate(new Date(date), dateEnd ? new Date(dateEnd) : undefined)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-4.35'>
                                         Date
                                     </TextField.Slot>
@@ -187,7 +169,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {season && (
-                                <TextField.Root onChange={(e) => HandleType(e, "Miniseries", setFilmYearEnd, setFilmSeason, setFilmDate, parseValue)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder={ProcessSeason(season)} variant="soft">
+                                <TextField.Root onChange={(e) => HandleType(e, "Miniseries", setFilmYearEnd, setFilmSeason, setFilmDate, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder={ProcessSeason(season)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-5.7'>
                                         Run
                                     </TextField.Slot>
@@ -226,7 +208,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             </Dialog.Close>
 
                             <Dialog.Close asChild>
-                                <Button onClick={() => saveData()} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mx-0.5 py-1 w-16 rounded transition cursor-pointer">
+                                <Button onClick={() => modifyData()} size="1" color="teal" variant="soft" className="text-lime-500 font-bold mx-0.5 py-1 w-16 rounded transition cursor-pointer">
                                     Save
                                 </Button>
                             </Dialog.Close>
