@@ -15,7 +15,7 @@ type SeriesControl = [
     React.Dispatch<React.SetStateAction<number | [number, number] | string | undefined>>
 ];
 
-type ParseControl = [
+type TypeControl = [
     React.Dispatch<React.SetStateAction<number | string | null | undefined>>,
     React.Dispatch<React.SetStateAction<number | [number, number] | string | undefined>>
 ];
@@ -27,7 +27,7 @@ export default function AddDialog({ category, id }: { category: string, id: stri
     const [end, setEnd] = useState<number | string | null | undefined>(undefined);
     const [season, setSeason] = useState<number | [number, number] | string | undefined>(undefined);
     const seriesControl: SeriesControl = [isSeries, setIsSeries, setEnd, setSeason];
-    const parseControl: ParseControl = [setEnd, setSeason];
+    const typeControl: TypeControl = [setEnd, setSeason];
 
     return (
         <Dialog.Root>
@@ -70,13 +70,13 @@ export default function AddDialog({ category, id }: { category: string, id: stri
 
                             {isSeries === true && (
                                 <>
-                                    <TextField.Root onChange={(e) => HandleType(e, "Present", parseControl)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
+                                    <TextField.Root onChange={(e) => HandleType(e, "Present", typeControl)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder="2019 | P (Present) | N (Nope)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-6.2'>
                                             End
                                         </TextField.Slot>
                                     </TextField.Root>
 
-                                    <TextField.Root onChange={(e) => HandleType(e, "Miniseries", parseControl)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
+                                    <TextField.Root onChange={(e) => HandleType(e, "Miniseries", typeControl)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder="1-4 | M (Miniseries)" variant="soft">
                                         <TextField.Slot className='text-amber-500 font-bold mr-5.7'>
                                             Run
                                         </TextField.Slot>
