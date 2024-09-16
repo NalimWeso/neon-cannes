@@ -5,13 +5,17 @@ import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 import HandleTitle from './utils/HandleTitle';
 import HandleType from './utils/HandleType';
-import ParseValue from './utils/ParseValue';
 import HandleKeyDown from './utils/HandleKeyDown';
 import FormatDate from './utils/FormatDate';
 import ProcessSeason from './utils/ProcessSeason';
 // import ModifyData from './utils/ModifyData';
 import DeleteContent from './utils/DeleteContent';
 import films from '../../public/films.json';
+
+type TypeControl = [
+    React.Dispatch<React.SetStateAction<number | string | null | undefined>>,
+    React.Dispatch<React.SetStateAction<number | [number, number] | string | undefined>>
+]
 
 export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:
     { index: number | null, id: string, title: string, year: number, yearEnd?: number | string, date?: string, dateEnd?: string, season?: string }) {
@@ -23,6 +27,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
     const [filmDateEnd, setFilmDateEnd] = useState<string | undefined>(dateEnd);
     const [filmSeason, setFilmSeason] = useState<number | [number, number] | string | undefined>(season);
     const catContent = films.find(category => category.films?.some(film => film.id === id));
+    const typeControl: TypeControl = [setFilmYearEnd, setFilmSeason];
 
     filmDate; filmDateEnd;
 
@@ -50,6 +55,78 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
         }
 
         return Math.max(...indexes);
+    }
+
+    function modifyData() {
+        const oldIndex = index;
+        const newIndex = filmIndex;
+
+        const updatedData = films.map(category => {
+            if (category === catContent && category.films) {
+                const updatedFilms = category.films.map(film => {
+                    if (film.id === id) {
+                        const update: {
+                            index: number | null,
+                            title: string;
+                            year: number;
+                            yearEnd?: string | number | null;
+                            season?: string;
+                            date?: string;
+                            dateEnd?: string;
+                        } = {
+                            ...film,
+                            index: newIndex,
+                            title: filmTitle,
+                            year: filmYear
+                        };
+
+                        if ('yearEnd' in film) {
+                            if (typeof filmYearEnd === 'number') {
+                                update.yearEnd = Number(filmYearEnd);
+                            } else if (typeof filmYearEnd === 'string') {
+                                update.yearEnd = String(filmYearEnd);
+                            } else {
+                                update.yearEnd = null;
+                            }
+
+                            update.season = typeof filmSeason === 'string' ? filmSeason : Array.isArray(filmSeason) ? `Seasons ${filmSeason[0]}-${filmSeason[1]}` : `Season ${filmSeason}`;
+                        }
+
+                        return update;
+                    } else {
+                        if (oldIndex !== null && newIndex !== null && film.index !== null) {
+                            if (oldIndex < newIndex) {
+                                if (film.index > oldIndex && film.index <= newIndex) {
+                                    return {
+                                        ...film,
+                                        index: film.index - 1
+                                    };
+                                }
+                            } else if (oldIndex > newIndex) {
+                                if (film.index >= newIndex && film.index < oldIndex) {
+                                    return {
+                                        ...film,
+                                        index: film.index + 1
+                                    };
+                                }
+                            }
+                        }
+                    }
+
+                    return film;
+                });
+
+                updatedFilms.sort((a, b) => (a.index ?? 0) - (b.index ?? 0));
+
+                return {
+                    ...category,
+                    films: updatedFilms,
+                };
+            }
+            return category;
+        });
+
+        ipcRenderer.invoke('write-json', updatedData);
     }
 
     return (
@@ -81,7 +158,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             </TextField.Root>
 
                             {season && (
-                                <TextField.Root onChange={(e) => HandleType(e, "Present", setFilmYearEnd, setFilmSeason, setFilmDate, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
+                                <TextField.Root onChange={(e) => HandleType(e, "Present", typeControl)} onKeyDown={(e) => HandleKeyDown(e, "Present")} placeholder={`${yearEnd ? yearEnd : year}`} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-6.2'>
                                         End
                                     </TextField.Slot>
@@ -89,7 +166,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {date && (
-                                <TextField.Root onChange={(e) => HandleType(e, "Date", setFilmYearEnd, setFilmSeason, setFilmDate, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Date")} placeholder={FormatDate(new Date(date), dateEnd ? new Date(dateEnd) : undefined)} variant="soft">
+                                <TextField.Root onChange={(e) => HandleType(e, "Date", typeControl)} onKeyDown={(e) => HandleKeyDown(e, "Date")} placeholder={FormatDate(new Date(date), dateEnd ? new Date(dateEnd) : undefined)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-4.35'>
                                         Date
                                     </TextField.Slot>
@@ -97,7 +174,7 @@ export default function ModifyMovie({ index, id, title, year, yearEnd, season, d
                             )}
 
                             {season && (
-                                <TextField.Root onChange={(e) => HandleType(e, "Miniseries", setFilmYearEnd, setFilmSeason, setFilmDate, ParseValue)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder={ProcessSeason(season)} variant="soft">
+                                <TextField.Root onChange={(e) => HandleType(e, "Miniseries", typeControl)} onKeyDown={(e) => HandleKeyDown(e, "Miniseries")} placeholder={ProcessSeason(season)} variant="soft">
                                     <TextField.Slot className='text-lime-500 font-bold mr-5.7'>
                                         Run
                                     </TextField.Slot>
