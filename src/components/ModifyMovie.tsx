@@ -11,11 +11,7 @@ import ProcessSeason from './utils/ProcessSeason';
 // import ModifyData from './utils/ModifyData';
 import DeleteContent from './utils/DeleteContent';
 import films from '../../public/films.json';
-
-type TypeControl = [
-    React.Dispatch<React.SetStateAction<number | string | null | undefined>>,
-    React.Dispatch<React.SetStateAction<number | [number, number] | string | undefined>>
-]
+import { TypeControl } from './utils/Types';
 
 export default function ModifyMovie({ index, id, title, year, yearEnd, season, date, dateEnd }:
     { index: number | null, id: string, title: string, year: number, yearEnd?: number | string, date?: string, dateEnd?: string, season?: string }) {

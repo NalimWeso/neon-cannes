@@ -7,18 +7,8 @@ import HandleTitle from './utils/HandleTitle';
 import HandleType from './utils/HandleType';
 import HandleKeyDown from './utils/HandleKeyDown';
 import AddContent from './utils/AddContent';
-
-type SeriesControl = [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>,
-    React.Dispatch<React.SetStateAction<number | string | null | undefined>>,
-    React.Dispatch<React.SetStateAction<number | [number, number] | string | undefined>>
-];
-
-type TypeControl = [
-    React.Dispatch<React.SetStateAction<number | string | null | undefined>>,
-    React.Dispatch<React.SetStateAction<number | [number, number] | string | undefined>>
-];
+import { SeriesControl } from './utils/Types';
+import { TypeControl } from './utils/Types';
 
 export default function AddDialog({ category, id }: { category: string, id: string }) {
     const [isSeries, setIsSeries] = useState(false);
